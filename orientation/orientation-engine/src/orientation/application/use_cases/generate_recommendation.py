@@ -9,6 +9,7 @@ from orientation.domain.skills.gaps import SkillGapService
 from orientation.explanation.facts import ExplanationService
 from orientation.exploration.service import ExplorationService
 from orientation.infrastructure.knowledge.loader import KnowledgeLoader
+from orientation.infrastructure.knowledge.manifest import load_manifest
 from orientation.infrastructure.knowledge.validator import KnowledgeValidator
 from orientation.recommendation.candidate_generation.service import CandidateGenerationService
 from orientation.recommendation.constraints.service import ConstraintService
@@ -36,8 +37,11 @@ class GenerateRecommendation:
         self.audit=AuditService()
 
     def execute(self,profile:StudentProfile) -> Recommendation:
+        manifest=load_manifest(self.loader.repository.root)
+        if manifest.version != "v1":
+            raise ValueError("unsupported_knowledge_version")
         directions=self.loader.load_directions()
-        self.validator.validate(directions)
+        self.validator.validate(directions, expected_version=manifest.version)
         by_id={direction.direction_id:direction for direction in directions}
         generated=self.candidates.generate(profile,directions)
         items:list[RecommendationItem]=[]
@@ -65,4 +69,4 @@ class GenerateRecommendation:
         canonical=json.dumps(profile.model_dump(mode="json"),sort_keys=True,separators=(",",":"))
         recommendation_id="rec-"+hashlib.sha256(canonical.encode("utf-8")).hexdigest()[:24]
         audit=self.audit.build(recommendation_id,profile.student_id,profile.profile_version,"v1",ranking,scores,uncertainties,[item.direction_id for item in generated])
-        return Recommendation(recommendation_id=recommendation_id,profile_version=profile.profile_version,model_version="deterministic-baseline-v1",knowledge_version="v1",candidates=final,created_at=audit.timestamp,audit=audit)
+        return Recommendation(recommendation_id=recommendation_id,profile_version=profile.profile_version,model_version="deterministic-baseline-v1",knowledge_version=manifest.version,candidates=final,created_at=audit.timestamp,audit=audit)
