@@ -1,14 +1,13 @@
 from argparse import ArgumentParser
 from pathlib import Path
-from typing import Iterable
 
+from orientation.infrastructure.knowledge.external_snapshot import build_external_snapshot
 from orientation.infrastructure.knowledge.external_sources import (
     DelimitedConceptReader,
     esco_reader,
     local_reader,
     onet_reader,
 )
-from orientation.infrastructure.knowledge.external_snapshot import build_external_snapshot
 
 
 def main() -> None:
