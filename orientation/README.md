@@ -56,6 +56,7 @@ Les documents 00–18 constituent la spécification principale. Les documents 19
 - [26 — Blueprint technique : code, environnement et modèles](./26-blueprint-technique-code-environnement-modeles.md)
 - [27 — Règles de code, Clean Code, taille des fichiers et scalabilité](./27-regles-code-clean-code-fichiers-scalabilite.md)
 - [28 — Recherche GitHub : algorithmes, architectures et pratiques à retenir](./28-recherche-github-algorithmes-architectures.md)
+- [29 — Plan d'implémentation V1 : ordre exact, fichiers, contrats et critères de sortie](./29-plan-implementation-v1.md)
 
 Le document 28 consolide notamment les enseignements issus de dépôts de référence sur les **recommender systems, candidate generation, learning-to-rank, knowledge graphs, semantic retrieval, skill matching, feature stores, off-policy evaluation et contextual bandits**.
 
