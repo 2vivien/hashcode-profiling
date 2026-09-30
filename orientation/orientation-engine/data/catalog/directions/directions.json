@@ -1,0 +1,388 @@
+[
+  {
+    "direction_id": "software-engineering",
+    "canonical_name": "Ingénierie logicielle",
+    "aliases": [],
+    "taxonomy": "technology",
+    "interests": {
+      "realistic": 0.7,
+      "investigative": 0.8,
+      "conventional": 0.6
+    },
+    "abilities": {
+      "logical": 0.9,
+      "verbal": 0.5
+    },
+    "skills": {
+      "programming": 0.9,
+      "problem_solving": 0.9,
+      "communication": 0.5
+    },
+    "subjects": {
+      "mathematics": 0.7,
+      "computer_science": 1
+    },
+    "values": {
+      "autonomy": 0.8,
+      "innovation": 0.9
+    },
+    "formations": [],
+    "occupations": [],
+    "requirements": {},
+    "accessibility": {},
+    "knowledge_version": "v1"
+  },
+  {
+    "direction_id": "cybersecurity",
+    "canonical_name": "Cybersécurité",
+    "aliases": [],
+    "taxonomy": "technology",
+    "interests": {
+      "realistic": 0.8,
+      "investigative": 0.9,
+      "conventional": 0.7
+    },
+    "abilities": {
+      "logical": 0.9,
+      "verbal": 0.4
+    },
+    "skills": {
+      "programming": 0.7,
+      "networking": 0.9,
+      "problem_solving": 0.9
+    },
+    "subjects": {
+      "mathematics": 0.6,
+      "computer_science": 0.9
+    },
+    "values": {
+      "autonomy": 0.8,
+      "security": 0.9
+    },
+    "formations": [],
+    "occupations": [],
+    "requirements": {},
+    "accessibility": {},
+    "knowledge_version": "v1"
+  },
+  {
+    "direction_id": "data-science",
+    "canonical_name": "Data science",
+    "aliases": [],
+    "taxonomy": "technology",
+    "interests": {
+      "investigative": 1,
+      "realistic": 0.5,
+      "conventional": 0.7
+    },
+    "abilities": {
+      "logical": 1,
+      "verbal": 0.5
+    },
+    "skills": {
+      "programming": 0.7,
+      "statistics": 0.9,
+      "problem_solving": 0.9
+    },
+    "subjects": {
+      "mathematics": 0.9,
+      "computer_science": 0.8
+    },
+    "values": {
+      "innovation": 0.9,
+      "autonomy": 0.7
+    },
+    "formations": [],
+    "occupations": [],
+    "requirements": {},
+    "accessibility": {},
+    "knowledge_version": "v1"
+  },
+  {
+    "direction_id": "network-engineering",
+    "canonical_name": "Ingénierie réseaux",
+    "aliases": [],
+    "taxonomy": "technology",
+    "interests": {
+      "realistic": 0.9,
+      "investigative": 0.6,
+      "conventional": 0.6
+    },
+    "abilities": {
+      "logical": 0.8,
+      "verbal": 0.4
+    },
+    "skills": {
+      "networking": 1,
+      "problem_solving": 0.8,
+      "programming": 0.5
+    },
+    "subjects": {
+      "mathematics": 0.6,
+      "computer_science": 0.8
+    },
+    "values": {
+      "stability": 0.8,
+      "autonomy": 0.7
+    },
+    "formations": [],
+    "occupations": [],
+    "requirements": {},
+    "accessibility": {},
+    "knowledge_version": "v1"
+  },
+  {
+    "direction_id": "ux-ui",
+    "canonical_name": "UX / UI Design",
+    "aliases": [],
+    "taxonomy": "design",
+    "interests": {
+      "artistic": 0.8,
+      "social": 0.7,
+      "investigative": 0.6
+    },
+    "abilities": {
+      "creative": 0.9,
+      "verbal": 0.7
+    },
+    "skills": {
+      "design": 0.9,
+      "communication": 0.7,
+      "research": 0.7
+    },
+    "subjects": {
+      "arts": 0.7,
+      "computer_science": 0.4
+    },
+    "values": {
+      "creativity": 1,
+      "empathy": 0.9
+    },
+    "formations": [],
+    "occupations": [],
+    "requirements": {},
+    "accessibility": {},
+    "knowledge_version": "v1"
+  },
+  {
+    "direction_id": "graphic-design",
+    "canonical_name": "Design graphique",
+    "aliases": [],
+    "taxonomy": "design",
+    "interests": {
+      "artistic": 1,
+      "realistic": 0.4
+    },
+    "abilities": {
+      "creative": 1,
+      "verbal": 0.4
+    },
+    "skills": {
+      "design": 1,
+      "communication": 0.6
+    },
+    "subjects": {
+      "arts": 1
+    },
+    "values": {
+      "creativity": 1,
+      "autonomy": 0.8
+    },
+    "formations": [],
+    "occupations": [],
+    "requirements": {},
+    "accessibility": {},
+    "knowledge_version": "v1"
+  },
+  {
+    "direction_id": "digital-marketing",
+    "canonical_name": "Marketing digital",
+    "aliases": [],
+    "taxonomy": "business",
+    "interests": {
+      "social": 0.9,
+      "artistic": 0.6,
+      "enterprising": 0.9
+    },
+    "abilities": {
+      "verbal": 0.9,
+      "creative": 0.7
+    },
+    "skills": {
+      "communication": 0.9,
+      "marketing": 0.9,
+      "analysis": 0.6
+    },
+    "subjects": {
+      "language": 0.8,
+      "economics": 0.6
+    },
+    "values": {
+      "influence": 0.8,
+      "creativity": 0.8
+    },
+    "formations": [],
+    "occupations": [],
+    "requirements": {},
+    "accessibility": {},
+    "knowledge_version": "v1"
+  },
+  {
+    "direction_id": "teaching",
+    "canonical_name": "Enseignement",
+    "aliases": [],
+    "taxonomy": "education",
+    "interests": {
+      "social": 1,
+      "conventional": 0.6
+    },
+    "abilities": {
+      "verbal": 0.9,
+      "empathy": 0.9
+    },
+    "skills": {
+      "communication": 0.9,
+      "pedagogy": 1
+    },
+    "subjects": {
+      "language": 0.8,
+      "mathematics": 0.5
+    },
+    "values": {
+      "service": 1,
+      "stability": 0.7
+    },
+    "formations": [],
+    "occupations": [],
+    "requirements": {},
+    "accessibility": {},
+    "knowledge_version": "v1"
+  },
+  {
+    "direction_id": "psychology",
+    "canonical_name": "Psychologie",
+    "aliases": [],
+    "taxonomy": "health-social",
+    "interests": {
+      "social": 1,
+      "investigative": 0.8
+    },
+    "abilities": {
+      "verbal": 0.9,
+      "empathy": 1
+    },
+    "skills": {
+      "communication": 0.9,
+      "research": 0.7
+    },
+    "subjects": {
+      "biology": 0.6,
+      "language": 0.7
+    },
+    "values": {
+      "service": 1,
+      "empathy": 1
+    },
+    "formations": [],
+    "occupations": [],
+    "requirements": {},
+    "accessibility": {},
+    "knowledge_version": "v1"
+  },
+  {
+    "direction_id": "accounting",
+    "canonical_name": "Comptabilité",
+    "aliases": [],
+    "taxonomy": "business",
+    "interests": {
+      "conventional": 1,
+      "investigative": 0.5
+    },
+    "abilities": {
+      "logical": 0.8,
+      "verbal": 0.5
+    },
+    "skills": {
+      "analysis": 0.8,
+      "communication": 0.5
+    },
+    "subjects": {
+      "mathematics": 0.8,
+      "economics": 0.9
+    },
+    "values": {
+      "stability": 0.9,
+      "precision": 1
+    },
+    "formations": [],
+    "occupations": [],
+    "requirements": {},
+    "accessibility": {},
+    "knowledge_version": "v1"
+  },
+  {
+    "direction_id": "medicine",
+    "canonical_name": "Médecine",
+    "aliases": [],
+    "taxonomy": "health",
+    "interests": {
+      "investigative": 0.9,
+      "social": 0.8
+    },
+    "abilities": {
+      "logical": 0.9,
+      "empathy": 0.8
+    },
+    "skills": {
+      "research": 0.8,
+      "communication": 0.7,
+      "problem_solving": 0.9
+    },
+    "subjects": {
+      "biology": 1,
+      "chemistry": 0.9,
+      "mathematics": 0.6
+    },
+    "values": {
+      "service": 1,
+      "precision": 0.9
+    },
+    "formations": [],
+    "occupations": [],
+    "requirements": {},
+    "accessibility": {},
+    "knowledge_version": "v1"
+  },
+  {
+    "direction_id": "law",
+    "canonical_name": "Droit",
+    "aliases": [],
+    "taxonomy": "social",
+    "interests": {
+      "social": 0.8,
+      "investigative": 0.7,
+      "enterprising": 0.8
+    },
+    "abilities": {
+      "verbal": 1,
+      "logical": 0.8
+    },
+    "skills": {
+      "communication": 0.9,
+      "research": 0.8
+    },
+    "subjects": {
+      "language": 1,
+      "history": 0.7
+    },
+    "values": {
+      "justice": 1,
+      "influence": 0.7
+    },
+    "formations": [],
+    "occupations": [],
+    "requirements": {},
+    "accessibility": {},
+    "knowledge_version": "v1"
+  }
+]
