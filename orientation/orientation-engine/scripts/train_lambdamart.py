@@ -1,7 +1,7 @@
+import json
 from argparse import ArgumentParser
 from datetime import datetime
 from pathlib import Path
-import json
 
 import numpy as np
 
