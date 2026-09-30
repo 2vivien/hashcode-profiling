@@ -1,11 +1,14 @@
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Sequence
+
 import numpy as np
+
 
 @dataclass(frozen=True)
 class VectorMatch:
     document_id: str
     score: float
+
 
 class NumpyVectorIndex:
     def __init__(self) -> None:
@@ -22,7 +25,12 @@ class NumpyVectorIndex:
     def search(self, query: np.ndarray, k: int = 10) -> list[VectorMatch]:
         if self._vectors.size == 0:
             return []
+        if k < 1:
+            raise ValueError("k must be positive")
         q = query / max(float(np.linalg.norm(query)), 1e-12)
         scores = self._vectors @ q
         order = np.argsort(-scores)[:k]
-        return [VectorMatch(self._ids[int(i)], float(scores[int(i)])) for i in order]
+        return [
+            VectorMatch(self._ids[int(i)], float(scores[int(i)]))
+            for i in order
+        ]
