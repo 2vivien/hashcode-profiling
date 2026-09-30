@@ -1,5 +1,6 @@
+import hashlib
+import json
 from pathlib import Path
-from uuid import uuid4
 from orientation.audit.service import AuditService
 from orientation.config.recommendation import RecommendationConfig
 from orientation.contracts.profile import StudentProfile
@@ -61,5 +62,7 @@ class GenerateRecommendation:
         scores={item.direction_id:item.score for item in final}
         uncertainties={item.direction_id:item.uncertainty for item in final}
         ranking=[item.direction_id for item in final]
-        audit=self.audit.build(str(uuid4()),profile.student_id,profile.profile_version,"v1",ranking,scores,uncertainties,[item.direction_id for item in generated])
-        return Recommendation(recommendation_id=str(uuid4()),profile_version=profile.profile_version,model_version="deterministic-baseline-v1",knowledge_version="v1",candidates=final,created_at=audit.timestamp,audit=audit)
+        canonical=json.dumps(profile.model_dump(mode="json"),sort_keys=True,separators=(",",":"))
+        recommendation_id="rec-"+hashlib.sha256(canonical.encode("utf-8")).hexdigest()[:24]
+        audit=self.audit.build(recommendation_id,profile.student_id,profile.profile_version,"v1",ranking,scores,uncertainties,[item.direction_id for item in generated])
+        return Recommendation(recommendation_id=recommendation_id,profile_version=profile.profile_version,model_version="deterministic-baseline-v1",knowledge_version="v1",candidates=final,created_at=audit.timestamp,audit=audit)
