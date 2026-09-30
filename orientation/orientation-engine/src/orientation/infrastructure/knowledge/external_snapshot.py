@@ -1,9 +1,9 @@
 import hashlib
 import json
+from collections.abc import Iterable
 from dataclasses import asdict
 from datetime import date
 from pathlib import Path
-from typing import Iterable
 
 from orientation.infrastructure.knowledge.external_sources import ExternalConcept
 
@@ -20,7 +20,12 @@ def build_external_snapshot(
             key=lambda item: (item.source, item.external_id, item.concept_type),
         )
     ]
-    raw = json.dumps(records, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
+    raw = json.dumps(
+        records,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode()
     digest = hashlib.sha256(raw).hexdigest()
     payload = {
         "version": version,
