@@ -1,0 +1,40 @@
+{
+  "student_id": "golden-technical",
+  "interests": {
+    "realistic": 0.9,
+    "investigative": 0.9,
+    "conventional": 0.6
+  },
+  "abilities": {
+    "logical": 0.9,
+    "verbal": 0.5
+  },
+  "subjects": {
+    "mathematics": 0.8,
+    "computer_science": 0.95
+  },
+  "values": {
+    "autonomy": 0.9,
+    "innovation": 0.9
+  },
+  "skills": [
+    {
+      "skill_id": "programming",
+      "level": 0.85,
+      "confidence": 0.9,
+      "source": "assessment",
+      "status": "assessed"
+    },
+    {
+      "skill_id": "problem_solving",
+      "level": 0.9,
+      "confidence": 0.9,
+      "source": "observed",
+      "status": "observed"
+    }
+  ],
+  "trajectory": {
+    "mathematics": 0.8,
+    "computer_science": 0.9
+  }
+}
