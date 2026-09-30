@@ -17,7 +17,7 @@ Le moteur doit construire un **profil multidimensionnel et évolutif**, puis pr�
 
 ## Parcours maître
 
-Les documents 00–18 constituent la spécification principale. Les documents 19–24 intègrent la profondeur scientifique et algorithmique de l'ancien `otheloo-orientation-engine/`. Le document 25 transforme l'ensemble en **blueprint d'implémentation** : composants à construire, contrats, données, tests, versionnement, critères de sortie et séquence des futurs commits.
+Les documents 00–18 constituent la spécification principale. Les documents 19–24 intègrent la profondeur scientifique et algorithmique de l'ancien `otheloo-orientation-engine/`. Les documents 25–28 constituent le **blueprint d'implémentation consolidé** : composants, contrats, données, algorithmes, modèles, code, tests, versionnement, architecture, scalabilité et critères de validation.
 
 ### Spécification et recherche
 
@@ -50,13 +50,14 @@ Les documents 00–18 constituent la spécification principale. Les documents 19
 - [23 — État de l'art et références d'implémentation](./23-etat-de-l-art-et-references-implementation.md)
 - [24 — Implémentation, roadmap et schéma de données](./24-implementation-roadmap-et-schema-de-donnees.md)
 
-### Blueprint d'implémentation
+### Blueprint d'implémentation consolidé
 
 - [25 — Blueprint complet d'implémentation du moteur](./25-blueprint-implementation-moteur.md)
 - [26 — Blueprint technique : code, environnement et modèles](./26-blueprint-technique-code-environnement-modeles.md)
 - [27 — Règles de code, Clean Code, taille des fichiers et scalabilité](./27-regles-code-clean-code-fichiers-scalabilite.md)
+- [28 — Recherche GitHub : algorithmes, architectures et pratiques à retenir](./28-recherche-github-algorithmes-architectures.md)
 
-Ce dernier document précise notamment les futurs composants **Student Profile Engine, Assessment Engine, Knowledge Graph, Candidate Engine, Hybrid Matching, Uncertainty, Skill Gap, Ranking, Diversification, Explanation, Exploration, Feedback et Recommendation Audit Layer**.
+Le document 28 consolide notamment les enseignements issus de dépôts de référence sur les **recommender systems, candidate generation, learning-to-rank, knowledge graphs, semantic retrieval, skill matching, feature stores, off-policy evaluation et contextual bandits**.
 
 ## Architecture cible
 
