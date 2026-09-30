@@ -22,6 +22,7 @@ from orientation.recommendation.uncertainty.service import UncertaintyService
 class GenerateRecommendation:
     def __init__(self,knowledge_root:Path) -> None:
         self.config=RecommendationConfig()
+        self.config.validate()
         self.loader=KnowledgeLoader(knowledge_root)
         self.validator=KnowledgeValidator()
         self.candidates=CandidateGenerationService()
