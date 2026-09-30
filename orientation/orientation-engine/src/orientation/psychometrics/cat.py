@@ -8,7 +8,6 @@ from orientation.psychometrics.irt import (
     fisher_information_2pl,
     information_mirt,
     item_information,
-    probability_2pl,
     standard_error_from_information,
 )
 from orientation.psychometrics.estimation import estimate_trait
