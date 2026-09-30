@@ -1,5 +1,5 @@
 [project]
-# V1 dependency contract; uv.lock is generated and committed by root CI.
+# V1 dependency contract; uv.lock is generated and committed by the lock workflow.
 name = "otheloo-orientation-engine"
 version = "1.0.0"
 description = "Deterministic and explainable orientation recommendation engine for Otheloo"
