@@ -14,15 +14,15 @@ class RecommendationItem(BaseModel):
     confidence: float = Field(ge=0,le=1)
     uncertainty: float = Field(ge=0,le=1)
     score_breakdown: ScoreBreakdown
-    skill_gaps: list[SkillGap] = []
-    explanation: Explanation = Explanation()
-    explorations: list[ExplorationIdea] = []
+    skill_gaps: list[SkillGap] = Field(default_factory=list)
+    explanation: Explanation = Field(default_factory=Explanation)
+    explorations: list[ExplorationIdea] = Field(default_factory=list)
 
 class Recommendation(BaseModel):
     recommendation_id: str
     profile_version: str
     model_version: str
     knowledge_version: str
-    candidates: list[RecommendationItem]
+    candidates: list[RecommendationItem] = Field(default_factory=list)
     created_at: datetime
     audit: AuditSnapshot
