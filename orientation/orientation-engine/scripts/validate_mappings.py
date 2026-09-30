@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
-from pathlib import Path
 import json
+from pathlib import Path
 
 
 def main() -> None:
@@ -10,7 +10,10 @@ def main() -> None:
     records = json.loads(args.input.read_text(encoding="utf-8"))
     if not isinstance(records, list):
         raise ValueError("mapping file must contain an array")
-    required = {"source_id", "target_id", "relation", "confidence", "source", "review_status", "version"}
+    required = {
+        "source_id", "target_id", "relation", "confidence",
+        "source", "review_status", "version",
+    }
     for index, record in enumerate(records):
         if not required.issubset(record):
             raise ValueError(f"mapping {index} is missing required fields")
