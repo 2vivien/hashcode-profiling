@@ -1,5 +1,5 @@
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 from orientation.contracts.common import DataState, Observation
 
 class StudentSkill(BaseModel):
@@ -24,3 +24,11 @@ class StudentProfile(BaseModel):
     constraints: dict[str,str | float | bool | list[str] | DataState] = Field(default_factory=dict)
     observations: list[Observation] = Field(default_factory=list)
     generated_at: datetime | None = None
+
+    @model_validator(mode="after")
+    def validate_dimensions(self) -> "StudentProfile":
+        for name in ("interests","abilities","values","subjects","trajectory"):
+            values = getattr(self,name)
+            if any(value < 0 or value > 1 for value in values.values()):
+                raise ValueError(f"{name} values must be normalized to [0,1]")
+        return self
