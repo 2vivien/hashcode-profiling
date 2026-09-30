@@ -53,6 +53,7 @@ Les documents 00–18 constituent la spécification principale. Les documents 19
 ### Blueprint d'implémentation
 
 - [25 — Blueprint complet d'implémentation du moteur](./25-blueprint-implementation-moteur.md)
+- [26 — Blueprint technique : code, environnement et modèles](./26-blueprint-technique-code-environnement-modeles.md)
 
 Ce dernier document précise notamment les futurs composants **Student Profile Engine, Assessment Engine, Knowledge Graph, Candidate Engine, Hybrid Matching, Uncertainty, Skill Gap, Ranking, Diversification, Explanation, Exploration, Feedback et Recommendation Audit Layer**.
 
