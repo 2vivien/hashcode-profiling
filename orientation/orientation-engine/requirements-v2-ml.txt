@@ -2,7 +2,6 @@
 # V1 remains reproducible with pyproject.toml + uv.lock.
 sentence-transformers>=5,<6
 lightgbm>=4.6,<5
-networkx>=3.4,<4
 joblib>=1.4,<2
-# V5 training is intentionally optional and must be pinned after the selected
-# torch/torch-geometric architecture has passed the Otheloo benchmark.
+# V5 R-GCN is implemented with the NumPy runtime.
+# PyTorch/PyG can be evaluated later for larger graph workloads after benchmark evidence.
