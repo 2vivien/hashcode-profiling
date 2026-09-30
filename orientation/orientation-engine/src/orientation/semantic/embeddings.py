@@ -1,4 +1,5 @@
-from typing import Protocol, Sequence, cast
+from collections.abc import Sequence
+from typing import Protocol, cast
 
 import numpy as np
 
@@ -20,6 +21,7 @@ class SentenceTransformerEncoder:
     def _load(self) -> _SentenceEncoder:
         if self._model is None:
             from sentence_transformers import SentenceTransformer
+
             self._model = cast(_SentenceEncoder, SentenceTransformer(self.model_name))
         return self._model
 
