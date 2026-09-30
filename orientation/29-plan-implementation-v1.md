@@ -624,7 +624,7 @@ tests/golden/
 - recommendations/
 - expected/
 
-Profils minimum :
+La V1 doit contenir au minimum les profils golden suivants, chacun avec une sortie attendue versionnée :
 
 - technique
 - artistique
@@ -804,6 +804,8 @@ Otheloo :
 - stabilité longitudinale
 
 ## 37. Critères de sortie V1
+
+**État d'implémentation vérifié :** toutes les briques fonctionnelles V1 sont présentes dans `orientation-engine`; les éléments encore dépendants de l'exécution CI sont `uv.lock` et la preuve de passage des commandes qualité. La V1 ne doit être déclarée release qu'après cette exécution.
 
 Architecture :
 - séparation domain/application/infrastructure/api
