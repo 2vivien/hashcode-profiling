@@ -11,8 +11,9 @@ class ScoringWeights:
     trajectory: float = 0.10
     skill_gap: float = 0.15
 
-    def validate(self) -> None:
-        values = (
+    @property
+    def positive(self) -> tuple[float, ...]:
+        return (
             self.interest,
             self.ability,
             self.skill,
@@ -20,6 +21,9 @@ class ScoringWeights:
             self.subject,
             self.trajectory,
         )
+
+    def validate(self) -> None:
+        values = self.positive
         if any(value < 0 for value in values):
             raise ValueError("Positive score weights cannot be negative")
         if self.skill_gap < 0:
