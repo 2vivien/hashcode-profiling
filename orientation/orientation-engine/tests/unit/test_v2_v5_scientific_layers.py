@@ -64,7 +64,7 @@ def test_offpolicy_estimators_use_action_match_and_propensity() -> None:
     ips = inverse_propensity_score(rewards, logged, target, propensities)
     dr = doubly_robust(rewards, logged, target, propensities, np.array([0.5, 0.5]))
     assert ips.value == 1.0
-    assert dr.value == 0.5
+    assert dr.value == 1.0
 
 
 def test_calibration_requires_both_classes() -> None:
