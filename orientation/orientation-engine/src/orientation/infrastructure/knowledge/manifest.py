@@ -8,6 +8,8 @@ class KnowledgeManifest(BaseModel):
     date:str
     directions:int
     sha256:str
+    item_counts: dict[str,int] = {}
+    transformation_rules: list[str] = []
 
 def load_manifest(root:Path)->KnowledgeManifest:
     raw=(root/"manifest.json").read_text(encoding="utf-8")
