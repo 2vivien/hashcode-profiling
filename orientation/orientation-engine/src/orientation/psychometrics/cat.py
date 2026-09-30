@@ -40,6 +40,8 @@ class TwoPLCAT:
         self.b = np.asarray(difficulty, dtype=np.float64)
         self.target_se = target_se
         self.max_items = min(max_items, len(item_ids))
+        if min_items > self.max_items:
+            raise ValueError("min_items cannot exceed available max_items")
         self.min_items = min_items
 
     def run(self, response_provider: Callable[[str], float]) -> CATResult:
