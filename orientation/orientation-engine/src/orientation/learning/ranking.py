@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Sequence
-import joblib
 import numpy as np
 
 @dataclass(frozen=True)
@@ -34,10 +33,12 @@ class LambdaMARTModel:
     def save(self, path: Path) -> None:
         if self.model is None:
             raise RuntimeError("LambdaMART model is not trained")
+        from joblib import dump
         path.parent.mkdir(parents=True, exist_ok=True)
-        joblib.dump({"model": self.model, "feature_names": self.feature_names}, path)
+        dump({"model": self.model, "feature_names": self.feature_names}, path)
 
     def load(self, path: Path) -> None:
-        payload = joblib.load(path)
+        from joblib import load
+        payload = load(path)
         self.model = payload["model"]
         self.feature_names = tuple(payload["feature_names"])
