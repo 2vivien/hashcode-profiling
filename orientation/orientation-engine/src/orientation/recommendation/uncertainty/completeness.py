@@ -5,7 +5,9 @@ def profile_completeness(profile: StudentProfile) -> float:
     return (
         sum(
             bool(getattr(profile, field))
-            for field in ("interests", "abilities", "values", "subjects", "skills", "trajectory")
+            for field in (
+                "interests", "abilities", "values", "subjects", "skills", "trajectory"
+            )
         )
         / 6
     )
