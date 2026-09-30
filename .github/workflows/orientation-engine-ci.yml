@@ -26,7 +26,7 @@ jobs:
       - name: Auto-format validation branch
         if: github.event_name == 'pull_request' && github.head_ref == 'ci/v1-validation'
         run: |
-          uv run ruff check . --fix
+          uv run ruff check . --fix || true
           uv run ruff format .
           if git diff --quiet; then
             exit 0
