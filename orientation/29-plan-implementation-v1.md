@@ -907,7 +907,7 @@ Puis seulement si les benchmarks le justifient :
 
 ## 40. Architecture finale des fichiers V1
 
-otheloo-orientation-engine/
+orientation/orientation-engine/
 - pyproject.toml
 - uv.lock
 - .python-version
