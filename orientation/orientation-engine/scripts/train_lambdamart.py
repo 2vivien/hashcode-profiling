@@ -49,7 +49,9 @@ def grouped_temporal_split(
     return train, validation
 
 
-def matrix(rows: list[dict[str, object]]) -> tuple[np.ndarray, np.ndarray, list[int], list[str], list[str]]:
+def matrix(
+    rows: list[dict[str, object]],
+) -> tuple[np.ndarray, np.ndarray, list[int], list[str], list[str]]:
     feature_names = sorted(dict(rows[0]["features"]).keys())
     ordered = sorted(rows, key=lambda row: (str(row["student_id"]), str(row["timestamp"])))
     x = np.asarray(
@@ -75,6 +77,27 @@ def matrix(rows: list[dict[str, object]]) -> tuple[np.ndarray, np.ndarray, list[
     return x, y, groups, feature_names, query_ids
 
 
+def evaluate_grouped(
+    rows: list[dict[str, object]],
+    scores: np.ndarray,
+    k: int,
+) -> dict[str, float]:
+    grouped: dict[str, list[tuple[float, float]]] = {}
+    ordered = sorted(rows, key=lambda row: (str(row["student_id"]), str(row["timestamp"])))
+    for row, score in zip(ordered, scores, strict=True):
+        grouped.setdefault(str(row["student_id"]), []).append((float(row["label"]), float(score)))
+    values = {"precision": [], "recall": [], "map": [], "ndcg": []}
+    for pairs in grouped.values():
+        relevance = np.asarray([[label for label, _ in pairs]], dtype=np.float64)
+        predictions = np.asarray([[score for _, score in pairs]], dtype=np.float64)
+        local_k = min(k, len(pairs))
+        values["precision"].append(precision_at_k(relevance, predictions, local_k))
+        values["recall"].append(recall_at_k(relevance, predictions, local_k))
+        values["map"].append(average_precision_at_k(relevance, predictions, local_k))
+        values["ndcg"].append(ndcg_at_k(relevance, predictions, local_k))
+    return {f"{name}_at_{k}": float(np.mean(items)) for name, items in values.items()}
+
+
 def main() -> None:
     parser = ArgumentParser()
     parser.add_argument("--input", type=Path, required=True)
@@ -86,40 +109,19 @@ def main() -> None:
     rows = load_rows(args.input)
     train_rows, validation_rows = grouped_temporal_split(rows, args.validation_fraction)
     x_train, y_train, groups, feature_names, _ = matrix(train_rows)
-    x_validation, y_validation, _, _, validation_queries = matrix(validation_rows)
+    x_validation, _, _, _, _ = matrix(validation_rows)
 
     model = LambdaMARTModel()
     model.fit(x_train, y_train, groups, feature_names)
     validation_scores = model.predict(x_validation)
 
-    query_order = sorted(validation_queries)
-    validation_ordered = sorted(
-        validation_rows,
-        key=lambda row: (str(row["student_id"]), str(row["timestamp"])),
-    )
-    query_to_rows = {query: [] for query in query_order}
-    for row, score in zip(validation_ordered, validation_scores, strict=True):
-        query_to_rows[str(row["student_id"])].append((float(row["label"]), float(score)))
-    relevance = np.asarray([row for query in query_order for row, _ in query_to_rows[query]], dtype=np.float64)
-    scores = np.asarray([score for query in query_order for _, score in query_to_rows[query]], dtype=np.float64)
-    sizes = [len(query_to_rows[query]) for query in query_order]
-    max_k = min(5, max(sizes))
-    offsets = np.cumsum([0, *sizes])
-    relevance_matrix = np.zeros((len(sizes), max(sizes)))
-    score_matrix = np.full_like(relevance_matrix, -np.inf)
-    for index, (start, end) in enumerate(zip(offsets[:-1], offsets[1:], strict=True)):
-        relevance_matrix[index, : end - start] = relevance[start:end]
-        score_matrix[index, : end - start] = scores[start:end]
-
+    metrics = evaluate_grouped(validation_rows, validation_scores, k=5)
     report = {
         "train_rows": len(train_rows),
         "validation_rows": len(validation_rows),
         "features": feature_names,
-        "precision_at_5": precision_at_k(relevance_matrix, score_matrix, k=max_k),
-        "recall_at_5": recall_at_k(relevance_matrix, score_matrix, k=max_k),
-        "map_at_5": average_precision_at_k(relevance_matrix, score_matrix, k=max_k),
-        "ndcg_at_5": ndcg_at_k(relevance_matrix, score_matrix, k=max_k),
-        "validation_students": len(query_order),
+        "validation_students": len({str(row["student_id"]) for row in validation_rows}),
+        **metrics,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.report.parent.mkdir(parents=True, exist_ok=True)
