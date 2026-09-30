@@ -2,10 +2,12 @@ from argparse import ArgumentParser
 from pathlib import Path
 from urllib.request import urlopen
 
+
 def download(url: str, output: Path) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     with urlopen(url, timeout=60) as response:
         output.write_bytes(response.read())
+
 
 def main() -> None:
     parser = ArgumentParser()
@@ -22,6 +24,7 @@ def main() -> None:
         download(args.esco_url, args.esco_output)
     if args.onet_url:
         download(args.onet_url, args.onet_output)
+
 
 if __name__ == "__main__":
     main()
