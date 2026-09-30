@@ -56,8 +56,7 @@ class GenerateRecommendation:
             gaps = self.gaps.calculate(profile, direction)
             penalty = min(
                 1.0,
-                sum(gap.gap * gap.required_level for gap in gaps)
-                / max(len(direction.skills), 1),
+                sum(gap.gap * gap.required_level for gap in gaps) / max(len(direction.skills), 1),
             )
             breakdown = self.scorer.score(matches, penalty)
             confidence = max(0.0, min(1.0, breakdown.confidence * (1 - 0.25 * penalty)))
@@ -89,9 +88,7 @@ class GenerateRecommendation:
         canonical = json.dumps(
             profile.model_dump(mode="json"), sort_keys=True, separators=(",", ":")
         )
-        recommendation_id = (
-            "rec-" + hashlib.sha256(canonical.encode("utf-8")).hexdigest()[:24]
-        )
+        recommendation_id = "rec-" + hashlib.sha256(canonical.encode("utf-8")).hexdigest()[:24]
         audit = self.audit.build(
             recommendation_id,
             profile.student_id,
