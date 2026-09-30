@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 class ExplanationFact(BaseModel):
     kind: str
@@ -6,7 +6,7 @@ class ExplanationFact(BaseModel):
     direction_id: str
     statement_key: str
     value: float | str | None = None
-    evidence: list[str] = []
+    evidence: list[str] = Field(default_factory=list)
 
 class Explanation(BaseModel):
-    facts: list[ExplanationFact] = []
+    facts: list[ExplanationFact] = Field(default_factory=list)
