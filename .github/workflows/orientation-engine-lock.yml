@@ -1,0 +1,40 @@
+name: orientation-engine-lock
+
+on:
+  push:
+    paths:
+      - "orientation/orientation-engine/pyproject.toml"
+      - "orientation/orientation-engine/.python-version"
+      - "orientation/orientation-engine/uv.lock"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  lock:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: orientation/orientation-engine
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v7
+        with:
+          version: latest
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: uv lock
+      - name: Commit lockfile when changed
+        run: |
+          if git diff --quiet -- uv.lock; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add uv.lock
+          git commit -m "chore(engine): update uv lockfile"
+          git push
