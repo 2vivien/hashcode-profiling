@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from orientation.config.scoring import ScoringWeights
 
@@ -8,7 +8,7 @@ class RecommendationConfig:
     final_k: int = 8
     diversification_lambda: float = 0.75
     minimum_evidence: int = 2
-    weights: ScoringWeights = ScoringWeights()
+    weights: ScoringWeights = field(default_factory=ScoringWeights)
 
     def validate(self) -> None:
         if not 1 <= self.final_k <= self.top_k:
