@@ -7,9 +7,9 @@ class AssessmentResult(BaseModel):
     session_id: str
     instrument_version: str
     traits: dict[str, float]
-    theta: dict[str, float] = {}
-    standard_error: dict[str, float] = {}
-    information: dict[str, float] = {}
+    theta: dict[str, float] = Field(default_factory=dict)
+    standard_error: dict[str, float] = Field(default_factory=dict)
+    information: dict[str, float] = Field(default_factory=dict)
     responses_count: int = Field(ge=0)
     confidence: float = Field(ge=0, le=1)
     completed_at: datetime
