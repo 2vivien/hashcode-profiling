@@ -1,0 +1,11 @@
+{
+  "version": "v1",
+  "source": "Otheloo V1 curated catalog",
+  "date": "2026-10-01",
+  "directions": 12,
+  "rules": [
+    "canonical IDs",
+    "normalized dimensions in [0,1]",
+    "unknown data is not zero"
+  ]
+}
