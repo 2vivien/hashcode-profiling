@@ -1,7 +1,9 @@
+from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Sequence
+
 import numpy as np
+
 
 @dataclass(frozen=True)
 class RankingExample:
@@ -10,17 +12,31 @@ class RankingExample:
     label: float
     features: tuple[float, ...]
 
+
 class LambdaMARTModel:
     def __init__(self) -> None:
         self.model: object | None = None
         self.feature_names: tuple[str, ...] = ()
 
-    def fit(self, X: np.ndarray, y: np.ndarray, groups: Sequence[int], feature_names: Sequence[str]) -> None:
+    def fit(
+        self,
+        X: np.ndarray,
+        y: np.ndarray,
+        groups: Sequence[int],
+        feature_names: Sequence[str],
+    ) -> None:
         from lightgbm import LGBMRanker
+
         if sum(groups) != len(y):
             raise ValueError("group sizes must sum to number of labels")
-        model = LGBMRanker(objective="lambdarank", metric="ndcg", n_estimators=300,
-                           learning_rate=0.04, num_leaves=31, random_state=42)
+        model = LGBMRanker(
+            objective="lambdarank",
+            metric="ndcg",
+            n_estimators=300,
+            learning_rate=0.04,
+            num_leaves=31,
+            random_state=42,
+        )
         model.fit(X, y, group=list(groups))
         self.model = model
         self.feature_names = tuple(feature_names)
@@ -34,11 +50,13 @@ class LambdaMARTModel:
         if self.model is None:
             raise RuntimeError("LambdaMART model is not trained")
         from joblib import dump
+
         path.parent.mkdir(parents=True, exist_ok=True)
         dump({"model": self.model, "feature_names": self.feature_names}, path)
 
     def load(self, path: Path) -> None:
         from joblib import load
+
         payload = load(path)
         self.model = payload["model"]
         self.feature_names = tuple(payload["feature_names"])
