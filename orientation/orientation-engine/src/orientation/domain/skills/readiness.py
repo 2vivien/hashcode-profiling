@@ -10,7 +10,10 @@ def readiness(profile: StudentProfile, direction: Direction) -> list[SkillGap]:
             skill_id=skill_id,
             current_level=current.get(skill_id).level if skill_id in current else 0.0,
             required_level=required,
-            gap=max(0.0, required - (current.get(skill_id).level if skill_id in current else 0.0)),
+            gap=max(
+                0.0,
+                required - (current.get(skill_id).level if skill_id in current else 0.0),
+            ),
             confidence=current.get(skill_id).confidence if skill_id in current else 0.0,
             priority=required,
         )
