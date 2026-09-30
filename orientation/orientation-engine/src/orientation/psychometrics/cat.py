@@ -111,7 +111,7 @@ class MIRT_CAT:
         self.b = b
         self.target_se = target_se
         self.max_items = min(max_items, len(item_ids))
-        if min_items > self.max_items:\n            raise ValueError("min_items cannot exceed available max_items")\n        self.min_items = min_items
+        if min_items < 1 or min_items > self.max_items:\n            raise ValueError("invalid MIRT CAT item bounds")\n        self.min_items = min_items
 
     def run(self, response_provider: Callable[[str], float]) -> MIRTResult:
         responses: list[float] = []
