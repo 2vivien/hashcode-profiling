@@ -1,0 +1,2 @@
+from orientation.contracts.assessment import AssessmentResult
+AssessmentEntity=AssessmentResult
