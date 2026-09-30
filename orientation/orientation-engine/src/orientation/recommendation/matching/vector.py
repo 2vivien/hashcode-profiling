@@ -14,7 +14,7 @@ def cosine_overlap(student: dict[str, float], target: dict[str, float]) -> float
     na, nb = sqrt(sum(x * x for x in a)), sqrt(sum(y * y for y in b))
     if na == 0 or nb == 0:
         return 0.0
-    return max(0.0, min(1.0, sum(x * y for x, y in zip(a, b)) / (na * nb)))
+    return max(0.0, min(1.0, sum(x * y for x, y in zip(a, b, strict=True)) / (na * nb)))
 
 
 class VectorMatcher:
