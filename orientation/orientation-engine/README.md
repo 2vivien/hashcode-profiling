@@ -30,5 +30,3 @@ uv run mypy src
 ```
 
 La V1 est déterministe : même profil + même knowledge snapshot + même configuration = même résultat.
-
-<!-- final V1 CI checkpoint -->
