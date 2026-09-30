@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 import numpy as np
-from orientation.psychometrics.irt import fisher_information_2pl, theta_mle
+from orientation.psychometrics.estimation import estimate_trait, item_information
 
 @dataclass(frozen=True)
 class CATResult:
@@ -23,8 +23,9 @@ class TwoPLCAT:
     def run(self, responses: np.ndarray) -> CATResult:
         if len(responses) < 1 or len(responses) > self.max_items:
             raise ValueError("responses length outside CAT bounds")
-        theta = theta_mle(responses, self.a[:len(responses)], self.b[:len(responses)])
-        info = sum(fisher_information_2pl(theta, float(a), float(b))
-                   for a, b in zip(self.a[:len(responses)], self.b[:len(responses)]))
+        n = len(responses)
+        theta = estimate_trait(responses, self.a[:n], self.b[:n])
+        info = sum(item_information(theta, float(a), float(b))
+                   for a, b in zip(self.a[:n], self.b[:n]))
         se = float(1.0 / np.sqrt(max(info, 1e-9)))
-        return CATResult(theta, se, tuple(self.item_ids[:len(responses)]), se <= self.target_se)
+        return CATResult(theta, se, tuple(self.item_ids[:n]), se <= self.target_se)
