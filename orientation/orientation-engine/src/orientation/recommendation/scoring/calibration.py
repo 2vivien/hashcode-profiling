@@ -1,2 +1,2 @@
 def identity_calibration(score: float) -> float:
-    return max(0.0,min(1.0,score))
+    return max(0.0, min(1.0, score))

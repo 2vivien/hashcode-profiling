@@ -1,6 +1,8 @@
 from datetime import datetime
 from enum import StrEnum
+
 from pydantic import BaseModel, ConfigDict, Field
+
 
 class SourceType(StrEnum):
     DECLARED = "declared"
@@ -8,15 +10,18 @@ class SourceType(StrEnum):
     OBSERVED = "observed"
     INFERRED = "inferred"
 
+
 class DataState(StrEnum):
     KNOWN = "known"
     UNKNOWN = "unknown"
     NOT_APPLICABLE = "not_applicable"
     CONTRADICTORY = "contradictory"
 
+
 class Confidence(BaseModel):
     value: float = Field(ge=0, le=1)
     rationale: str = ""
+
 
 class Observation(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -29,4 +34,3 @@ class Observation(BaseModel):
     context: str | None = None
     version: str = "v1"
     provenance: str | None = None
-

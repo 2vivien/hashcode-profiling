@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 
 from orientation.config.scoring import ScoringWeights
 
+
 @dataclass(frozen=True)
 class RecommendationConfig:
     top_k: int = 20

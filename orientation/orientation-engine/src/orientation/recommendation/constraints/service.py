@@ -1,6 +1,7 @@
 from orientation.contracts.direction import Direction
 from orientation.contracts.profile import StudentProfile
 
+
 class ConstraintService:
     def evaluate(self, profile: StudentProfile, direction: Direction) -> str:
         if direction.requirements.get("blocked") is True:

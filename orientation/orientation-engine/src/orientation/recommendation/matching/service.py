@@ -4,6 +4,7 @@ from orientation.contracts.scoring import MatchResult
 from orientation.domain.skills.matching import SkillMatcher
 from orientation.recommendation.matching.vector import VectorMatcher
 
+
 class MatchingService:
     def __init__(self) -> None:
         self.vector = VectorMatcher()

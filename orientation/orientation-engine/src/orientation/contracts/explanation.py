@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 
+
 class ExplanationFact(BaseModel):
     kind: str
     dimension: str
@@ -7,6 +8,7 @@ class ExplanationFact(BaseModel):
     statement_key: str
     value: float | str | None = None
     evidence: list[str] = Field(default_factory=list)
+
 
 class Explanation(BaseModel):
     facts: list[ExplanationFact] = Field(default_factory=list)
