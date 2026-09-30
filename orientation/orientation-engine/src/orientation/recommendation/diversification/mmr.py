@@ -13,7 +13,10 @@ def diversify(
                 (1.0 if item.taxonomy == chosen.taxonomy else 0.0 for chosen in selected),
                 default=0.0,
             )
-            return (lambda_value * item.score - (1 - lambda_value) * similarity, item.direction_id)
+            return (
+                lambda_value * item.score - (1 - lambda_value) * similarity,
+                item.direction_id,
+            )
 
         best = max(remaining, key=objective)
         selected.append(best)
