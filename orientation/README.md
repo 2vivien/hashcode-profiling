@@ -15,7 +15,9 @@ Le moteur doit construire un **profil multidimensionnel et évolutif**, puis pr�
 - les expériences permettant de tester les hypothèses ;
 - le feedback permettant de mettre à jour le profil.
 
-## Parcours
+## Parcours maître
+
+Les documents 00–18 constituent la spécification principale. Les documents 19–24 intègrent désormais, dans ce même dossier, la profondeur scientifique et algorithmique de l'ancien `otheloo-orientation-engine/`.
 
 1. [Vision et principes](./00-vision-et-principes.md)
 2. [Fondements scientifiques](./01-fondements-scientifiques.md)
@@ -36,6 +38,15 @@ Le moteur doit construire un **profil multidimensionnel et évolutif**, puis pr�
 17. [Exemple produit](./16-exemple-produit.md)
 18. [Bibliographie](./17-bibliographie.md)
 19. [Industrialisation, microservices, données et règles](./18-industrialisation-microservices-donnees-regles.md)
+
+## Approfondissements intégrés
+
+- [19 — Fondements scientifiques approfondis](./19-fondements-scientifiques-approfondis.md)
+- [20 — Moteur mathématique et algorithmique](./20-moteur-mathematique-et-algorithmique.md)
+- [21 — Recommandation hybride et Knowledge Graph](./21-recommandation-hybride-et-knowledge-graph.md)
+- [22 — Explicabilité, équité et Skill Gap](./22-explicabilite-equite-et-skill-gap.md)
+- [23 — État de l'art et références d'implémentation](./23-etat-de-l-art-et-references-implementation.md)
+- [24 — Implémentation, roadmap et schéma de données](./24-implementation-roadmap-et-schema-de-donnees.md)
 
 ## Architecture cible
 
@@ -63,43 +74,6 @@ Le moteur doit construire un **profil multidimensionnel et évolutif**, puis pr�
        ↓
     Mise à jour du profil
 
-## Algorithmes couverts
-
-- règles expertes ;
-- scoring multicritère ;
-- cosine similarity ;
-- distances euclidiennes ;
-- distance de Mahalanobis ;
-- régression de tendance ;
-- variance, volatilité et vélocité ;
-- entropie ;
-- MMR ;
-- Bayesian updating ;
-- IRT, MIRT et CAT ;
-- kNN ;
-- matrix factorization ;
-- embeddings et vector search ;
-- Knowledge Graph ;
-- Node2Vec, DeepWalk, TransE ;
-- GraphSAGE, GAT, R-GCN ;
-- Learning-to-Rank et LambdaMART ;
-- contextual bandits ;
-- LinUCB ;
-- Thompson Sampling ;
-- UCB ;
-- epsilon-greedy ;
-- systèmes hybrides ;
-- SHAP ;
-- explications contrefactuelles.
-
-## Référentiels
-
-- ESCO ;
-- O*NET ;
-- référentiels de formation ;
-- données locales ;
-- opportunités.
-
 ## Règle de développement
 
     règles
@@ -114,6 +88,6 @@ Chaque étape doit être comparée à la précédente.
 
 ## Important
 
-Ce dossier est une **documentation de conception et de recherche**. Il ne prétend pas que tous les algorithmes décrits sont déjà implémentés dans Otheloo.
+Ce dossier est une **documentation de conception et de recherche**. La consolidation documentaire ne signifie pas que les algorithmes décrits sont déjà implémentés dans Otheloo.
 
 La documentation produit existante reste la source de vérité pour les fonctionnalités effectivement disponibles.
