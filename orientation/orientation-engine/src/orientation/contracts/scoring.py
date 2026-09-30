@@ -3,8 +3,8 @@ from pydantic import BaseModel, Field
 class MatchResult(BaseModel):
     score: float = Field(ge=0,le=1)
     confidence: float = Field(ge=0,le=1)
-    evidence: list[str] = []
-    missing_data: list[str] = []
+    evidence: list[str] = Field(default_factory=list)
+    missing_data: list[str] = Field(default_factory=list)
 
 class ScoreBreakdown(BaseModel):
     interest_fit: float = Field(ge=0,le=1)
