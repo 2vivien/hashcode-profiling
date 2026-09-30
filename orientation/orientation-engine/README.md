@@ -34,3 +34,4 @@ La V1 est déterministe : même profil + même knowledge snapshot + même config
 
 <!-- CI validation checkpoint -->
 <!-- strict typing checkpoint -->
+<!-- pytest collection checkpoint -->
