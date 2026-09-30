@@ -14,7 +14,7 @@ class HybridScorer:
         }
         weights = (w.interest, w.ability, w.skill, w.value, w.subject, w.trajectory)
         raw = (
-            sum(weight * values[key] for weight, key in zip(weights, values))
+            sum(weight * values[key] for weight, key in zip(weights, values, strict=True))
             - w.skill_gap * skill_gap_penalty
         )
         compatibility = max(0.0, min(1.0, raw / max(sum(w.positive), 1e-9)))
