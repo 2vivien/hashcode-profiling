@@ -1,0 +1,12 @@
+{
+  "modelId": "deterministic-baseline-v1",
+  "type": "deterministic",
+  "version": "v1",
+  "trainingRequired": false,
+  "deterministic": true,
+  "uncertainty": true,
+  "explainability": "by-construction",
+  "status": "production",
+  "knowledgeVersion": "v1",
+  "featureSchemaVersion": "v1"
+}
