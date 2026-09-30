@@ -88,9 +88,17 @@ class RGCNModel:
         relation_count = int(np.max(relations)) + 1 if len(relations) else 1
         class_count = int(np.max(labels)) + 1
         scale = 1.0 / np.sqrt(max(input_dim, 1))
-        relation_weights = rng.normal(0.0, scale, (relation_count, input_dim, self.config.hidden_dim))
+        relation_weights = rng.normal(
+            0.0,
+            scale,
+            (relation_count, input_dim, self.config.hidden_dim),
+        )
         self_weight = rng.normal(0.0, scale, (input_dim, self.config.hidden_dim))
-        output_weight = rng.normal(0.0, scale, (self.config.hidden_dim, class_count))
+        output_weight = rng.normal(
+            0.0,
+            scale,
+            (self.config.hidden_dim, class_count),
+        )
         output_bias = np.zeros(class_count, dtype=np.float64)
 
         for _ in range(self.config.epochs):
@@ -138,10 +146,21 @@ class RGCNModel:
         self.output_weight = output_weight
         self.output_bias = output_bias
 
-    def predict(self, features: np.ndarray, edges: np.ndarray, relations: np.ndarray) -> np.ndarray:
-        if any(value is None for value in (
-            self.relation_weights, self.self_weight, self.output_weight, self.output_bias
-        )):
+    def predict(
+        self,
+        features: np.ndarray,
+        edges: np.ndarray,
+        relations: np.ndarray,
+    ) -> np.ndarray:
+        if any(
+            value is None
+            for value in (
+                self.relation_weights,
+                self.self_weight,
+                self.output_weight,
+                self.output_bias,
+            )
+        ):
             raise RuntimeError("RGCN model is not trained")
         assert self.relation_weights is not None
         assert self.self_weight is not None
