@@ -1,2 +1,3 @@
-from orientation.contracts.skill import SkillRequirement, SkillGap
-__all__=["SkillRequirement","SkillGap"]
+from orientation.contracts.skill import SkillGap, SkillRequirement
+
+__all__ = ["SkillGap", "SkillRequirement"]

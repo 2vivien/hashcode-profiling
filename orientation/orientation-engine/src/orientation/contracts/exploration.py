@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 
+
 class ExplorationIdea(BaseModel):
     exploration_id: str
     kind: str

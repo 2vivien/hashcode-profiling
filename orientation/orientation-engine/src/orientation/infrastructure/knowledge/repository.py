@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
+
 from orientation.contracts.direction import Direction
+
 
 class KnowledgeRepository:
     def __init__(self, root: Path) -> None:

@@ -30,3 +30,8 @@ uv run mypy src
 ```
 
 La V1 est déterministe : même profil + même knowledge snapshot + même configuration = même résultat.
+
+
+<!-- CI validation checkpoint -->
+<!-- strict typing checkpoint -->
+<!-- pytest collection checkpoint -->

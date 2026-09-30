@@ -1,5 +1,7 @@
 from datetime import datetime
+
 from pydantic import BaseModel
+
 
 class AuditSnapshot(BaseModel):
     request_id: str
@@ -12,6 +14,6 @@ class AuditSnapshot(BaseModel):
     model_version: str
     candidate_set: list[str]
     ranking: list[str]
-    scores: dict[str,float]
-    uncertainty: dict[str,float]
+    scores: dict[str, float]
+    uncertainty: dict[str, float]
     timestamp: datetime

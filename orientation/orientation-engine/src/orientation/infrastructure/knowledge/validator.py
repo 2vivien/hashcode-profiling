@@ -1,5 +1,6 @@
 from orientation.contracts.direction import Direction
 
+
 class KnowledgeValidator:
     def validate(self, directions: list[Direction], expected_version: str = "v1") -> None:
         if not directions:

@@ -1,8 +1,10 @@
 from pydantic import BaseModel, Field
 
+
 class SkillRequirement(BaseModel):
     skill_id: str
     required_level: float = Field(ge=0, le=1)
+
 
 class SkillGap(BaseModel):
     skill_id: str
