@@ -1,6 +1,5 @@
 from datetime import datetime
 from enum import StrEnum
-from typing import Any
 from pydantic import BaseModel, ConfigDict, Field
 
 class SourceType(StrEnum):
@@ -31,4 +30,3 @@ class Observation(BaseModel):
     version: str = "v1"
     provenance: str | None = None
 
-JsonObject = dict[str, Any]
