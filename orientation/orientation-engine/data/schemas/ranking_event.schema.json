@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["event_id","student_id","direction_id","position","model_version","knowledge_version","timestamp","label"],
+  "properties": {
+    "event_id":{"type":"string"},
+    "student_id":{"type":"string"},
+    "direction_id":{"type":"string"},
+    "position":{"type":"integer","minimum":1},
+    "model_version":{"type":"string"},
+    "knowledge_version":{"type":"string"},
+    "timestamp":{"type":"string"},
+    "context":{"type":"object"},
+    "features":{"type":"object","additionalProperties":{"type":"number"}},
+    "feedback":{"type":"string","enum":["accepted","rejected","explored","requested_details","unknown"]},
+    "label":{"type":"number","minimum":0,"maximum":4},
+    "propensity":{"type":"number","exclusiveMinimum":0,"maximum":1}
+  }
+}
