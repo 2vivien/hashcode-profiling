@@ -43,7 +43,11 @@ class LinUCB:
             scores[action_id] = mean + self.alpha * uncertainty
         return scores
 
-    def select(self, contexts: dict[str, np.ndarray], rng: np.random.Generator | None = None) -> BanditAction:
+    def select(
+        self,
+        contexts: dict[str, np.ndarray],
+        rng: np.random.Generator | None = None,
+    ) -> BanditAction:
         scores = self.scores(contexts)
         generator = rng or np.random.default_rng()
         action_ids = list(scores)
