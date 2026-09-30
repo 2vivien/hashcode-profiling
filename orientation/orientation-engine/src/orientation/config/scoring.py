@@ -3,23 +3,22 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class ScoringWeights:
-    interest: float = 0.25
-    ability: float = 0.20
-    skill: float = 0.20
+    interest: float = 0.20
+    ability: float = 0.15
+    skill: float = 0.15
     value: float = 0.10
-    subject: float = 0.15
+    subject: float = 0.10
+    self_efficacy: float = 0.10
+    adaptability: float = 0.05
+    environment: float = 0.05
     trajectory: float = 0.10
-    skill_gap: float = 0.15
+    skill_gap: float = 0.10
 
     @property
     def positive(self) -> tuple[float, ...]:
         return (
-            self.interest,
-            self.ability,
-            self.skill,
-            self.value,
-            self.subject,
-            self.trajectory,
+            self.interest, self.ability, self.skill, self.value, self.subject,
+            self.self_efficacy, self.adaptability, self.environment, self.trajectory,
         )
 
     def validate(self) -> None:
