@@ -18,6 +18,10 @@ class AssessmentProfileService:
         latent = self.build_latent_profile(submission)
         subjects: dict[str, float] = {}
         constraints: dict[str, float | str | bool | list[str]] = {}
+        signals = {key: estimate.value for key, estimate in latent.signals.items()}
+        for key in ("mathematics", "physical_science", "life_science", "language", "social_science", "economics", "technology", "arts", "practical"):
+            if key in signals:
+                subjects[key] = signals[key]
         for answer in submission.answers:
             question = next(item for item in QUESTIONS_V1 if item.question_id == answer.question_id)
             for option in question.options:
@@ -46,7 +50,7 @@ class AssessmentProfileService:
                 **{key: value.value for key, value in latent.environment.items()},
                 **{key: value.value for key, value in latent.work_style.items()},
             },
-            learning={key: value.value for key, value in latent.learning.items()},
+            learning={key: value.value for key, value in latent.learning.items()} | {key: value for key, value in signals.items() if key in {"project_learning", "imitation_learning", "theoretical_learning", "social_learning", "iterative_learning", "structured_learning"}},
             trajectory={key: value.value for key, value in latent.learning.items() if key == "persistence"},
             constraints=constraints,
         )
