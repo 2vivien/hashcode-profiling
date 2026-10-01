@@ -1,6 +1,8 @@
 from collections.abc import Sequence
 
 import numpy as np
+
+
 class LGBMRanker:
     def __init__(
         self,
