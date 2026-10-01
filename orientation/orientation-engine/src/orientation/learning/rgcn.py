@@ -144,9 +144,7 @@ class RGCNModel:
                     gradient_relations[relation] += np.outer(
                         features[source], gradient_pre[target]
                     ) / max(counts[target], 1.0)
-                gradient_relations[relation] += (
-                    self.config.l2 * relation_weights[relation]
-                )
+                gradient_relations[relation] += self.config.l2 * relation_weights[relation]
 
             relation_weights -= self.config.learning_rate * gradient_relations
             self_weight -= self.config.learning_rate * gradient_self
