@@ -45,10 +45,7 @@ class TwoPLCAT:
         self.min_items = min_items
 
     def _total_information(self, theta: float, administered: list[int]) -> float:
-        values = [
-            item_information(theta, float(self.a[i]), float(self.b[i]))
-            for i in administered
-        ]
+        values = [item_information(theta, float(self.a[i]), float(self.b[i])) for i in administered]
         return float(sum(values))
 
     def run(self, response_provider: Callable[[str], float]) -> CATResult:
