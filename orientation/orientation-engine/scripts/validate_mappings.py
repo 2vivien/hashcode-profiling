@@ -11,8 +11,13 @@ def main() -> None:
     if not isinstance(records, list):
         raise ValueError("mapping file must contain an array")
     required = {
-        "source_id", "target_id", "relation", "confidence",
-        "source", "review_status", "version",
+        "source_id",
+        "target_id",
+        "relation",
+        "confidence",
+        "source",
+        "review_status",
+        "version",
     }
     for index, record in enumerate(records):
         if not required.issubset(record):
