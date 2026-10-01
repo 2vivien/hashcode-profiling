@@ -47,4 +47,3 @@ packages = ["orientation"]
 pythonpath = ["src"]
 testpaths = ["tests"]
 
-# Strict optional-dependency stubs are kept outside the production package.
