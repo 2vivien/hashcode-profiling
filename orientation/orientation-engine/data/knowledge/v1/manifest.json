@@ -8,7 +8,7 @@
     "normalized dimensions in [0,1]",
     "unknown data is not zero"
   ],
-  "hash": "sha256:directions.json",
+  "sha256": "",
   "item_counts": {
     "directions": 12,
     "occupations": 0,

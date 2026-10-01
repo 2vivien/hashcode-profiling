@@ -1,0 +1,21 @@
+{
+  "esco": {
+    "version": "1.2.1",
+    "release_date": "2025-12-10",
+    "download_page": "https://esco.ec.europa.eu/en/use-esco/download",
+    "local_api_page": "https://esco.ec.europa.eu/en/use-esco/use-esco-services-api/esco-local-api",
+    "formats": ["csv", "ods", "rdf", "ttl", "xml", "json-ld"]
+  },
+  "onet": {
+    "version": "31.0",
+    "release_date": "2026-08",
+    "release_page": "https://www.onetcenter.org/db_releases.html",
+    "formats": ["csv", "json", "sql", "rdf"]
+  },
+  "policy": {
+    "downloaded_files_are_external_artifacts": true,
+    "store_release_metadata": true,
+    "store_sha256": true,
+    "review_local_mappings": true
+  }
+}

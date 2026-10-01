@@ -1,0 +1,7 @@
+# Optional V2-V4 runtime dependencies.
+# V1 remains reproducible with pyproject.toml + uv.lock.
+sentence-transformers>=5,<6
+lightgbm>=4.6,<5
+joblib>=1.4,<2
+# V5 R-GCN is implemented with the NumPy runtime.
+# PyTorch/PyG can be evaluated later for larger graph workloads after benchmark evidence.

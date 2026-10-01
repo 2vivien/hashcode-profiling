@@ -23,6 +23,9 @@ class StudentProfile(BaseModel):
     abilities: dict[str, float] = Field(default_factory=dict)
     values: dict[str, float] = Field(default_factory=dict)
     subjects: dict[str, float] = Field(default_factory=dict)
+    self_efficacy: dict[str, float] = Field(default_factory=dict)
+    adaptability: dict[str, float] = Field(default_factory=dict)
+    environment: dict[str, float] = Field(default_factory=dict)
     skills: list[StudentSkill] = Field(default_factory=list)
     trajectory: dict[str, float] = Field(default_factory=dict)
     constraints: dict[str, str | float | bool | list[str] | DataState] = Field(default_factory=dict)
@@ -31,7 +34,17 @@ class StudentProfile(BaseModel):
 
     @model_validator(mode="after")
     def validate_dimensions(self) -> "StudentProfile":
-        for name in ("interests", "abilities", "values", "subjects", "trajectory"):
+        dimensions = (
+            "interests",
+            "abilities",
+            "values",
+            "subjects",
+            "self_efficacy",
+            "adaptability",
+            "environment",
+            "trajectory",
+        )
+        for name in dimensions:
             values = getattr(self, name)
             if any(value < 0 or value > 1 for value in values.values()):
                 raise ValueError(f"{name} values must be normalized to [0,1]")
