@@ -1,5 +1,5 @@
 from orientation.assessment_v1.engine import AssessmentV1Engine
-from orientation.assessment_v1.models import AssessmentSubmission, LatentProfile
+from orientation.assessment_v1.models import AssessmentSubmission, LatentProfile, Question
 from orientation.assessment_v1.question_bank import QUESTIONS_V1
 from orientation.contracts.profile import StudentProfile
 
@@ -8,7 +8,7 @@ class AssessmentProfileService:
     def __init__(self) -> None:
         self.engine = AssessmentV1Engine()
 
-    def questions(self):
+    def questions(self) -> tuple[Question, ...]:
         return QUESTIONS_V1
 
     def build_latent_profile(self, submission: AssessmentSubmission) -> LatentProfile:
@@ -30,6 +30,10 @@ class AssessmentProfileService:
         return StudentProfile(
             student_id=submission.student_id,
             profile_version=latent.profile_version,
+            questionnaire_version=latent.questionnaire_version,
+            assessment_confidence=latent.profile_confidence,
+            riasec_entropy=latent.riasec_entropy,
+            contradictions=latent.contradictions,
             interests={key: value.value for key, value in latent.riasec.items()},
             abilities={key: value.value for key, value in latent.abilities.items()},
             values={key: value.value for key, value in latent.values.items()},
