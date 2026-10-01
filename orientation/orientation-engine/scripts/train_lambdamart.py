@@ -29,20 +29,53 @@ def grouped_temporal_split(
     rows: list[dict[str, object]],
     validation_fraction: float,
 ) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    """Create a strict temporal holdout with disjoint students."""
     if not 0 < validation_fraction < 0.5:
         raise ValueError("validation_fraction must be in (0, 0.5)")
+
     latest_by_student: dict[str, datetime] = {}
-    for row in rows:
+    timestamps: dict[int, datetime] = {}
+    for index, row in enumerate(rows):
         student = str(row["student_id"])
         timestamp = datetime.fromisoformat(str(row["timestamp"]).replace("Z", "+00:00"))
         latest_by_student[student] = max(latest_by_student.get(student, timestamp), timestamp)
-    ordered_students = sorted(latest_by_student, key=latest_by_student.get)
-    split = max(1, int(len(ordered_students) * (1.0 - validation_fraction)))
-    train_students = set(ordered_students[:split])
-    train = [row for row in rows if str(row["student_id"]) in train_students]
-    validation = [row for row in rows if str(row["student_id"]) not in train_students]
-    if not validation:
-        raise ValueError("validation split is empty")
+        timestamps[index] = timestamp
+
+    ordered_students = sorted(
+        latest_by_student,
+        key=lambda student: (latest_by_student[student], student),
+    )
+    validation_count = max(1, int(np.ceil(len(ordered_students) * validation_fraction)))
+    validation_students = set(ordered_students[-validation_count:])
+    train_students = set(ordered_students[:-validation_count])
+    if not train_students or not validation_students:
+        raise ValueError("temporal split requires train and validation student cohorts")
+
+    cutoff = min(latest_by_student[student] for student in validation_students)
+    train = [
+        row
+        for index, row in enumerate(rows)
+        if str(row["student_id"]) in train_students and timestamps[index] < cutoff
+    ]
+    validation = [
+        row
+        for index, row in enumerate(rows)
+        if str(row["student_id"]) in validation_students and timestamps[index] >= cutoff
+    ]
+    if not train or not validation:
+        raise ValueError("temporal split produced an empty train or validation set")
+
+    train_ids = {str(row["student_id"]) for row in train}
+    validation_ids = {str(row["student_id"]) for row in validation}
+    if train_ids & validation_ids:
+        raise RuntimeError("temporal split leaked students across train and validation")
+
+    train_max = max(timestamps[index] for index, row in enumerate(rows) if row in train)
+    validation_min = min(
+        timestamps[index] for index, row in enumerate(rows) if row in validation
+    )
+    if train_max >= validation_min:
+        raise RuntimeError("temporal split leaked future observations into training")
     return train, validation
 
 
@@ -54,7 +87,7 @@ def matrix(
     names = feature_names or inferred_names
     ordered = sorted(rows, key=lambda row: (str(row["student_id"]), str(row["timestamp"])))
     x = np.asarray(
-        [[float(dict(row["features"])[name]) for name in feature_names] for row in ordered],
+        [[float(dict(row["features"])[name]) for name in names] for row in ordered],
         dtype=np.float64,
     )
     y = np.asarray([float(row["label"]) for row in ordered], dtype=np.float64)
@@ -121,7 +154,9 @@ def main() -> None:
         "train_rows": len(train_rows),
         "validation_rows": len(validation_rows),
         "features": feature_names,
+        "train_students": len({str(row["student_id"]) for row in train_rows}),
         "validation_students": len({str(row["student_id"]) for row in validation_rows}),
+        "temporal_split": "strict_timestamp_and_student_disjoint",
         **metrics,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
