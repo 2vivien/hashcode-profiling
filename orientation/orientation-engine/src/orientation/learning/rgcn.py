@@ -42,9 +42,7 @@ class RGCNModel:
         labels: np.ndarray,
     ) -> None:
         if features.ndim != 2 or edges.ndim != 2 or edges.shape[0] != 2:
-            raise ValueError(
-                "features must be [nodes, features] and edges must be [2, edges]"
-            )
+            raise ValueError("features must be [nodes, features] and edges must be [2, edges]")
         if len(relations) != edges.shape[1] or len(labels) != len(features):
             raise ValueError("graph arrays must align")
         if len(relations) and np.min(relations) < 0:
