@@ -1,0 +1,10 @@
+{
+  "modelId": "semantic-multilingual-v2",
+  "type": "semantic-retrieval",
+  "version": "v2",
+  "trainingRequired": false,
+  "deterministic": true,
+  "status": "candidate",
+  "knowledgeVersion": "external-snapshot",
+  "featureSchemaVersion": "semantic-v1"
+}

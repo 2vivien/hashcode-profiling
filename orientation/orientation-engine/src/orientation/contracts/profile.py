@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from orientation.contracts.common import DataState, Observation
+from orientation.contracts.common import DataState, Observation, SourceType
 
 
 class StudentSkill(BaseModel):
@@ -11,7 +11,7 @@ class StudentSkill(BaseModel):
     level: float = Field(ge=0, le=1)
     confidence: float = Field(ge=0, le=1)
     source: str
-    status: str
+    status: SourceType
     observed_at: datetime | None = None
 
 

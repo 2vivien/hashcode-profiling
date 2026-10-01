@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class Direction(BaseModel):
@@ -21,3 +21,24 @@ class Direction(BaseModel):
     requirements: dict[str, str | float | bool] = Field(default_factory=dict)
     accessibility: dict[str, str | float | bool] = Field(default_factory=dict)
     knowledge_version: str = "v1"
+
+    @model_validator(mode="after")
+    def validate_match_dimensions(self) -> "Direction":
+        dimensions = (
+            "interests",
+            "abilities",
+            "skills",
+            "subjects",
+            "values",
+            "self_efficacy",
+            "adaptability",
+            "environment",
+            "trajectory",
+        )
+        for name in dimensions:
+            values = getattr(self, name)
+            if any(value < 0 or value > 1 for value in values.values()):
+                raise ValueError(f"{name} values must be normalized to [0,1]")
+        if not self.direction_id.strip() or not self.canonical_name.strip():
+            raise ValueError("direction_id and canonical_name are required")
+        return self

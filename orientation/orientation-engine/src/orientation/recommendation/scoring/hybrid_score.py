@@ -7,9 +7,12 @@ class HybridScorer:
         self.config = config
 
     @staticmethod
-    def _weighted_score(matches: dict[str, MatchResult], key: str, weight: float) -> float:
-        match = matches[key]
-        return weight * match.score * match.confidence
+    def _weighted_score(
+        match: MatchResult,
+        weight: float,
+    ) -> tuple[float, float]:
+        effective_weight = weight * match.confidence
+        return effective_weight * match.score, effective_weight
 
     def score(
         self,
@@ -18,6 +21,11 @@ class HybridScorer:
         semantic_fit: float = 0.0,
         graph_fit: float = 0.0,
     ) -> ScoreBreakdown:
+        if not 0.0 <= skill_gap_penalty <= 1.0:
+            raise ValueError("skill_gap_penalty must be in [0,1]")
+        if not 0.0 <= semantic_fit <= 1.0 or not 0.0 <= graph_fit <= 1.0:
+            raise ValueError("semantic_fit and graph_fit must be in [0,1]")
+
         w = self.config.weights
         keys = (
             "interest",
@@ -31,28 +39,39 @@ class HybridScorer:
             "trajectory",
         )
         weights = dict(zip(keys, w.positive, strict=True))
-        available = [(key, weights[key]) for key in keys if key in matches]
-        if not available:
+        observed = [key for key in keys if key in matches]
+        if not observed:
             raise ValueError("at least one matching dimension is required")
-        raw_score = sum(self._weighted_score(matches, key, weight) for key, weight in available)
-        raw = raw_score - w.skill_gap * skill_gap_penalty
-        denominator = max(sum(weight for _, weight in available), 1e-9)
-        compatibility = max(0.0, min(1.0, raw / denominator))
-        confidence = sum(matches[key].confidence for key, _ in available) / len(available)
+
+        weighted_sum = 0.0
+        effective_total = 0.0
+        for key in observed:
+            contribution, effective_weight = self._weighted_score(matches[key], weights[key])
+            weighted_sum += contribution
+            effective_total += effective_weight
+
+        # Missing evidence is uncertainty, not a zero-quality signal.
+        base_compatibility = weighted_sum / effective_total if effective_total > 0.0 else 0.5
+
+        total_positive_weight = max(sum(weights[key] for key in keys), 1e-9)
+        normalized_gap_penalty = w.skill_gap * skill_gap_penalty / total_positive_weight
+        compatibility = max(0.0, min(1.0, base_compatibility - normalized_gap_penalty))
+
+        confidence = sum(matches[key].confidence for key in observed) / len(observed)
         empty = MatchResult(score=0.0, confidence=0.0)
         return ScoreBreakdown(
-            interest_fit=matches["interest"].score,
-            ability_fit=matches["ability"].score,
-            skill_fit=matches["skill"].score,
-            value_fit=matches["value"].score,
-            subject_fit=matches["subject"].score,
+            interest_fit=matches.get("interest", empty).score,
+            ability_fit=matches.get("ability", empty).score,
+            skill_fit=matches.get("skill", empty).score,
+            value_fit=matches.get("value", empty).score,
+            subject_fit=matches.get("subject", empty).score,
             self_efficacy_fit=matches.get("self_efficacy", empty).score,
             adaptability_fit=matches.get("adaptability", empty).score,
             environment_fit=matches.get("environment", empty).score,
             trajectory_fit=matches.get("trajectory", empty).score,
-            semantic_fit=max(0.0, min(1.0, semantic_fit)),
-            graph_fit=max(0.0, min(1.0, graph_fit)),
-            skill_gap_penalty=max(0.0, min(1.0, skill_gap_penalty)),
+            semantic_fit=semantic_fit,
+            graph_fit=graph_fit,
+            skill_gap_penalty=skill_gap_penalty,
             confidence=confidence,
             compatibility=compatibility,
         )

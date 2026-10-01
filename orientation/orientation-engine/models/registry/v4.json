@@ -1,0 +1,10 @@
+{
+  "modelId": "linucb-exploration-v4",
+  "type": "contextual-bandit",
+  "version": "v4",
+  "trainingRequired": true,
+  "deterministic": false,
+  "status": "candidate",
+  "knowledgeVersion": "external-snapshot",
+  "featureSchemaVersion": "exploration-v1"
+}
