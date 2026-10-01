@@ -1,4 +1,4 @@
-from __future__ import annotations
+from __future__ import annotations  # noqa
 
 from datetime import datetime
 from typing import Literal
@@ -32,7 +32,7 @@ class Question(BaseModel):
     required: bool = True
 
     @model_validator(mode="after")
-    def validate_selection_bounds(self) -> "Question":
+    def validate_selection_bounds(self) -> Question:
         if self.min_selections > self.max_selections:
             raise ValueError("min_selections cannot exceed max_selections")
         if self.max_selections > len(self.options):
@@ -73,6 +73,7 @@ class LatentProfile(BaseModel):
     profile_version: str
     questionnaire_version: str
     riasec: dict[str, DimensionEstimate]
+    signals: dict[str, DimensionEstimate] = Field(default_factory=dict)
     abilities: dict[str, DimensionEstimate]
     values: dict[str, DimensionEstimate]
     work_style: dict[str, DimensionEstimate]

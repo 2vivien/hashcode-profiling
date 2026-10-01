@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from orientation.api.routes.assessments import router as assessments_router
 from orientation.api.routes.assessment_v1 import router as assessment_v1_router
+from orientation.api.routes.assessments import router as assessments_router
 from orientation.api.routes.feedback import router as feedback_router
 from orientation.api.routes.health import router as health_router
 from orientation.api.routes.knowledge import router as knowledge_router
