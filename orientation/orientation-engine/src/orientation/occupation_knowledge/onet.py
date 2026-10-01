@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import csv
 from collections import defaultdict
-from pathlib import Path
 from collections.abc import Iterable
+from pathlib import Path
 
 from orientation.occupation_knowledge.models import OccupationRecord
 
