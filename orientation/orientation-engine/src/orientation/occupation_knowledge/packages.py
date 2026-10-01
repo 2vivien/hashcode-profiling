@@ -10,16 +10,18 @@ from orientation.occupation_knowledge.models import OccupationRecord
 from orientation.occupation_knowledge.taxonomy import major_group
 
 
-def _csv_from_zip(archive: zipfile.ZipFile, suffix: str) -> list[dict[str, str]]:
+def _csv_from_zip(archive: zipfile.ZipFile, suffix: str, *, delimiter: str = ",") -> list[dict[str, str]]:
     names = [name for name in archive.namelist() if name.lower().endswith(suffix.lower())]
     if not names:
         return []
     with archive.open(names[0]) as raw:
-        return list(csv.DictReader(io.TextIOWrapper(raw, encoding="utf-8-sig")))
+        return list(csv.DictReader(io.TextIOWrapper(raw, encoding="utf-8-sig"), delimiter=delimiter))
 
 
 def read_esco_zip(path: Path, version: str = "v1.2.1", language: str = "en") -> list[OccupationRecord]:
-    """Read an official ESCO language package without committing upstream data."""
+    """Read ESCO occupations and preserve essential/optional skill relations."""
+    if version != "v1.2.1":
+        raise ValueError(f"unsupported_esco_version:{version}")
     with zipfile.ZipFile(path) as archive:
         occupations = _csv_from_zip(archive, f"occupations_{language}.csv")
         relations = _csv_from_zip(archive, "occupationSkillRelations.csv")
@@ -30,12 +32,20 @@ def read_esco_zip(path: Path, version: str = "v1.2.1", language: str = "en") -> 
         for row in skills
         if row.get("conceptUri") and row.get("preferredLabel")
     }
-    related: dict[str, list[str]] = defaultdict(list)
+    skill_ids: dict[str, set[str]] = defaultdict(set)
+    essential: dict[str, set[str]] = defaultdict(set)
+    optional: dict[str, set[str]] = defaultdict(set)
     for row in relations:
         occupation_uri = row.get("occupationUri", "").strip()
         skill_uri = row.get("skillUri", "").strip()
-        if occupation_uri and skill_uri and skill_titles.get(skill_uri):
-            related[occupation_uri].append(skill_titles[skill_uri])
+        relation_type = row.get("relationType", "").strip().casefold()
+        if not occupation_uri or not skill_uri:
+            continue
+        skill_ids[occupation_uri].add(skill_uri)
+        if relation_type == "essential":
+            essential[occupation_uri].add(skill_uri)
+        elif relation_type == "optional":
+            optional[occupation_uri].add(skill_uri)
 
     records: list[OccupationRecord] = []
     for row in occupations:
@@ -45,7 +55,7 @@ def read_esco_zip(path: Path, version: str = "v1.2.1", language: str = "en") -> 
             continue
         code = row.get("iscoGroup", "").strip() or row.get("iscoCode", "").strip()
         group = major_group(code)
-        skills_for_occupation = tuple(sorted(set(related.get(uri, []))))
+        skills_for_occupation = tuple(sorted(skill_ids.get(uri, set())))
         records.append(
             OccupationRecord(
                 occupation_id=f"esco:{uri}",
@@ -53,44 +63,17 @@ def read_esco_zip(path: Path, version: str = "v1.2.1", language: str = "en") -> 
                 source_version=version,
                 title=title,
                 description=row.get("description", "").strip(),
-                aliases=tuple(
-                    value.strip()
-                    for value in row.get("altLabels", "").split("|")
-                    if value.strip()
-                ),
+                aliases=tuple(value.strip() for value in row.get("altLabels", "").split("|") if value.strip()),
+                esco_uri=uri,
                 isco08_code=code or None,
                 isco_major_group=group.code if group else None,
                 domains=(group.name_fr,) if group else (),
                 skill_ids=skills_for_occupation,
+                skill_labels={skill_id: skill_titles[skill_id] for skill_id in skills_for_occupation if skill_id in skill_titles},
+                essential_skill_ids=tuple(sorted(essential.get(uri, set()))),
+                optional_skill_ids=tuple(sorted(optional.get(uri, set()))),
                 evidence_count=len(skills_for_occupation),
-                data_completeness=min(1.0, 0.35 + len(skills_for_occupation) / 20.0),
-            )
-        )
-    return records
-
-
-def read_onet_zip(path: Path, version: str = "31.0") -> list[OccupationRecord]:
-    """Read the official O*NET tabular archive without committing upstream data."""
-    with zipfile.ZipFile(path) as archive:
-        rows = _csv_from_zip(archive, "Occupation Data.txt")
-        if not rows:
-            rows = _csv_from_zip(archive, "Occupation Data.csv")
-
-    records: list[OccupationRecord] = []
-    for row in rows:
-        code = row.get("O*NET-SOC Code", "").strip()
-        title = row.get("Title", "").strip()
-        if not code or not title:
-            continue
-        records.append(
-            OccupationRecord(
-                occupation_id=f"onet:{code}",
-                source="onet",
-                source_version=version,
-                title=title,
-                description=row.get("Description", "").strip(),
-                evidence_count=1,
-                data_completeness=0.25,
+                data_completeness=min(1.0, 0.40 + len(skills_for_occupation) / 24.0),
             )
         )
     return records
