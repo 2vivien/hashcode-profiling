@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
+from zipfile import ZipFile
 
 from orientation.occupation_knowledge.models import OccupationRecord
 from orientation.occupation_knowledge.onet_package import read_onet_zip
@@ -35,6 +37,16 @@ def _merge(esco: OccupationRecord, onet: OccupationRecord) -> OccupationRecord:
     )
 
 
+def _validate_archive(path: Path, required_suffixes: tuple[str, ...]) -> None:
+    if not path.is_file():
+        raise FileNotFoundError(path)
+    with ZipFile(path) as archive:
+        names = tuple(name.lower() for name in archive.namelist())
+    missing = [suffix for suffix in required_suffixes if not any(name.endswith(suffix.lower()) for name in names)]
+    if missing:
+        raise ValueError(f"archive_missing_required_files:{path.name}:{missing}")
+
+
 def build_catalog(
     *,
     esco_zip: Path,
@@ -42,6 +54,8 @@ def build_catalog(
     output: Path,
     language: str = "en",
 ) -> int:
+    _validate_archive(esco_zip, (f"occupations_{language}.csv", "occupationSkillRelations.csv", f"skills_{language}.csv"))
+    _validate_archive(onet_zip, ("Occupation Data.txt",))
     esco = read_esco_zip(esco_zip, version="v1.2.1", language=language)
     onet = read_onet_zip(onet_zip, version="31.0")
     onet_by_title = {item.title.casefold().strip(): item for item in onet}
