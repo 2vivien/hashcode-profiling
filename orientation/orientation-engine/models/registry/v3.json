@@ -1,0 +1,10 @@
+{
+  "modelId": "lambdamart-ranking-v3",
+  "type": "learning-to-rank",
+  "version": "v3",
+  "trainingRequired": true,
+  "deterministic": true,
+  "status": "candidate",
+  "knowledgeVersion": "external-snapshot",
+  "featureSchemaVersion": "ranking-v1"
+}
