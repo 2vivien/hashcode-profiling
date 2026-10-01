@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import csv
-from pathlib import Path
 from collections.abc import Iterable
+from pathlib import Path
 
 from orientation.occupation_knowledge.models import OccupationRecord
 from orientation.occupation_knowledge.taxonomy import major_group
