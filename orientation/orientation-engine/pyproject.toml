@@ -33,13 +33,11 @@ packages = ["src/orientation"]
 [tool.ruff]
 target-version = "py312"
 line-length = 100
+exclude = ["src/**/*.pyi"]
 
 [tool.ruff.lint]
 select = ["E","F","I","B","UP","SIM","RUF"]
 ignore = ["B008"]
-
-[tool.ruff.lint.per-file-ignores]
-"src/**/*.pyi" = ["I001"]
 
 [tool.mypy]
 python_version = "3.12"
