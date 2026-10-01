@@ -7,7 +7,6 @@ from collections import defaultdict
 from pathlib import Path
 
 from orientation.occupation_knowledge.models import OccupationRecord
-from orientation.occupation_knowledge.taxonomy import major_group
 
 
 def _open_rows(archive: zipfile.ZipFile, suffixes: tuple[str, ...]) -> list[dict[str, str]]:
