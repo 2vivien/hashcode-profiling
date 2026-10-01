@@ -13,7 +13,7 @@ class ScoreWeights:
     ability: float = 0.14
     skill: float = 0.16
     value: float = 0.10
-    environment: float = 0.10
+    environment: float = 0.08
     work_style: float = 0.08
     self_efficacy: float = 0.08
     learning: float = 0.05
@@ -76,10 +76,12 @@ class OccupationScorer:
         occupation_skills = occupation.skills or {
             skill: 1.0 for skill in occupation.essential_skill_ids + occupation.optional_skill_ids
         }
+        subject_evidence = occupation.knowledge or occupation.work_activities
         components = (
             ScoreComponent("interest", _cosine(profile.interests, occupation.riasec), self.weights["interest"]),
             ScoreComponent("ability", _cosine(profile.abilities, occupation.abilities), self.weights["ability"]),
             ScoreComponent("skill", _overlap(profile_skills, occupation_skills), self.weights["skill"]),
+            ScoreComponent("subject", _cosine(profile.subjects, subject_evidence), 0.08),
             ScoreComponent("value", _cosine(profile.values, occupation.values), self.weights["value"]),
             ScoreComponent("environment", _cosine(profile.environment, occupation.environment), self.weights["environment"]),
             ScoreComponent(
@@ -100,7 +102,7 @@ class OccupationScorer:
             ScoreComponent("knowledge", _cosine(profile.subjects, occupation.knowledge), self.weights["knowledge"]),
             ScoreComponent("evidence", occupation.data_completeness, self.weights["evidence"]),
         )
-        raw = sum(component.score * component.weight for component in components)
+        raw = sum(component.score * component.weight for component in components) / (sum(component.weight for component in components) or 1.0)
         evidence = min(1.0, occupation.data_completeness * 0.75 + min(1.0, occupation.evidence_count / 20.0) * 0.25)
         confidence = max(0.0, min(1.0, 0.60 * profile.assessment_confidence + 0.40 * evidence))
         score = max(0.0, min(100.0, raw * 100.0))
@@ -129,6 +131,11 @@ class OccupationScorer:
             else "exploration"
         )
         uncertainty = 1.0 - confidence
+        experiences = ["réaliser un mini-projet représentatif", "faire un quiz court sur les connaissances fondamentales"]
+        if components[0].score < 0.60:
+            experiences.append("tester une activité réelle représentative de la direction")
+        if components[5].score < 0.60:
+            experiences.append("observer le contexte de travail réel via une immersion ou un échange")
         return OccupationMatch(
             occupation_id=occupation.occupation_id,
             title=occupation.title,
@@ -142,9 +149,12 @@ class OccupationScorer:
             components=components,
             reasons=reasons,
             gaps=tuple(gaps),
+            experiences=tuple(dict.fromkeys(experiences)),
             experiences=_experiences(profile, occupation),
             related_occupation_ids=occupation.related_occupation_ids,
             evidence_count=occupation.evidence_count,
+            related_occupation_ids=occupation.related_occupation_ids,
+            provenance=occupation.provenance,
         )
 
     def rank(self, profile: StudentProfile, occupations: list[OccupationRecord], limit: int = 20) -> list[OccupationMatch]:
