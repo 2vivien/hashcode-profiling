@@ -3,12 +3,11 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from orientation.psychometrics.estimation import estimate_trait
+from orientation.psychometrics.estimation import estimate_trait, item_information
 from orientation.psychometrics.irt import (
     estimate_mirt,
     fisher_information_2pl,
     information_mirt,
-    item_information,
     standard_error_from_information,
 )
 
