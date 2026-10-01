@@ -71,9 +71,7 @@ def grouped_temporal_split(
         raise RuntimeError("temporal split leaked students across train and validation")
 
     train_max = max(timestamps[index] for index, row in enumerate(rows) if row in train)
-    validation_min = min(
-        timestamps[index] for index, row in enumerate(rows) if row in validation
-    )
+    validation_min = min(timestamps[index] for index, row in enumerate(rows) if row in validation)
     if train_max >= validation_min:
         raise RuntimeError("temporal split leaked future observations into training")
     return train, validation
