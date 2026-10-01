@@ -7,13 +7,11 @@ from statistics import fmean, pstdev
 from orientation.assessment_v1.models import (
     AdaptivePair,
     AdaptiveQuestionRequest,
-    Answer,
     AssessmentSubmission,
     DimensionEstimate,
     LatentProfile,
 )
 from orientation.assessment_v1.question_bank import QUESTION_BY_ID
-
 
 RIASEC = ("realistic", "investigative", "artistic", "social", "enterprising", "conventional")
 
@@ -24,11 +22,10 @@ def _sigmoid(value: float) -> float:
 
 
 def _normalized_entropy(values: list[float]) -> float:
-    total = sum(max(value, 0.0) for value in values)
-    if total <= 0.0:
-        return 0.0
-    probabilities = [max(value, 0.0) / total for value in values]
-    entropy = -sum(p * math.log(p) for p in probabilities if p > 0.0)
+    positive = [max(value, 1e-9) for value in values]
+    total = sum(positive)
+    probabilities = [value / total for value in positive]
+    entropy = -sum(p * math.log(p) for p in probabilities)
     return entropy / math.log(len(probabilities))
 
 
@@ -37,7 +34,7 @@ def _estimate(raw_values: list[float], confidence_values: list[float]) -> Dimens
         return DimensionEstimate(value=0.5, confidence=0.0, raw_mean=0.0, z_score=0.0, evidence_count=0)
     mean = fmean(raw_values)
     scale = pstdev(raw_values) if len(raw_values) > 1 else 0.5
-    z = (mean - 0.0) / max(scale, 0.5)
+    z = mean / max(scale, 0.5)
     return DimensionEstimate(
         value=_sigmoid(z),
         confidence=max(0.0, min(1.0, fmean(confidence_values))),
@@ -60,7 +57,7 @@ class AssessmentV1Engine:
             if answer.question_id in seen:
                 raise ValueError(f"duplicate_answer:{answer.question_id}")
             seen.add(answer.question_id)
-            if not (question.min_selections <= len(answer.option_ids) <= question.max_selections):
+            if not question.min_selections <= len(answer.option_ids) <= question.max_selections:
                 raise ValueError(f"invalid_selection_count:{answer.question_id}")
             valid = {option.option_id for option in question.options}
             if not set(answer.option_ids).issubset(valid):
@@ -86,6 +83,18 @@ class AssessmentV1Engine:
             return {name: _estimate(raw[name], conf[name]) for name in names}
 
         riasec = group(RIASEC)
+        # Intra-person RIASEC z-scores are computed across the six interests, not across respondents.
+        riasec_means = [estimate.raw_mean for estimate in riasec.values()]
+        riasec_scale = max(pstdev(riasec_means), 0.5)
+        riasec = {
+            name: estimate.model_copy(
+                update={
+                    "z_score": estimate.raw_mean / riasec_scale,
+                    "value": _sigmoid(estimate.raw_mean / riasec_scale),
+                }
+            )
+            for name, estimate in riasec.items()
+        }
         abilities = group(("numerical", "verbal", "logical", "technical_learning", "problem_solving", "communication"))
         values = group(("income", "stability", "autonomy", "impact", "creativity", "recognition", "learning", "balance", "mobility", "entrepreneurship"))
         work_style = group(("structure_preference", "teamwork", "autonomy"))
@@ -145,18 +154,15 @@ class AssessmentV1Engine:
         if profile.profile_confidence >= 0.65 or request.maximum_questions == 0:
             return ()
         answered = set(request.answered_question_ids)
-        candidates: list[AdaptivePair] = []
         pairs = (
-            ("adaptive_ri", "RIASEC — analyse ou créer ?", "investigative", "artistic", 0.95),
-            ("adaptive_rs", "RIASEC — construire ou aider ?", "realistic", "social", 0.90),
-            ("adaptive_ec", "RIASEC — entreprendre ou organiser ?", "enterprising", "conventional", 0.85),
-            ("adaptive_ia", "Intérêt — comprendre ou créer ?", "investigative", "artistic", 0.80),
-            ("adaptive_se", "Style — collaborer ou agir en autonomie ?", "social", "enterprising", 0.75),
+            ("adaptive_ri", "investigative", "artistic", 0.95),
+            ("adaptive_rs", "realistic", "social", 0.90),
+            ("adaptive_ec", "enterprising", "conventional", 0.85),
+            ("adaptive_ia", "investigative", "artistic", 0.80),
+            ("adaptive_se", "social", "enterprising", 0.75),
         )
-        for question_id, _label, a, b, gain in pairs:
-            if question_id not in answered:
-                candidates.append(AdaptivePair(question_id=question_id, dimension=f"{a}:{b}", option_a=a, option_b=b, information_gain=gain))
-        return tuple(sorted(candidates, key=lambda item: (-item.information_gain, item.question_id))[: request.maximum_questions])
-
-
-__all__ = ["AssessmentV1Engine"]
+        candidates = [
+            AdaptivePair(question_id=qid, dimension=f"{a}:{b}", option_a=a, option_b=b, information_gain=gain)
+            for qid, a, b, gain in pairs if qid not in answered
+        ]
+        return tuple(sorted(candidates, key=lambda item: (-item.information_gain, item.question_id))[:request.maximum_questions])
