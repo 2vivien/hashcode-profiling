@@ -63,7 +63,8 @@ class NumpyVectorIndex:
             metadata = json.loads(str(payload["metadata"].item()))
         if stored_version != self.index_version:
             raise ValueError(
-                f"vector index version mismatch: expected {self.index_version}, got {stored_version}"
+                "vector index version mismatch: "
+                f"expected {self.index_version}, got {stored_version}"
             )
         if not isinstance(metadata, dict) or not all(
             isinstance(key, str) and isinstance(value, str)
