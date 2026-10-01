@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from orientation.contracts.profile import Observation, StudentProfile
+from orientation.contracts.common import Observation\nfrom orientation.contracts.profile import StudentProfile
 
 
 def incorporate_observations(profile: StudentProfile) -> StudentProfile:
