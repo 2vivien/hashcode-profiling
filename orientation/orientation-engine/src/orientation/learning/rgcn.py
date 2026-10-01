@@ -55,9 +55,7 @@ class RGCNModel:
             raise ValueError("relation ids must be non-negative")
         if len(labels) and np.min(labels) < 0:
             raise ValueError("labels must be non-negative")
-        if edges.shape[1] and (
-            np.max(edges) >= len(features) or np.min(edges) < 0
-        ):
+        if edges.shape[1] and (np.max(edges) >= len(features) or np.min(edges) < 0):
             raise ValueError("edge node ids are outside the feature matrix")
 
     def _aggregate(
