@@ -69,7 +69,11 @@ def reciprocal_rank(
 
 def ndcg_at_k(relevance: np.ndarray, scores: np.ndarray, k: int = 5) -> float:
     _validate(relevance, scores, k)
-    return float(np.mean([
-        ndcg_score(relevance[i:i + 1], scores[i:i + 1], k=k)
-        for i in range(len(relevance))
-    ]))
+    return float(
+        np.mean(
+            [
+                ndcg_score(relevance[i : i + 1], scores[i : i + 1], k=k)
+                for i in range(len(relevance))
+            ]
+        )
+    )
