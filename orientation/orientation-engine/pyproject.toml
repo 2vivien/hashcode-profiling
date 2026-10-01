@@ -38,6 +38,9 @@ line-length = 100
 select = ["E","F","I","B","UP","SIM","RUF"]
 ignore = ["B008"]
 
+[tool.ruff.lint.per-file-ignores]
+"src/**/*.pyi" = ["I001"]
+
 [tool.mypy]
 python_version = "3.12"
 strict = true
