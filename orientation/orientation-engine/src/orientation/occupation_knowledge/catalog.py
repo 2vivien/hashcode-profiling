@@ -13,7 +13,7 @@ class OccupationCatalog:
         self.records = tuple(records)
 
     @classmethod
-    def from_jsonl(cls, path: Path) -> "OccupationCatalog":
+    def from_jsonl(cls, path: Path) -> OccupationCatalog:
         records: list[OccupationRecord] = []
         with path.open(encoding="utf-8") as handle:
             for line in handle:
