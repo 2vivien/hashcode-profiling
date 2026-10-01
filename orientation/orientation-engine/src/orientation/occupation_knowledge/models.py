@@ -38,6 +38,7 @@ class OccupationRecord(BaseModel):
     optional_skill_ids: tuple[str, ...] = ()
     task_terms: tuple[str, ...] = ()
     related_occupation_ids: tuple[str, ...] = ()
+    broader_occupation_ids: tuple[str, ...] = ()
     provenance: tuple[str, ...] = ()
     evidence_count: int = Field(default=0, ge=0)
     data_completeness: float = Field(default=0.0, ge=0, le=1)
