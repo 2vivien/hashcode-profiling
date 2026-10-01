@@ -35,8 +35,14 @@ class StudentProfile(BaseModel):
     @model_validator(mode="after")
     def validate_dimensions(self) -> "StudentProfile":
         dimensions = (
-            "interests", "abilities", "values", "subjects", "self_efficacy",
-            "adaptability", "environment", "trajectory"
+            "interests",
+            "abilities",
+            "values",
+            "subjects",
+            "self_efficacy",
+            "adaptability",
+            "environment",
+            "trajectory",
         )
         for name in dimensions:
             values = getattr(self, name)
