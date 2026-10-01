@@ -41,11 +41,7 @@ class DelimitedConceptReader:
             for row in csv.DictReader(handle, delimiter=delimiter):
                 external_id = self._first(row, self.id_columns)
                 label = self._first(row, self.label_columns)
-                concept_type = (
-                    self._first(row, self.type_columns)
-                    if self.type_columns
-                    else ""
-                )
+                concept_type = self._first(row, self.type_columns) if self.type_columns else ""
                 if external_id and label:
                     yield ExternalConcept(
                         source=self.source,
