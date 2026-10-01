@@ -25,8 +25,14 @@ class RGCNModel:
     @staticmethod
     def _softmax(logits: np.ndarray) -> np.ndarray:
         shifted = logits - np.max(logits, axis=1, keepdims=True)
-        exponentials = np.exp(np.clip(shifted, -40.0, 40.0))
-        return exponentials / np.sum(exponentials, axis=1, keepdims=True)
+        exponentials = np.asarray(
+            np.exp(np.clip(shifted, -40.0, 40.0)),
+            dtype=np.float64,
+        )
+        return np.asarray(
+            exponentials / np.sum(exponentials, axis=1, keepdims=True),
+            dtype=np.float64,
+        )
 
     @staticmethod
     def _validate(
@@ -54,7 +60,7 @@ class RGCNModel:
         weights: np.ndarray,
         self_weight: np.ndarray,
     ) -> np.ndarray:
-        hidden = features @ self_weight
+        hidden = np.asarray(features @ self_weight, dtype=np.float64)
         for relation in range(weights.shape[0]):
             mask = relations == relation
             relation_edges = edges[:, mask]
@@ -67,8 +73,10 @@ class RGCNModel:
             for edge_index in range(relation_edges.shape[1]):
                 source = int(relation_edges[0, edge_index])
                 target = int(relation_edges[1, edge_index])
-                hidden[target] += features[source] @ weights[relation] / max(counts[target], 1.0)
-        return hidden
+                hidden[target] += (
+                    features[source] @ weights[relation] / max(counts[target], 1.0)
+                )
+        return np.asarray(hidden, dtype=np.float64)
 
     def fit(
         self,
