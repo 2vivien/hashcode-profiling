@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import cast
 
 import numpy as np
 
@@ -49,9 +50,11 @@ class ScoreCalibrator:
         if self._model is None:
             raise RuntimeError("calibrator is not fitted")
         x = np.asarray(scores, dtype=np.float64)
-        if isinstance(self._model, LogisticRegression):
-            return np.asarray(self._model.predict_proba(x.reshape(-1, 1))[:, 1], dtype=np.float64)
-        return np.asarray(self._model.predict(x), dtype=np.float64)
+        if self.method == "sigmoid":
+            model = cast(LogisticRegression, self._model)
+            return np.asarray(model.predict_proba(x.reshape(-1, 1))[:, 1], dtype=np.float64)
+        model = cast(IsotonicRegression, self._model)
+        return np.asarray(model.predict(x), dtype=np.float64)
 
     def evaluate(self, scores: np.ndarray, labels: np.ndarray) -> CalibrationReport:
         y = np.asarray(labels, dtype=np.int64)
