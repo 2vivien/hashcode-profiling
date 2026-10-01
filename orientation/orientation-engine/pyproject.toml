@@ -40,7 +40,7 @@ ignore = ["B008"]
 [tool.mypy]
 python_version = "3.12"
 strict = true
-mypy_path = "src:stubs"
+mypy_path = "src"
 packages = ["orientation"]
 
 [tool.pytest.ini_options]
