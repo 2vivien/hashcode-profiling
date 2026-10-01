@@ -1,8 +1,13 @@
 from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Protocol, cast
 
 import numpy as np
+
+
+class _Ranker(Protocol):
+    def predict(self, X: np.ndarray) -> np.ndarray: ...
 
 
 @dataclass(frozen=True)
@@ -15,7 +20,7 @@ class RankingExample:
 
 class LambdaMARTModel:
     def __init__(self) -> None:
-        self.model: object | None = None
+        self.model: _Ranker | None = None
         self.feature_names: tuple[str, ...] = ()
 
     def fit(
@@ -38,7 +43,7 @@ class LambdaMARTModel:
             random_state=42,
         )
         model.fit(X, y, group=list(groups))
-        self.model = model
+        self.model = cast(_Ranker, model)
         self.feature_names = tuple(feature_names)
 
     def predict(self, X: np.ndarray) -> np.ndarray:
@@ -58,5 +63,13 @@ class LambdaMARTModel:
         from joblib import load
 
         payload = load(path)
-        self.model = payload["model"]
-        self.feature_names = tuple(payload["feature_names"])
+        if not isinstance(payload, dict) or "model" not in payload:
+            raise ValueError("invalid LambdaMART model artifact")
+        model = payload["model"]
+        if not hasattr(model, "predict"):
+            raise ValueError("model artifact does not expose predict")
+        self.model = cast(_Ranker, model)
+        feature_names = payload.get("feature_names", ())
+        if not isinstance(feature_names, tuple):
+            feature_names = tuple(feature_names)
+        self.feature_names = cast(tuple[str, ...], feature_names)
