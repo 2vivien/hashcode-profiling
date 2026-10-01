@@ -17,8 +17,15 @@ class ScoringWeights:
     @property
     def positive(self) -> tuple[float, ...]:
         return (
-            self.interest, self.ability, self.skill, self.value, self.subject,
-            self.self_efficacy, self.adaptability, self.environment, self.trajectory,
+            self.interest,
+            self.ability,
+            self.skill,
+            self.value,
+            self.subject,
+            self.self_efficacy,
+            self.adaptability,
+            self.environment,
+            self.trajectory,
         )
 
     def validate(self) -> None:
