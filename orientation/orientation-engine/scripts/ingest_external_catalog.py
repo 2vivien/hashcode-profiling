@@ -10,25 +10,34 @@ from orientation.infrastructure.knowledge.external_sources import (
 )
 
 
+def reader_for(source: str, path: Path) -> DelimitedConceptReader:
+    if source == "esco":
+        return esco_reader(path)
+    if source == "onet":
+        return onet_reader(path)
+    return local_reader(path, "othello-local")
+
+
 def main() -> None:
     parser = ArgumentParser(description="Build a versioned ESCO/O*NET/Otheloo knowledge snapshot.")
     parser.add_argument("--source", choices=("esco", "onet", "local"), required=True)
-    parser.add_argument("--input", type=Path, required=True)
+    parser.add_argument(
+        "--input",
+        type=Path,
+        action="append",
+        required=True,
+        help="Official export file; repeat for every ESCO/O*NET table to include.",
+    )
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--version", required=True)
     parser.add_argument("--delimiter", default=",")
-    parser.add_argument("--local-source", default="othello-local")
     args = parser.parse_args()
 
-    reader: DelimitedConceptReader
-    if args.source == "esco":
-        reader = esco_reader(args.input)
-    elif args.source == "onet":
-        reader = onet_reader(args.input)
-    else:
-        reader = local_reader(args.input, args.local_source)
+    concepts = []
+    for path in args.input:
+        concepts.extend(reader_for(args.source, path).read(args.delimiter))
 
-    digest = build_external_snapshot(args.version, reader.read(args.delimiter), args.output)
+    digest = build_external_snapshot(args.version, concepts, args.output)
     print(f"snapshot={args.output} sha256={digest}")
 
 
