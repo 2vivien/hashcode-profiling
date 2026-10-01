@@ -8,7 +8,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from orientation.contracts.profile import StudentProfile
 from orientation.occupation_knowledge.catalog import OccupationCatalog
-from orientation.occupation_knowledge.models import OccupationMatch
+from orientation.occupation_knowledge.models import DirectionExploration, OccupationMatch
 from orientation.occupation_knowledge.scoring import OccupationScorer
 
 router = APIRouter(tags=["occupation-v2"])
@@ -44,3 +44,17 @@ def recommend_occupations(request: OccupationRecommendationRequest) -> list[Occu
     if not records:
         raise HTTPException(status_code=404, detail="no_occupation_evidence")
     return OccupationScorer().rank(request.profile, records, request.limit)
+
+
+@router.post("/occupation-v2/discover", response_model=list[DirectionExploration])
+def discover_directions(request: OccupationRecommendationRequest) -> list[DirectionExploration]:
+    path = _catalog_path()
+    if not path.is_file():
+        raise HTTPException(status_code=503, detail="occupation_catalog_unavailable")
+    catalog = OccupationCatalog.from_jsonl(path)
+    records = list(catalog.records)
+    if request.major_group is not None:
+        records = [item for item in records if item.isco_major_group == request.major_group]
+    if not records:
+        raise HTTPException(status_code=404, detail="no_occupation_evidence")
+    return OccupationScorer().discover_directions(request.profile, records, min(request.limit, 20))
