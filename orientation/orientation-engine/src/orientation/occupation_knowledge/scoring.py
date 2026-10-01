@@ -220,6 +220,6 @@ class OccupationScorer:
                 and record.isco_major_group == previous.isco_major_group
             )
             shared = len(set(record.skill_ids) & set(previous.skill_ids))
-            if same_family and shared >= 3:
+            if same_family and (shared >= 3 or record.isco_major_group is not None):
                 return True
         return False
