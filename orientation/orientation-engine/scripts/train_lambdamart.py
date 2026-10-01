@@ -15,11 +15,8 @@ from orientation.learning.ranking import LambdaMARTModel
 
 
 def load_rows(path: Path) -> list[dict[str, object]]:
-    rows = [
-        json.loads(line)
-        for line in path.read_text(encoding="utf-8").splitlines()
-        if line.strip()
-    ]
+    lines = path.read_text(encoding="utf-8").splitlines()
+    rows = [json.loads(line) for line in lines if line.strip()]
     if not rows:
         raise ValueError("ranking dataset is empty")
     required = {"student_id", "direction_id", "timestamp", "features", "label"}
