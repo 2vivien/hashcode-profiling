@@ -69,4 +69,4 @@ def replay_match(logged_actions: np.ndarray, target_actions: np.ndarray) -> np.n
     target = np.asarray(target_actions)
     if logged.shape != target.shape:
         raise ValueError("actions must align")
-    return logged == target
+    return np.asarray(logged == target, dtype=bool)
