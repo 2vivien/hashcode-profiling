@@ -30,6 +30,7 @@ class StudentProfile(BaseModel):
     abilities: dict[str, float] = Field(default_factory=dict)
     values: dict[str, float] = Field(default_factory=dict)
     subjects: dict[str, float] = Field(default_factory=dict)
+    learning: dict[str, float] = Field(default_factory=dict)
     self_efficacy: dict[str, float] = Field(default_factory=dict)
     adaptability: dict[str, float] = Field(default_factory=dict)
     environment: dict[str, float] = Field(default_factory=dict)
@@ -43,7 +44,7 @@ class StudentProfile(BaseModel):
     @model_validator(mode="after")
     def validate_dimensions(self) -> "StudentProfile":
         dimensions = (
-            "interests", "abilities", "values", "subjects", "self_efficacy",
+            "interests", "abilities", "values", "subjects", "learning", "self_efficacy",
             "adaptability", "environment", "learning", "trajectory",
         )
         for name in dimensions:
