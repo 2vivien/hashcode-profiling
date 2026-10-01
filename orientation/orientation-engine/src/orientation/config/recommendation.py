@@ -6,7 +6,7 @@ from orientation.config.scoring import ScoringWeights
 @dataclass(frozen=True)
 class RecommendationConfig:
     top_k: int = 20
-    final_k: int = 8
+    final_k: int = 10
     diversification_lambda: float = 0.75
     minimum_evidence: int = 2
     weights: ScoringWeights = field(default_factory=ScoringWeights)
