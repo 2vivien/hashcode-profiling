@@ -1,14 +1,30 @@
+from __future__ import annotations
+
 from datetime import datetime
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from orientation.contracts.common import DataState, Observation, SourceType
+
+SourceType = Literal["self_report", "school", "behavior", "system"]
 
 
 class StudentSkill(BaseModel):
     model_config = ConfigDict(extra="forbid")
+
     skill_id: str
     level: float = Field(ge=0, le=1)
+    confidence: float = Field(ge=0, le=1)
+    source: str
+    status: SourceType
+    observed_at: datetime | None = None
+
+
+class Observation(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    dimension: str
+    value: float = Field(ge=0, le=1)
     confidence: float = Field(ge=0, le=1)
     source: str
     status: SourceType
@@ -30,17 +46,18 @@ class StudentProfile(BaseModel):
     self_efficacy: dict[str, float] = Field(default_factory=dict)
     adaptability: dict[str, float] = Field(default_factory=dict)
     environment: dict[str, float] = Field(default_factory=dict)
-    skills: list[StudentSkill] = Field(default_factory=list)
+    learning: dict[str, float] = Field(default_factory=dict)
     trajectory: dict[str, float] = Field(default_factory=dict)
     constraints: dict[str, str | float | bool | list[str] | DataState] = Field(default_factory=dict)
     observations: list[Observation] = Field(default_factory=list)
+    skills: list[StudentSkill] = Field(default_factory=list)
     generated_at: datetime | None = None
 
     @model_validator(mode="after")
     def validate_dimensions(self) -> "StudentProfile":
         dimensions = (
             "interests", "abilities", "values", "subjects", "self_efficacy",
-            "adaptability", "environment", "trajectory",
+            "adaptability", "environment", "learning", "trajectory",
         )
         for name in dimensions:
             values = getattr(self, name)
