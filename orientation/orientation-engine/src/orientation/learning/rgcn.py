@@ -67,10 +67,7 @@ class RGCNModel:
             for edge_index in range(relation_edges.shape[1]):
                 source = int(relation_edges[0, edge_index])
                 target = int(relation_edges[1, edge_index])
-                hidden[target] += (
-                    features[source] @ weights[relation]
-                    / max(counts[target], 1.0)
-                )
+                hidden[target] += features[source] @ weights[relation] / max(counts[target], 1.0)
         return hidden
 
     def fit(
@@ -130,10 +127,9 @@ class RGCNModel:
                 for edge_index in range(relation_edges.shape[1]):
                     source = int(relation_edges[0, edge_index])
                     target = int(relation_edges[1, edge_index])
-                    gradient_relations[relation] += (
-                        np.outer(features[source], gradient_pre[target])
-                        / max(counts[target], 1.0)
-                    )
+                    gradient_relations[relation] += np.outer(
+                        features[source], gradient_pre[target]
+                    ) / max(counts[target], 1.0)
                 gradient_relations[relation] += self.config.l2 * relation_weights[relation]
 
             relation_weights -= self.config.learning_rate * gradient_relations
@@ -167,9 +163,7 @@ class RGCNModel:
         assert self.output_weight is not None
         assert self.output_bias is not None
         hidden = np.maximum(
-            self._aggregate(
-                features, edges, relations, self.relation_weights, self.self_weight
-            ),
+            self._aggregate(features, edges, relations, self.relation_weights, self.self_weight),
             0.0,
         )
         return self._softmax(hidden @ self.output_weight + self.output_bias)
