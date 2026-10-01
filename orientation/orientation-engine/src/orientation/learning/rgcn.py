@@ -73,9 +73,7 @@ class RGCNModel:
             for edge_index in range(relation_edges.shape[1]):
                 source = int(relation_edges[0, edge_index])
                 target = int(relation_edges[1, edge_index])
-                hidden[target] += (
-                    features[source] @ weights[relation] / max(counts[target], 1.0)
-                )
+                hidden[target] += features[source] @ weights[relation] / max(counts[target], 1.0)
         return np.asarray(hidden, dtype=np.float64)
 
     def fit(
