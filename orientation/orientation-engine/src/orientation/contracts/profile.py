@@ -42,7 +42,7 @@ class StudentProfile(BaseModel):
     generated_at: datetime | None = None
 
     @model_validator(mode="after")
-    def validate_dimensions(self) -> "StudentProfile":
+    def validate_dimensions(self) -> StudentProfile:
         dimensions = (
             "interests", "abilities", "values", "subjects", "learning", "self_efficacy",
             "adaptability", "environment", "learning", "trajectory",
