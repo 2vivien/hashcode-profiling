@@ -78,6 +78,7 @@ def read_esco_zip(path: Path, version: str = "v1.2.1", language: str = "en") -> 
                 domains=(group.name_fr,) if group else (),
                 esco_uri=uri,
                 skill_ids=skill_ids,
+                skill_labels={skill_id: skill_titles[skill_id] for skill_id in skill_ids},
                 essential_skill_ids=essential_ids,
                 optional_skill_ids=optional_ids,
                 evidence_count=len(skill_ids),
