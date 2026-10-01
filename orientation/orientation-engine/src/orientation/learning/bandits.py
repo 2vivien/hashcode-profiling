@@ -52,7 +52,7 @@ class LinUCB:
         generator = rng or np.random.default_rng()
         action_ids = list(scores)
         greedy = max(action_ids, key=lambda action_id: scores[action_id])
-        if generator.random() < self.epsilon:
+        if generator.random() < self.epsilon:  # noqa: SIM108
             chosen = action_ids[int(generator.integers(len(action_ids)))]
         else:
             chosen = greedy
