@@ -16,6 +16,10 @@ class RGCNModel:
 
     def __init__(self, config: RGCNConfig | None = None, seed: int = 42) -> None:
         self.config = config or RGCNConfig()
+        if self.config.hidden_dim <= 0 or self.config.epochs <= 0:
+            raise ValueError("hidden_dim and epochs must be positive")
+        if self.config.learning_rate <= 0 or self.config.l2 < 0:
+            raise ValueError("learning_rate must be positive and l2 cannot be negative")
         self.seed = seed
         self.relation_weights: np.ndarray | None = None
         self.self_weight: np.ndarray | None = None
@@ -43,6 +47,8 @@ class RGCNModel:
     ) -> None:
         if features.ndim != 2 or edges.ndim != 2 or edges.shape[0] != 2:
             raise ValueError("features must be [nodes, features] and edges must be [2, edges]")
+        if not np.all(np.isfinite(features)):
+            raise ValueError("graph features must contain only finite values")
         if len(relations) != edges.shape[1] or len(labels) != len(features):
             raise ValueError("graph arrays must align")
         if len(relations) and np.min(relations) < 0:
