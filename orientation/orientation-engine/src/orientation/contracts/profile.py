@@ -19,6 +19,10 @@ class StudentProfile(BaseModel):
     model_config = ConfigDict(extra="forbid")
     student_id: str
     profile_version: str = "v1"
+    questionnaire_version: str | None = None
+    assessment_confidence: float = Field(default=0.0, ge=0, le=1)
+    riasec_entropy: float = Field(default=0.0, ge=0, le=1)
+    contradictions: tuple[str, ...] = ()
     interests: dict[str, float] = Field(default_factory=dict)
     abilities: dict[str, float] = Field(default_factory=dict)
     values: dict[str, float] = Field(default_factory=dict)
@@ -35,14 +39,8 @@ class StudentProfile(BaseModel):
     @model_validator(mode="after")
     def validate_dimensions(self) -> "StudentProfile":
         dimensions = (
-            "interests",
-            "abilities",
-            "values",
-            "subjects",
-            "self_efficacy",
-            "adaptability",
-            "environment",
-            "trajectory",
+            "interests", "abilities", "values", "subjects", "self_efficacy",
+            "adaptability", "environment", "trajectory",
         )
         for name in dimensions:
             values = getattr(self, name)
