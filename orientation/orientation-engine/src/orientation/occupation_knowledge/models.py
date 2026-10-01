@@ -33,6 +33,7 @@ class OccupationRecord(BaseModel):
     onet_soc_code: str | None = None
     esco_uri: str | None = None
     skill_ids: tuple[str, ...] = ()
+    skill_labels: dict[str, str] = Field(default_factory=dict)
     essential_skill_ids: tuple[str, ...] = ()
     optional_skill_ids: tuple[str, ...] = ()
     task_terms: tuple[str, ...] = ()
