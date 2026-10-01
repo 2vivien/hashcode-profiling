@@ -42,14 +42,18 @@ class RGCNModel:
         labels: np.ndarray,
     ) -> None:
         if features.ndim != 2 or edges.ndim != 2 or edges.shape[0] != 2:
-            raise ValueError("features must be [nodes, features] and edges must be [2, edges]")
+            raise ValueError(
+                "features must be [nodes, features] and edges must be [2, edges]"
+            )
         if len(relations) != edges.shape[1] or len(labels) != len(features):
             raise ValueError("graph arrays must align")
         if len(relations) and np.min(relations) < 0:
             raise ValueError("relation ids must be non-negative")
         if len(labels) and np.min(labels) < 0:
             raise ValueError("labels must be non-negative")
-        if len(edges) and (np.max(edges) >= len(features) or np.min(edges) < 0):
+        if edges.shape[1] and (
+            np.max(edges) >= len(features) or np.min(edges) < 0
+        ):
             raise ValueError("edge node ids are outside the feature matrix")
 
     def _aggregate(
@@ -73,7 +77,9 @@ class RGCNModel:
             for edge_index in range(relation_edges.shape[1]):
                 source = int(relation_edges[0, edge_index])
                 target = int(relation_edges[1, edge_index])
-                hidden[target] += features[source] @ weights[relation] / max(counts[target], 1.0)
+                hidden[target] += features[source] @ weights[relation] / max(
+                    counts[target], 1.0
+                )
         return np.asarray(hidden, dtype=np.float64)
 
     def fit(
@@ -90,6 +96,8 @@ class RGCNModel:
         input_dim = features.shape[1]
         relation_count = int(np.max(relations)) + 1 if len(relations) else 1
         class_count = int(np.max(labels)) + 1
+        if class_count < 2:
+            raise ValueError("RGCN classification requires at least two classes")
         scale = 1.0 / np.sqrt(max(input_dim, 1))
         relation_weights = rng.normal(
             0.0,
@@ -110,7 +118,7 @@ class RGCNModel:
             )
             hidden = np.maximum(pre_activation, 0.0)
             probabilities = self._softmax(hidden @ output_weight + output_bias)
-            gradient_logits = probabilities
+            gradient_logits = probabilities.copy()
             gradient_logits[np.arange(len(labels)), labels] -= 1.0
             gradient_logits /= len(labels)
 
@@ -136,7 +144,9 @@ class RGCNModel:
                     gradient_relations[relation] += np.outer(
                         features[source], gradient_pre[target]
                     ) / max(counts[target], 1.0)
-                gradient_relations[relation] += self.config.l2 * relation_weights[relation]
+                gradient_relations[relation] += (
+                    self.config.l2 * relation_weights[relation]
+                )
 
             relation_weights -= self.config.learning_rate * gradient_relations
             self_weight -= self.config.learning_rate * gradient_self
@@ -164,12 +174,24 @@ class RGCNModel:
             )
         ):
             raise RuntimeError("RGCN model is not trained")
-        assert self.relation_weights is not None
-        assert self.self_weight is not None
-        assert self.output_weight is not None
-        assert self.output_bias is not None
+        relation_weights = self.relation_weights
+        self_weight = self.self_weight
+        output_weight = self.output_weight
+        output_bias = self.output_bias
+        assert relation_weights is not None
+        assert self_weight is not None
+        assert output_weight is not None
+        assert output_bias is not None
+        if features.ndim != 2 or features.shape[1] != self_weight.shape[0]:
+            raise ValueError("prediction features have the wrong shape")
+        if edges.ndim != 2 or edges.shape[0] != 2:
+            raise ValueError("prediction edges must be [2, edges]")
+        if len(relations) != edges.shape[1]:
+            raise ValueError("prediction relations must align with edges")
+        if len(relations) and np.max(relations) >= relation_weights.shape[0]:
+            raise ValueError("prediction relation id exceeds trained relation schema")
         hidden = np.maximum(
-            self._aggregate(features, edges, relations, self.relation_weights, self.self_weight),
+            self._aggregate(features, edges, relations, relation_weights, self_weight),
             0.0,
         )
-        return self._softmax(hidden @ self.output_weight + self.output_bias)
+        return self._softmax(hidden @ output_weight + output_bias)
