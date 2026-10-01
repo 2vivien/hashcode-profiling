@@ -1,4 +1,8 @@
+from pathlib import Path
+
 import numpy as np
+
+from orientation.semantic.vector_index import NumpyVectorIndex
 
 from orientation.evaluation.offpolicy import doubly_robust, inverse_propensity_score
 from orientation.evaluation.ranking import ndcg_at_k, precision_at_k, recall_at_k
@@ -96,9 +100,6 @@ def test_ranking_metrics() -> None:
     assert precision_at_k(relevance, scores, 2) == 1.0
     assert recall_at_k(relevance, scores, 2) == 1.0
     assert ndcg_at_k(relevance, scores, 2) > 0.9
-
-from pathlib import Path
-from orientation.semantic.vector_index import NumpyVectorIndex
 
 
 def test_vector_index_persists(tmp_path: Path) -> None:
