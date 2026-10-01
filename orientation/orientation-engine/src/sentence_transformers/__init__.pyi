@@ -1,6 +1,8 @@
 from collections.abc import Sequence
 
 import numpy as np
+
+
 class SentenceTransformer:
     def __init__(self, model_name: str) -> None: ...
     def encode_query(
