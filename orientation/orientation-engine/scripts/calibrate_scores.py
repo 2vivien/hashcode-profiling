@@ -8,7 +8,11 @@ from orientation.learning.calibration import ScoreCalibrator
 
 
 def load_scores(path: Path) -> tuple[np.ndarray, np.ndarray]:
-    rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    rows = [
+        json.loads(line)
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
     if not rows:
         raise ValueError(f"calibration dataset is empty: {path}")
     scores = np.asarray([float(row["score"]) for row in rows], dtype=np.float64)
