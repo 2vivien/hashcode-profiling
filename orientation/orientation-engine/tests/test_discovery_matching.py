@@ -2,12 +2,7 @@ from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZipFile
 
 from orientation.assessment_v1.longitudinal import incorporate_observations
-from orientation.assessment_v1.question_bank import QUESTIONS_V1
-from orientation.occupation_knowledge.onet_package import read_onet_zip
-from orientation.occupation_knowledge.packages import read_esco_zip
-from orientation.contracts.common import DataState, Observation, SourceType
-from orientation.contracts.profile import StudentProfile
-from orientation.occupation_knowledge.models import OccupationRecord
+from orientation.assessment_v1.question_bank import QUESTIONS_V1\nfrom orientation.contracts.common import DataState, Observation, SourceType\nfrom orientation.contracts.profile import StudentProfile\nfrom orientation.occupation_knowledge.models import OccupationRecord\nfrom orientation.occupation_knowledge.onet_package import read_onet_zip\nfrom orientation.occupation_knowledge.packages import read_esco_zip
 from orientation.occupation_knowledge.scoring import OccupationScorer
 from orientation.occupation_knowledge.training import TrainingOpportunity, recommend_training
 
