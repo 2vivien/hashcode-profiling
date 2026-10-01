@@ -30,7 +30,4 @@ class NumpyVectorIndex:
         q = query / max(float(np.linalg.norm(query)), 1e-12)
         scores = self._vectors @ q
         order = np.argsort(-scores)[:k]
-        return [
-            VectorMatch(self._ids[int(i)], float(scores[int(i)]))
-            for i in order
-        ]
+        return [VectorMatch(self._ids[int(i)], float(scores[int(i)])) for i in order]
