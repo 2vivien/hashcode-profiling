@@ -96,3 +96,16 @@ def test_ranking_metrics() -> None:
     assert precision_at_k(relevance, scores, 2) == 1.0
     assert recall_at_k(relevance, scores, 2) == 1.0
     assert ndcg_at_k(relevance, scores, 2) > 0.9
+
+from pathlib import Path
+from orientation.semantic.vector_index import NumpyVectorIndex
+
+
+def test_vector_index_persists(tmp_path: Path) -> None:
+    index = NumpyVectorIndex()
+    index.fit(["a", "b"], np.array([[1.0, 0.0], [0.0, 1.0]], dtype=np.float32))
+    path = tmp_path / "vectors.npz"
+    index.save(path)
+    restored = NumpyVectorIndex()
+    restored.load(path)
+    assert restored.search(np.array([1.0, 0.0]), 1)[0].document_id == "a"
