@@ -42,9 +42,9 @@ def read_esco_zip(path: Path, version: str = "v1.2.1", language: str = "en") -> 
         if not occupation_uri or not skill_uri:
             continue
         skill_ids[occupation_uri].add(skill_uri)
-        if relation_type == "essential":
+        if relation_type.endswith("essential") or relation_type == "essential":
             essential[occupation_uri].add(skill_uri)
-        elif relation_type == "optional":
+        elif relation_type.endswith("optional") or relation_type == "optional":
             optional[occupation_uri].add(skill_uri)
 
     records: list[OccupationRecord] = []
