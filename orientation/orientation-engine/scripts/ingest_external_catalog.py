@@ -4,6 +4,7 @@ from pathlib import Path
 from orientation.infrastructure.knowledge.external_snapshot import build_external_snapshot
 from orientation.infrastructure.knowledge.external_sources import (
     DelimitedConceptReader,
+    ExternalConcept,
     esco_reader,
     local_reader,
     onet_reader,
@@ -33,7 +34,7 @@ def main() -> None:
     parser.add_argument("--delimiter", default=",")
     args = parser.parse_args()
 
-    concepts = []
+    concepts: list[ExternalConcept] = []
     for path in args.input:
         concepts.extend(reader_for(args.source, path).read(args.delimiter))
 
