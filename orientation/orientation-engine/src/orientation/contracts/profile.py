@@ -1,14 +1,10 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from orientation.contracts.common import DataState, Observation, SourceType
-
-
-SourceType = Literal["self_report", "school", "behavior", "system"]
 
 
 class StudentSkill(BaseModel):
