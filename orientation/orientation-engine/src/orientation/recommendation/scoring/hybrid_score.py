@@ -51,17 +51,13 @@ class HybridScorer:
             effective_total += effective_weight
 
         # Missing evidence is uncertainty, not a zero-quality signal.
-        base_compatibility = (
-            weighted_sum / effective_total if effective_total > 0.0 else 0.5
-        )
+        base_compatibility = weighted_sum / effective_total if effective_total > 0.0 else 0.5
 
         total_positive_weight = max(sum(weights[key] for key in keys), 1e-9)
         normalized_gap_penalty = w.skill_gap * skill_gap_penalty / total_positive_weight
         compatibility = max(0.0, min(1.0, base_compatibility - normalized_gap_penalty))
 
-        confidence = (
-            sum(matches[key].confidence for key in observed) / len(observed)
-        )
+        confidence = sum(matches[key].confidence for key in observed) / len(observed)
         empty = MatchResult(score=0.0, confidence=0.0)
         return ScoreBreakdown(
             interest_fit=matches.get("interest", empty).score,
