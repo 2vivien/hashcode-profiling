@@ -20,10 +20,9 @@ def estimate_trait(
 ) -> float:
     theta = initial
     for _ in range(iterations):
-        values = np.array([
-            two_parameter(theta, a, b)
-            for a, b in zip(slopes, locations, strict=True)
-        ])
+        values = np.array(
+            [two_parameter(theta, a, b) for a, b in zip(slopes, locations, strict=True)]
+        )
         score = float(np.sum(responses - values))
         information = float(np.sum(slopes**2 * values * (1.0 - values)))
         if information < 1e-8:
