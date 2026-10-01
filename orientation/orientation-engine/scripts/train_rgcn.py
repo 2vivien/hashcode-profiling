@@ -38,7 +38,8 @@ def main() -> None:
         output_weight=output_weight,
         output_bias=output_bias,
     )
-    print(json.dumps({"nodes": len(features), "relations": int(relations.max()) + 1 if len(relations) else 1}))
+    relation_count = int(relations.max()) + 1 if len(relations) else 1
+    print(json.dumps({"nodes": len(features), "relations": relation_count}))
 
 
 if __name__ == "__main__":
