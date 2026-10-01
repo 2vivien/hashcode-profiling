@@ -53,8 +53,7 @@ class TwoPLCAT:
             if not available:
                 break
             information = [
-                fisher_information_2pl(theta, float(self.a[i]), float(self.b[i]))
-                for i in available
+                fisher_information_2pl(theta, float(self.a[i]), float(self.b[i])) for i in available
             ]
             item_index = available[int(np.argmax(information))]
             response = float(response_provider(self.item_ids[item_index]))
@@ -70,8 +69,7 @@ class TwoPLCAT:
                 initial=theta,
             )
             total_information = sum(
-                item_information(theta, float(self.a[i]), float(self.b[i]))
-                for i in administered
+                item_information(theta, float(self.a[i]), float(self.b[i])) for i in administered
             )
             se = float(1.0 / np.sqrt(max(total_information, 1e-9)))
             if n >= self.min_items and se <= self.target_se:
