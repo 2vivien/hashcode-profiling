@@ -14,6 +14,9 @@ def _merge(esco: OccupationRecord, onet: OccupationRecord) -> OccupationRecord:
             "source": "merged",
             "source_version": f"{esco.source_version}+{onet.source_version}",
             "onet_soc_code": onet.onet_soc_code,
+            "esco_uri": esco.esco_uri,
+            "essential_skill_ids": esco.essential_skill_ids,
+            "optional_skill_ids": esco.optional_skill_ids,
             "riasec": onet.riasec or esco.riasec,
             "abilities": onet.abilities,
             "skills": {**esco.skills, **onet.skills},
@@ -24,6 +27,8 @@ def _merge(esco: OccupationRecord, onet: OccupationRecord) -> OccupationRecord:
             "job_zone": onet.job_zone,
             "training": onet.training,
             "related_occupation_ids": onet.related_occupation_ids,
+            "task_terms": onet.task_terms,
+            "provenance": tuple(dict.fromkeys(esco.provenance + onet.provenance + ("exact_title_match",))),
             "evidence_count": esco.evidence_count + onet.evidence_count,
             "data_completeness": min(1.0, (esco.data_completeness + onet.data_completeness) / 2 + 0.15),
         }
