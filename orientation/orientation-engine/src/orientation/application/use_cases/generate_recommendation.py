@@ -22,7 +22,12 @@ from orientation.recommendation.uncertainty.service import UncertaintyService
 
 
 class GenerateRecommendation:
-    def __init__(self, knowledge_root: Path) -> None:
+    def __init__(
+        self,
+        knowledge_root: Path,
+        model_version: str = "deterministic-baseline-v1",
+    ) -> None:
+        self.model_version = model_version
         self.config = RecommendationConfig()
         self.config.validate()
         self.loader = KnowledgeLoader(knowledge_root)
@@ -41,7 +46,7 @@ class GenerateRecommendation:
 
     def execute(self, profile: StudentProfile) -> Recommendation:
         manifest = load_manifest(self.loader.repository.root)
-        if manifest.version != "v1":
+        if not manifest.version:
             raise ValueError("unsupported_knowledge_version")
         directions = self.loader.load_directions()
         self.validator.validate(directions, expected_version=manifest.version)
@@ -93,7 +98,7 @@ class GenerateRecommendation:
             recommendation_id,
             profile.student_id,
             profile.profile_version,
-            "v1",
+            manifest.version,
             ranking,
             scores,
             uncertainties,
@@ -102,7 +107,7 @@ class GenerateRecommendation:
         return Recommendation(
             recommendation_id=recommendation_id,
             profile_version=profile.profile_version,
-            model_version="deterministic-baseline-v1",
+            model_version=self.model_version,
             knowledge_version=manifest.version,
             candidates=final,
             created_at=audit.timestamp,
