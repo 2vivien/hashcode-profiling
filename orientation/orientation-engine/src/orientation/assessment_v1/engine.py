@@ -96,7 +96,7 @@ class AssessmentV1Engine:
             for name, estimate in riasec.items()
         }
         abilities = group(("numerical", "verbal", "logical", "technical_learning", "problem_solving", "communication"))
-        values = group(("income", "stability", "autonomy", "impact", "creativity", "recognition", "learning", "balance", "mobility", "entrepreneurship"))
+        values = group(("income", "stability", "autonomy", "impact", "creativity", "recognition", "learning", "balance", "mobility", "entrepreneurship", "service", "mastery"))
         work_style = group(("structure_preference", "teamwork", "autonomy"))
         environment = group(("human_interaction", "physical_activity", "uncertainty_tolerance"))
         learning = group(("persistence", "self_directed_learning", "project_learning", "education_duration_tolerance"))
@@ -131,10 +131,13 @@ class AssessmentV1Engine:
         contradiction_penalty = min(0.30, 0.10 * len(contradictions))
         profile_confidence = max(0.0, min(1.0, coverage * mean_confidence * (1.0 - contradiction_penalty)))
 
+        all_signals = group(tuple(sorted(raw)))
+
         return LatentProfile(
             profile_version=self.profile_version,
             questionnaire_version=self.questionnaire_version,
             riasec=riasec,
+            signals=all_signals,
             abilities=abilities,
             values=values,
             work_style=work_style,
