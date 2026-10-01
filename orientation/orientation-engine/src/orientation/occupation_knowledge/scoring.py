@@ -9,15 +9,17 @@ from orientation.occupation_knowledge.models import OccupationMatch, OccupationR
 
 @dataclass(frozen=True)
 class ScoreWeights:
-    interest: float = 0.24
-    ability: float = 0.16
+    interest: float = 0.20
+    ability: float = 0.14
     skill: float = 0.16
-    value: float = 0.12
+    value: float = 0.10
     environment: float = 0.10
-    work_style: float = 0.07
-    self_efficacy: float = 0.07
+    work_style: float = 0.08
+    self_efficacy: float = 0.08
+    learning: float = 0.05
     adaptability: float = 0.04
-    evidence: float = 0.04
+    knowledge: float = 0.03
+    evidence: float = 0.02
 
     def normalized(self) -> dict[str, float]:
         values = self.__dict__
@@ -44,15 +46,36 @@ def _overlap(left: dict[str, float], right: dict[str, float]) -> float:
     return max(0.0, min(1.0, sum(min(left[k], right[k]) for k in keys) / len(keys)))
 
 
+def _merge_dimensions(*maps: dict[str, float]) -> dict[str, float]:
+    merged: dict[str, float] = {}
+    for mapping in maps:
+        for key, value in mapping.items():
+            merged[key] = max(merged.get(key, 0.0), value)
+    return merged
+
+
+def _experiences(profile: StudentProfile, occupation: OccupationRecord) -> tuple[str, ...]:
+    gaps = []
+    if occupation.job_zone is not None:
+        gaps.append(f"Explorer une formation compatible avec la Job Zone {occupation.job_zone}.")
+    if occupation.essential_skill_ids:
+        gaps.append("Tester au moins une compétence essentielle via un mini-projet pratique.")
+    if profile.assessment_confidence < 0.65:
+        gaps.append("Comparer cette piste avec une autre expérience avant de conclure.")
+    return tuple(gaps[:3])
+
+
 class OccupationScorer:
-    """Explainable scorer; missing occupational evidence never becomes a perfect match."""
+    """Scores compatibility, never a deterministic career prescription."""
 
     def __init__(self, weights: ScoreWeights | None = None) -> None:
         self.weights = (weights or ScoreWeights()).normalized()
 
     def score(self, profile: StudentProfile, occupation: OccupationRecord) -> OccupationMatch:
         profile_skills = {skill.skill_id: skill.level for skill in profile.skills}
-        occupation_skills = occupation.skills or {skill: 1.0 for skill in occupation.skill_ids}
+        occupation_skills = occupation.skills or {
+            skill: 1.0 for skill in occupation.essential_skill_ids + occupation.optional_skill_ids
+        }
         components = (
             ScoreComponent("interest", _cosine(profile.interests, occupation.riasec), self.weights["interest"]),
             ScoreComponent("ability", _cosine(profile.abilities, occupation.abilities), self.weights["ability"]),
@@ -72,16 +95,14 @@ class OccupationScorer:
                 self.weights["work_style"],
             ),
             ScoreComponent("self_efficacy", _cosine(profile.self_efficacy, occupation.abilities), self.weights["self_efficacy"]),
+            ScoreComponent("learning", _cosine(profile.learning, occupation.training), self.weights["learning"]),
             ScoreComponent("adaptability", _cosine(profile.adaptability, occupation.environment), self.weights["adaptability"]),
+            ScoreComponent("knowledge", _cosine(profile.subjects, occupation.knowledge), self.weights["knowledge"]),
             ScoreComponent("evidence", occupation.data_completeness, self.weights["evidence"]),
         )
         raw = sum(component.score * component.weight for component in components)
-        evidence = min(
-            1.0,
-            occupation.data_completeness * 0.75
-            + min(1.0, occupation.evidence_count / 12.0) * 0.25,
-        )
-        confidence = max(0.0, min(1.0, 0.55 * profile.assessment_confidence + 0.45 * evidence))
+        evidence = min(1.0, occupation.data_completeness * 0.75 + min(1.0, occupation.evidence_count / 20.0) * 0.25)
+        confidence = max(0.0, min(1.0, 0.60 * profile.assessment_confidence + 0.40 * evidence))
         score = max(0.0, min(100.0, raw * 100.0))
 
         gaps = []
@@ -93,6 +114,8 @@ class OccupationScorer:
             gaps.append("competences")
         if components[4].score < 0.45:
             gaps.append("environnement_de_travail")
+        if components[9].score < 0.45:
+            gaps.append("connaissances")
 
         reasons = tuple(
             f"{component.name}={component.score:.2f}"
@@ -100,36 +123,58 @@ class OccupationScorer:
             if component.score >= 0.65
         )
         classification = (
-            "strong_fit"
-            if score >= 80 and confidence >= 0.70
-            else "good_fit"
-            if score >= 68 and confidence >= 0.55
-            else "adjacent"
-            if score >= 52
+            "strong_fit" if score >= 80 and confidence >= 0.70
+            else "good_fit" if score >= 68 and confidence >= 0.55
+            else "adjacent" if score >= 52
             else "exploration"
         )
+        uncertainty = 1.0 - confidence
         return OccupationMatch(
             occupation_id=occupation.occupation_id,
             title=occupation.title,
             source=occupation.source,
             score=score,
             confidence=confidence,
+            uncertainty=uncertainty,
             recommendation_class=classification,
             isco08_code=occupation.isco08_code,
             isco_major_group=occupation.isco_major_group,
             components=components,
             reasons=reasons,
             gaps=tuple(gaps),
+            experiences=_experiences(profile, occupation),
+            related_occupation_ids=occupation.related_occupation_ids,
             evidence_count=occupation.evidence_count,
         )
 
-    def rank(
-        self,
-        profile: StudentProfile,
-        occupations: list[OccupationRecord],
-        limit: int = 20,
-    ) -> list[OccupationMatch]:
+    def rank(self, profile: StudentProfile, occupations: list[OccupationRecord], limit: int = 20) -> list[OccupationMatch]:
         if limit < 1:
             raise ValueError("limit must be >= 1")
         matches = [self.score(profile, occupation) for occupation in occupations]
-        return sorted(matches, key=lambda item: (-item.score, -item.confidence, item.title))[:limit]
+        matches.sort(key=lambda item: (-item.score, -item.confidence, item.title))
+        selected: list[OccupationMatch] = []
+        selected_records: list[OccupationRecord] = []
+        by_id = {item.occupation_id: item for item in occupations}
+        for match in matches:
+            if len(selected) >= limit:
+                break
+            record = by_id[match.occupation_id]
+            if self._too_similar(record, selected_records) and len(selected) < min(limit, 6):
+                continue
+            selected.append(match)
+            selected_records.append(record)
+        return selected
+
+    @staticmethod
+    def _too_similar(record: OccupationRecord, selected: list[OccupationRecord]) -> bool:
+        if not selected:
+            return False
+        for previous in selected:
+            same_family = (
+                record.isco_major_group is not None
+                and record.isco_major_group == previous.isco_major_group
+            )
+            shared = len(set(record.skill_ids) & set(previous.skill_ids))
+            if same_family and shared >= 3:
+                return True
+        return False
