@@ -5,6 +5,7 @@ from orientation.api.routes.assessment_v1 import router as assessment_v1_router
 from orientation.api.routes.feedback import router as feedback_router
 from orientation.api.routes.health import router as health_router
 from orientation.api.routes.knowledge import router as knowledge_router
+from orientation.api.routes.occupation_v2 import router as occupation_v2_router
 from orientation.api.routes.profiles import router as profiles_router
 from orientation.api.routes.recommendations import router as recommendations_router
 
@@ -14,6 +15,7 @@ app.include_router(health_router)
 app.include_router(profiles_router, prefix="/v1/orientation")
 app.include_router(assessments_router, prefix="/v1/orientation")
 app.include_router(assessment_v1_router, prefix="/v1/orientation")
+app.include_router(occupation_v2_router, prefix="/v1/orientation")
 app.include_router(recommendations_router, prefix="/v1/orientation")
 app.include_router(knowledge_router, prefix="/v1/orientation")
 app.include_router(feedback_router, prefix="/v1/orientation")
