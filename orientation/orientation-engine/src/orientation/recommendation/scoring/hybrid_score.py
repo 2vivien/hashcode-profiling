@@ -6,6 +6,11 @@ class HybridScorer:
     def __init__(self, config: RecommendationConfig) -> None:
         self.config = config
 
+    @staticmethod
+    def _weighted_score(matches: dict[str, MatchResult], key: str, weight: float) -> float:
+        match = matches[key]
+        return weight * match.score * match.confidence
+
     def score(
         self,
         matches: dict[str, MatchResult],
@@ -29,7 +34,7 @@ class HybridScorer:
         available = [(key, weights[key]) for key in keys if key in matches]
         if not available:
             raise ValueError("at least one matching dimension is required")
-        raw_score = sum(weight * matches[key].score * matches[key].confidence for key, weight in available)
+        raw_score = sum(self._weighted_score(matches, key, weight) for key, weight in available)
         raw = raw_score - w.skill_gap * skill_gap_penalty
         denominator = max(sum(weight for _, weight in available), 1e-9)
         compatibility = max(0.0, min(1.0, raw / denominator))
