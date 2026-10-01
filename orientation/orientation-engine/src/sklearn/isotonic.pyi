@@ -1,4 +1,6 @@
 import numpy as np
+
+
 class IsotonicRegression:
     def __init__(self, out_of_bounds: str = "nan") -> None: ...
     def fit(self, X: np.ndarray, y: np.ndarray) -> IsotonicRegression: ...
