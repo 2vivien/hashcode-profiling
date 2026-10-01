@@ -40,7 +40,6 @@ def read_onet_zip(path: Path, version: str = "31.0") -> list[OccupationRecord]:
     """Read the official O*NET 31.0 tabular archive and enrich occupation profiles."""
     if version != "31.0":
         raise ValueError(f"unsupported_onet_version:{version}")
-    occupation_rows = _rows(path and zipfile.ZipFile(path), "Occupation Data.txt")
     with zipfile.ZipFile(path) as archive:
         occupations = _rows(archive, "Occupation Data.txt")
         abilities = _aggregate(_rows(archive, "Abilities.txt"))
@@ -53,6 +52,8 @@ def read_onet_zip(path: Path, version: str = "31.0") -> list[OccupationRecord]:
         interests = _rows(archive, "Interests.txt")
         essential_skills = _aggregate(_rows(archive, "Essential Skills.txt"))
         transferable_skills = _aggregate(_rows(archive, "Transferable Skills.txt"))
+        training = _aggregate(_rows(archive, "Training and Experience.txt"))
+        task_rows = _rows(archive, "Task Statements.txt")
 
     riasec: dict[str, dict[str, float]] = defaultdict(dict)
     for row in interests:
@@ -77,6 +78,13 @@ def read_onet_zip(path: Path, version: str = "31.0") -> list[OccupationRecord]:
         for row in job_zones
         if row.get("O*NET-SOC Code", "").strip() and row.get("Job Zone", "").isdigit()
     }
+    tasks: dict[str, list[str]] = defaultdict(list)
+    for row in task_rows:
+        code = row.get("O*NET-SOC Code", "").strip()
+        task = row.get("Task", "").strip()
+        if code and task and len(tasks[code]) < 12:
+            tasks[code].append(task)
+
     records: list[OccupationRecord] = []
     for row in occupations:
         code = row.get("O*NET-SOC Code", "").strip()
@@ -99,9 +107,11 @@ def read_onet_zip(path: Path, version: str = "31.0") -> list[OccupationRecord]:
                 work_style=work_styles.get(code, {}),
                 work_activities=activities.get(code, {}),
                 job_zone=zones.get(code),
+                training=training.get(code, {}),
+                task_terms=tuple(tasks.get(code, [])),
                 related_occupation_ids=tuple(dict.fromkeys(related.get(code, []))),
-                evidence_count=sum(bool(item.get(code)) for item in (abilities, skills, knowledge, work_styles, activities)) + len(related.get(code, [])),
-                data_completeness=min(1.0, 0.20 + 0.10 * sum(bool(item.get(code)) for item in (abilities, skills, knowledge, work_styles, activities)) + (0.15 if zones.get(code) else 0.0)),
+                evidence_count=sum(bool(item.get(code)) for item in (abilities, skills, knowledge, work_styles, activities, training)) + len(related.get(code, [])) + len(tasks.get(code, [])),
+                data_completeness=min(1.0, 0.15 + 0.08 * sum(bool(item.get(code)) for item in (abilities, skills, knowledge, work_styles, activities, training)) + (0.15 if zones.get(code) else 0.0) + (0.10 if tasks.get(code) else 0.0)),
             )
         )
     return records
