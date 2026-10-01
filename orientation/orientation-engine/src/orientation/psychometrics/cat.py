@@ -44,6 +44,13 @@ class TwoPLCAT:
             raise ValueError("min_items cannot exceed available max_items")
         self.min_items = min_items
 
+    def _total_information(self, theta: float, administered: list[int]) -> float:
+        values = [
+            item_information(theta, float(self.a[i]), float(self.b[i]))
+            for i in administered
+        ]
+        return float(sum(values))
+
     def run(self, response_provider: Callable[[str], float]) -> CATResult:
         responses: list[float] = []
         administered: list[int] = []
@@ -74,7 +81,7 @@ class TwoPLCAT:
             se = float(1.0 / np.sqrt(max(total_information, 1e-9)))
             if n >= self.min_items and se <= self.target_se:
                 return CATResult(theta, se, tuple(self.item_ids[i] for i in administered), True)
-        total_information = sum(item_information(theta, float(self.a[i]), float(self.b[i])) for i in administered)
+        total_information = self._total_information(theta, administered)
         se = float(1.0 / np.sqrt(max(total_information, 1e-9)))
         return CATResult(theta, se, tuple(self.item_ids[i] for i in administered), False)
 
