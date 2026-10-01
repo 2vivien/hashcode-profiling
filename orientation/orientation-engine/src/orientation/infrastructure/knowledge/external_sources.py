@@ -66,8 +66,8 @@ def onet_reader(path: Path) -> DelimitedConceptReader:
     return DelimitedConceptReader(
         path,
         "onet",
-        ("O*NET-SOC Code", "O*NET-SOC code", "Code", "code"),
-        ("Title", "title", "Name", "name"),
+        ("O*NET-SOC Code", "O*NET-SOC code", "Element ID", "ElementID", "Code", "code"),
+        ("Title", "title", "Element Name", "ElementName", "Name", "name"),
     )
 
 
