@@ -21,10 +21,7 @@ def subgraph(
         raise ValueError("graph split contains an invalid node id")
     mapping = {int(node): index for index, node in enumerate(selected)}
     keep = np.asarray(
-        [
-            int(source) in mapping and int(target) in mapping
-            for source, target in edges.T
-        ],
+        [int(source) in mapping and int(target) in mapping for source, target in edges.T],
         dtype=bool,
     )
     local_edges = edges[:, keep].copy()
