@@ -1,21 +1,20 @@
 from __future__ import annotations
 
-from orientation.contracts.common import Observation\nfrom orientation.contracts.profile import StudentProfile
+from orientation.contracts.common import Observation
+from orientation.contracts.profile import StudentProfile
 
 
 def incorporate_observations(profile: StudentProfile) -> StudentProfile:
-    """Blend longitudinal observations into the current profile without inventing evidence.
-
-    Each observation must already carry its source and confidence. The update is a
-    deterministic weighted mean and is intentionally not an ML training step.
-    """
+    """Blend longitudinal observations deterministically; never invent evidence."""
     if not profile.observations:
         return profile
 
     buckets: dict[str, list[tuple[float, float]]] = {}
     for observation in profile.observations:
+        if not isinstance(observation.value, (int, float)):
+            continue
         buckets.setdefault(observation.dimension, []).append(
-            (observation.value, observation.confidence)
+            (float(observation.value), observation.confidence)
         )
 
     updates: dict[str, dict[str, float]] = {}
@@ -33,11 +32,11 @@ def incorporate_observations(profile: StudentProfile) -> StudentProfile:
         target = map_by_dimension.get(dimension)
         if target is None:
             continue
-        weighted = sum(value * confidence for value, confidence in values)
-        confidence = sum(conf for _, conf in values)
-        if confidence <= 0:
+        total_confidence = sum(confidence for _, confidence in values)
+        if total_confidence <= 0:
             continue
-        updates.setdefault(target, {})[dimension] = weighted / confidence
+        weighted = sum(value * confidence for value, confidence in values)
+        updates.setdefault(target, {})[dimension] = weighted / total_confidence
 
     data = profile.model_dump()
     for target, values in updates.items():
