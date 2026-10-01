@@ -74,10 +74,7 @@ class TwoPLCAT:
             se = float(1.0 / np.sqrt(max(total_information, 1e-9)))
             if n >= self.min_items and se <= self.target_se:
                 return CATResult(theta, se, tuple(self.item_ids[i] for i in administered), True)
-        total_information = sum(
-            item_information(theta, float(self.a[i]), float(self.b[i]))
-            for i in administered
-        )
+        total_information = sum(item_information(theta, float(self.a[i]), float(self.b[i])) for i in administered)
         se = float(1.0 / np.sqrt(max(total_information, 1e-9)))
         return CATResult(theta, se, tuple(self.item_ids[i] for i in administered), False)
 
