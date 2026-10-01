@@ -81,7 +81,7 @@ class OccupationScorer:
             ScoreComponent("interest", _cosine(profile.interests, occupation.riasec), self.weights["interest"]),
             ScoreComponent("ability", _cosine(profile.abilities, occupation.abilities), self.weights["ability"]),
             ScoreComponent("skill", _overlap(profile_skills, occupation_skills), self.weights["skill"]),
-            ScoreComponent("subject", _cosine(profile.subjects, subject_evidence), 0.08),
+            ScoreComponent("subject", _cosine(profile.subjects, subject_evidence), self.weights["knowledge"]),
             ScoreComponent("value", _cosine(profile.values, occupation.values), self.weights["value"]),
             ScoreComponent("environment", _cosine(profile.environment, occupation.environment), self.weights["environment"]),
             ScoreComponent(
@@ -116,7 +116,7 @@ class OccupationScorer:
             gaps.append("competences")
         if components[4].score < 0.45:
             gaps.append("environnement_de_travail")
-        if components[9].score < 0.45:
+        if components[10].score < 0.45:
             gaps.append("connaissances")
 
         reasons = tuple(
@@ -149,11 +149,9 @@ class OccupationScorer:
             components=components,
             reasons=reasons,
             gaps=tuple(gaps),
-            experiences=tuple(dict.fromkeys(experiences)),
-            experiences=_experiences(profile, occupation),
+            experiences=_experiences(profile, occupation) + tuple(item for item in experiences if item not in _experiences(profile, occupation)),
             related_occupation_ids=occupation.related_occupation_ids,
             evidence_count=occupation.evidence_count,
-            related_occupation_ids=occupation.related_occupation_ids,
             provenance=occupation.provenance,
         )
 
