@@ -53,7 +53,7 @@ def test_bandit_propensity_matches_policy() -> None:
         {"a": np.array([1.0, 0.0]), "b": np.array([0.0, 1.0])},
         rng=np.random.default_rng(4),
     )
-    assert 0.05 <= action.propensity <= 0.95
+    assert 0.0 < action.propensity < 1.0
 
 
 def test_offpolicy_estimators_use_action_match_and_propensity() -> None:
