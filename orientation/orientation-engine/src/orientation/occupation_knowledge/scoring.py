@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from math import sqrt
 
 from orientation.contracts.profile import StudentProfile
-from orientation.occupation_knowledge.models import DirectionExploration, OccupationMatch, OccupationRecord, ScoreComponent
+from orientation.occupation_knowledge.models import (\n    DirectionExploration,\n    OccupationMatch,\n    OccupationRecord,\n    ScoreComponent,\n)
 
 
 @dataclass(frozen=True)
