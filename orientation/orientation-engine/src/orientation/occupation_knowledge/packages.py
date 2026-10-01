@@ -31,6 +31,7 @@ def read_esco_zip(path: Path, version: str = "v1.2.1", language: str = "en") -> 
     with zipfile.ZipFile(path) as archive:
         occupations = _csv_from_zip(archive, f"occupations_{language}.csv")
         relations = _csv_from_zip(archive, "occupationSkillRelations.csv")
+        broader = _csv_from_zip(archive, "broaderRelationsOccPillar.csv")
         skills = _csv_from_zip(archive, f"skills_{language}.csv")
 
     skill_titles = {
@@ -38,6 +39,13 @@ def read_esco_zip(path: Path, version: str = "v1.2.1", language: str = "en") -> 
         for row in skills
         if row.get("conceptUri") and row.get("preferredLabel")
     }
+    broader_map: dict[str, list[str]] = defaultdict(list)
+    for row in broader:
+        child = (row.get("conceptUri") or row.get("childUri") or row.get("occupationUri") or "").strip()
+        parent = (row.get("broaderUri") or row.get("parentUri") or "").strip()
+        if child and parent:
+            broader_map[child].append(parent)
+
     all_skills: dict[str, list[str]] = defaultdict(list)
     essential: dict[str, list[str]] = defaultdict(list)
     optional: dict[str, list[str]] = defaultdict(list)
