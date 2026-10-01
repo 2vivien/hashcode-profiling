@@ -25,7 +25,11 @@ class HybridScorer:
             "environment",
             "trajectory",
         )
-        available = [(key, weight) for key, weight in zip(keys, w.positive, strict=True) if key in matches]
+        available = [
+            (key, weight)
+            for key, weight in zip(keys, w.positive, strict=True)
+            if key in matches
+        ]
         if not available:
             raise ValueError("at least one matching dimension is required")
         raw = (
@@ -44,10 +48,18 @@ class HybridScorer:
             skill_fit=matches["skill"].score,
             value_fit=matches["value"].score,
             subject_fit=matches["subject"].score,
-            self_efficacy_fit=matches.get("self_efficacy", MatchResult(score=0.0, confidence=0.0)).score,
-            adaptability_fit=matches.get("adaptability", MatchResult(score=0.0, confidence=0.0)).score,
-            environment_fit=matches.get("environment", MatchResult(score=0.0, confidence=0.0)).score,
-            trajectory_fit=matches.get("trajectory", MatchResult(score=0.0, confidence=0.0)).score,
+            self_efficacy_fit=matches.get(
+                "self_efficacy", MatchResult(score=0.0, confidence=0.0)
+            ).score,
+            adaptability_fit=matches.get(
+                "adaptability", MatchResult(score=0.0, confidence=0.0)
+            ).score,
+            environment_fit=matches.get(
+                "environment", MatchResult(score=0.0, confidence=0.0)
+            ).score,
+            trajectory_fit=matches.get(
+                "trajectory", MatchResult(score=0.0, confidence=0.0)
+            ).score,
             semantic_fit=max(0.0, min(1.0, semantic_fit)),
             graph_fit=max(0.0, min(1.0, graph_fit)),
             skill_gap_penalty=max(0.0, min(1.0, skill_gap_penalty)),
