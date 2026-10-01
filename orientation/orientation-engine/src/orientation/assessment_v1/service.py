@@ -50,7 +50,22 @@ class AssessmentProfileService:
                 **{key: value.value for key, value in latent.environment.items()},
                 **{key: value.value for key, value in latent.work_style.items()},
             },
-            learning={\n                **{key: value.value for key, value in latent.learning.items()},\n                **{\n                    key: value\n                    for key, value in signals.items()\n                    if key in {"project_learning", "imitation_learning", "theoretical_learning", "social_learning", "iterative_learning", "structured_learning"}\n                },\n            },
+            learning={
+                **{key: value.value for key, value in latent.learning.items()},
+                **{
+                    key: value
+                    for key, value in signals.items()
+                    if key
+                    in {
+                        "project_learning",
+                        "imitation_learning",
+                        "theoretical_learning",
+                        "social_learning",
+                        "iterative_learning",
+                        "structured_learning",
+                    }
+                },
+            },
             trajectory={key: value.value for key, value in latent.learning.items() if key == "persistence"},
             constraints=constraints,
         )
