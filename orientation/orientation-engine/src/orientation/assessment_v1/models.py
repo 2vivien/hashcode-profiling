@@ -73,6 +73,7 @@ class LatentProfile(BaseModel):
     profile_version: str
     questionnaire_version: str
     riasec: dict[str, DimensionEstimate]
+    signals: dict[str, DimensionEstimate] = Field(default_factory=dict)
     abilities: dict[str, DimensionEstimate]
     values: dict[str, DimensionEstimate]
     work_style: dict[str, DimensionEstimate]
