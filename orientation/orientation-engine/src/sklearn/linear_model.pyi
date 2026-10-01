@@ -1,6 +1,4 @@
 import numpy as np
-
-
 class LogisticRegression:
     def fit(self, X: np.ndarray, y: np.ndarray) -> LogisticRegression: ...
     def predict_proba(self, X: np.ndarray) -> np.ndarray: ...
