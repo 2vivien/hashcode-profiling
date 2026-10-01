@@ -48,8 +48,10 @@ def grouped_temporal_split(
 
 def matrix(
     rows: list[dict[str, object]],
+    feature_names: list[str] | None = None,
 ) -> tuple[np.ndarray, np.ndarray, list[int], list[str], list[str]]:
-    feature_names = sorted(dict(rows[0]["features"]).keys())
+    inferred_names = sorted(dict(rows[0]["features"]).keys())
+    names = feature_names or inferred_names
     ordered = sorted(rows, key=lambda row: (str(row["student_id"]), str(row["timestamp"])))
     x = np.asarray(
         [[float(dict(row["features"])[name]) for name in feature_names] for row in ordered],
@@ -71,7 +73,7 @@ def matrix(
     if current is not None:
         groups.append(count)
         query_ids.append(current)
-    return x, y, groups, feature_names, query_ids
+    return x, y, groups, names, query_ids
 
 
 def evaluate_grouped(
@@ -106,10 +108,14 @@ def main() -> None:
     rows = load_rows(args.input)
     train_rows, validation_rows = grouped_temporal_split(rows, args.validation_fraction)
     x_train, y_train, groups, feature_names, _ = matrix(train_rows)
-    x_validation, _, _, _, _ = matrix(validation_rows)
+    x_validation, y_validation, validation_groups, _, _ = matrix(
+        validation_rows, feature_names
+    )
 
     model = LambdaMARTModel()
     model.fit(x_train, y_train, groups, feature_names)
+    if validation_groups and sum(validation_groups) != len(y_validation):
+        raise ValueError("validation ranking groups do not align")
     validation_scores = model.predict(x_validation)
 
     metrics = evaluate_grouped(validation_rows, validation_scores, k=5)
