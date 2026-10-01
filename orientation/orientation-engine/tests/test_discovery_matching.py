@@ -59,8 +59,8 @@ def test_longitudinal_observation_updates_profile() -> None:
                     dimension="interest",
                     value=0.2,
                     confidence=1.0,
-                    source="behavior",
-                    status=SourceType.BEHAVIOR,
+                    source=SourceType.OBSERVED,
+                    state=DataState.KNOWN,
                 )
             ]
         }
