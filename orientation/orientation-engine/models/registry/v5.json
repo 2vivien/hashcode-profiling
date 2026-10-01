@@ -1,0 +1,10 @@
+{
+  "modelId": "rgcn-graph-learning-v5",
+  "type": "relation-aware-graph-learning",
+  "version": "v5",
+  "trainingRequired": true,
+  "deterministic": false,
+  "status": "candidate",
+  "knowledgeVersion": "graph-snapshot",
+  "featureSchemaVersion": "graph-v1"
+}
