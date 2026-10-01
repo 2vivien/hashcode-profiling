@@ -22,7 +22,8 @@ def _value(row: dict[str, str]) -> float | None:
         value = float(row.get("Data Value", "").strip())
     except ValueError:
         return None
-    return max(0.0, min(1.0, value / 7.0))
+    denominator = 100.0 if value > 7.0 else 7.0
+    return max(0.0, min(1.0, value / denominator))
 
 
 def _aggregate(rows: list[dict[str, str]], key_name: str = "Element Name") -> dict[str, dict[str, float]]:
