@@ -9,6 +9,7 @@ from orientation.contracts.common import DataState, Observation, SourceType
 from orientation.contracts.profile import StudentProfile
 from orientation.occupation_knowledge.models import OccupationRecord
 from orientation.occupation_knowledge.scoring import OccupationScorer
+from orientation.occupation_knowledge.training import TrainingOpportunity, recommend_training
 
 
 def profile() -> StudentProfile:
@@ -98,3 +99,26 @@ def test_official_archive_readers_preserve_relations(tmp_path: Path) -> None:
     onet = read_onet_zip(onet_zip)
     assert onet[0].job_zone == 4
     assert onet[0].abilities["Problem Solving"] > 0.6
+
+
+def test_direction_discovery_returns_exploration_contract() -> None:
+    records = [occupation("a", "A", "2", "s1"), occupation("d", "D", "7", "s4")]
+    directions = OccupationScorer().discover_directions(profile(), records, limit=2)
+    assert len(directions) == 2
+    assert all(0 <= item.uncertainty <= 1 for item in directions)
+    assert all(item.experiences for item in directions)
+
+
+def test_training_recommendation_uses_real_skill_catalog_only() -> None:
+    opportunities = (
+        TrainingOpportunity(
+            opportunity_id="course-1",
+            title="Course",
+            provider="Provider",
+            skill_ids=("s1",),
+            source_version="fixture-1",
+        ),
+    )
+    result = recommend_training({}, ("s1", "s2"), opportunities)
+    assert result[0].matched_skills == ("s1",)
+    assert result[0].missing_skills == ("s2",)
