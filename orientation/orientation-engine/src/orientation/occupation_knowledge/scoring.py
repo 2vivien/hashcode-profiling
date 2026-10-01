@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from math import sqrt
 
 from orientation.contracts.profile import StudentProfile
-from orientation.occupation_knowledge.models import OccupationMatch, OccupationRecord, ScoreComponent
+from orientation.occupation_knowledge.models import DirectionExploration, OccupationMatch, OccupationRecord, ScoreComponent
 
 
 @dataclass(frozen=True)
@@ -164,6 +164,43 @@ class OccupationScorer:
             selected.append(match)
             selected_records.append(record)
         return selected
+
+    def discover_directions(
+        self,
+        profile: StudentProfile,
+        occupations: list[OccupationRecord],
+        limit: int = 8,
+    ) -> list[DirectionExploration]:
+        if limit < 1:
+            raise ValueError("limit must be >= 1")
+        matches = self.rank(profile, occupations, max(limit * 4, 20))
+        records = {item.occupation_id: item for item in occupations}
+        buckets: dict[str, list[OccupationMatch]] = {}
+        for match in matches:
+            record = records[match.occupation_id]
+            key = record.isco_major_group or "unclassified"
+            buckets.setdefault(key, []).append(match)
+        directions: list[DirectionExploration] = []
+        for key, items in buckets.items():
+            representative = items[:3]
+            compatibility = sum(item.score for item in representative) / len(representative)
+            confidence = sum(item.confidence for item in representative) / len(representative)
+            gaps = tuple(dict.fromkeys(gap for item in representative for gap in item.gaps))[:4]
+            reasons = tuple(dict.fromkeys(reason for item in representative for reason in item.reasons))[:4]
+            experiments = tuple(dict.fromkeys(exp for item in representative for exp in item.experiences))[:3]
+            label = next((records[item.occupation_id].domains[0] for item in representative if records[item.occupation_id].domains), f"Direction {key}")
+            directions.append(DirectionExploration(
+                direction_id=f"isco-major:{key}",
+                label=label,
+                compatibility=compatibility,
+                confidence=confidence,
+                uncertainty=1.0 - confidence,
+                reasons=reasons,
+                gaps=gaps,
+                experiments=experiments,
+                candidate_occupation_ids=tuple(item.occupation_id for item in representative),
+            ))
+        return sorted(directions, key=lambda item: (-item.compatibility, -item.confidence, item.label))[:limit]
 
     @staticmethod
     def _too_similar(record: OccupationRecord, selected: list[OccupationRecord]) -> bool:
