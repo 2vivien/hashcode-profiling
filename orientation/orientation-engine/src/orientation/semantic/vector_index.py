@@ -56,7 +56,4 @@ class NumpyVectorIndex:
         normalized = query_vector / max(norm, 1e-12)
         scores = self._vectors @ normalized
         order = np.argsort(-scores)[:k]
-        return [
-            VectorMatch(self._ids[int(index)], float(scores[int(index)]))
-            for index in order
-        ]
+        return [VectorMatch(self._ids[int(index)], float(scores[int(index)])) for index in order]
