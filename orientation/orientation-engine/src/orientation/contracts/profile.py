@@ -5,6 +5,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from orientation.contracts.common import DataState, Observation, SourceType
+
 
 SourceType = Literal["self_report", "school", "behavior", "system"]
 
@@ -14,17 +16,6 @@ class StudentSkill(BaseModel):
 
     skill_id: str
     level: float = Field(ge=0, le=1)
-    confidence: float = Field(ge=0, le=1)
-    source: str
-    status: SourceType
-    observed_at: datetime | None = None
-
-
-class Observation(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    dimension: str
-    value: float = Field(ge=0, le=1)
     confidence: float = Field(ge=0, le=1)
     source: str
     status: SourceType
