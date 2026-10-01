@@ -1,7 +1,7 @@
-from orientation.assessment_v1.models import AnswerOption, Question
+from typing import Literal\n\nfrom orientation.assessment_v1.models import AnswerOption, Question
 
 
-def _likert(question_id: str, block: str, text: str, dimensions: tuple[str, ...], prefix: str) -> Question:
+def _likert(question_id: str, block: Literal["A", "B", "C", "D"], text: str, dimensions: tuple[str, ...], prefix: str) -> Question:
     labels = (
         ("1", "Pas du tout d'accord", -1.0),
         ("2", "Plutôt pas d'accord", -0.5),
@@ -22,7 +22,7 @@ def _likert(question_id: str, block: str, text: str, dimensions: tuple[str, ...]
     )
 
 
-def _choice(question_id: str, block: str, text: str, dimensions: tuple[str, ...], options: tuple[tuple[str, str, dict[str, float]], ...], *, multi: bool = False, max_selections: int = 1) -> Question:
+def _choice(question_id: str, block: Literal["A", "B", "C", "D"], text: str, dimensions: tuple[str, ...], options: tuple[tuple[str, str, dict[str, float]], ...], *, multi: bool = False, max_selections: int = 1) -> Question:
     return Question(
         question_id=question_id,
         block=block,
