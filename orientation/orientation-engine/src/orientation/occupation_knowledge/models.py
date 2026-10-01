@@ -67,3 +67,17 @@ class OccupationMatch(BaseModel):
     experiences: tuple[str, ...] = ()
     related_occupation_ids: tuple[str, ...] = ()
     evidence_count: int = Field(default=0, ge=0)
+
+
+class DirectionExploration(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    direction_id: str
+    label: str
+    compatibility: float = Field(ge=0, le=100)
+    confidence: float = Field(ge=0, le=1)
+    uncertainty: float = Field(ge=0, le=1)
+    reasons: tuple[str, ...] = ()
+    gaps: tuple[str, ...] = ()
+    experiments: tuple[str, ...] = ()
+    candidate_occupation_ids: tuple[str, ...] = ()
