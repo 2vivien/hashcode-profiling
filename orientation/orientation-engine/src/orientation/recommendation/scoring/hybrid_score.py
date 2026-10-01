@@ -15,13 +15,23 @@ class HybridScorer:
     ) -> ScoreBreakdown:
         w = self.config.weights
         keys = (
-            "interest", "ability", "skill", "value", "subject",
-            "self_efficacy", "adaptability", "environment", "trajectory",
+            "interest",
+            "ability",
+            "skill",
+            "value",
+            "subject",
+            "self_efficacy",
+            "adaptability",
+            "environment",
+            "trajectory",
         )
-        raw = sum(
-            weight * matches[key].score * matches[key].confidence
-            for weight, key in zip(w.positive, keys, strict=True)
-        ) - w.skill_gap * skill_gap_penalty
+        raw = (
+            sum(
+                weight * matches[key].score * matches[key].confidence
+                for weight, key in zip(w.positive, keys, strict=True)
+            )
+            - w.skill_gap * skill_gap_penalty
+        )
         denominator = max(sum(w.positive), 1e-9)
         compatibility = max(0.0, min(1.0, raw / denominator))
         confidence = sum(matches[key].confidence for key in keys) / len(keys)
