@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from orientation.contracts.common import Observation
 from orientation.contracts.profile import StudentProfile
 
 
