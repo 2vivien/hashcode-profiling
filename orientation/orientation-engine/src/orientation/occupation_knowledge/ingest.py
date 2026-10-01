@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import csv
 from pathlib import Path
-from typing import Iterable
+from collections.abc import Iterable
 
 from orientation.occupation_knowledge.models import OccupationRecord
 from orientation.occupation_knowledge.taxonomy import major_group
