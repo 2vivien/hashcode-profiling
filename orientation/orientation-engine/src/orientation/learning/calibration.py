@@ -32,14 +32,15 @@ class ScoreCalibrator:
         if not np.all(np.isin(y, (0, 1))) or len(np.unique(y)) < 2:
             raise ValueError("binary calibration labels with both classes are required")
         if self.method == "sigmoid":
-            model = LogisticRegression()
-            model.fit(x.reshape(-1, 1), y)
-            probabilities = model.predict_proba(x.reshape(-1, 1))[:, 1]
+            sigmoid_model = LogisticRegression()
+            sigmoid_model.fit(x.reshape(-1, 1), y)
+            probabilities = sigmoid_model.predict_proba(x.reshape(-1, 1))[:, 1]
+            self._model = sigmoid_model
         else:
-            model = IsotonicRegression(out_of_bounds="clip")
-            model.fit(x, y)
-            probabilities = model.predict(x)
-        self._model = model
+            isotonic_model = IsotonicRegression(out_of_bounds="clip")
+            isotonic_model.fit(x, y)
+            probabilities = isotonic_model.predict(x)
+            self._model = isotonic_model
         return CalibrationReport(
             brier=float(brier_score_loss(y, probabilities)),
             log_loss=float(log_loss(y, probabilities)),
