@@ -50,11 +50,10 @@ class HybridScorer:
             weighted_sum += contribution
             effective_total += effective_weight
 
-        if effective_total > 0.0:
-            base_compatibility = weighted_sum / effective_total
-        else:
-            # Missing evidence is uncertainty, not a zero-quality signal.
-            base_compatibility = 0.5
+        # Missing evidence is uncertainty, not a zero-quality signal.
+        base_compatibility = (
+            weighted_sum / effective_total if effective_total > 0.0 else 0.5
+        )
 
         total_positive_weight = max(sum(weights[key] for key in keys), 1e-9)
         normalized_gap_penalty = w.skill_gap * skill_gap_penalty / total_positive_weight
