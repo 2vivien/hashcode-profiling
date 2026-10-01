@@ -82,10 +82,7 @@ def test_calibration_requires_both_classes() -> None:
     labels = np.array([0, 1] * 10)
     report = calibrator.fit(scores, labels)
     assert report.sample_count == 20
-    assert np.all(
-        (calibrator.predict(scores) >= 0)
-        & (calibrator.predict(scores) <= 1)
-    )
+    assert np.all((calibrator.predict(scores) >= 0) & (calibrator.predict(scores) <= 1))
 
 
 def test_graph_and_rgcn() -> None:
