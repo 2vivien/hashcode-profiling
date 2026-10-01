@@ -108,9 +108,7 @@ def main() -> None:
     rows = load_rows(args.input)
     train_rows, validation_rows = grouped_temporal_split(rows, args.validation_fraction)
     x_train, y_train, groups, feature_names, _ = matrix(train_rows)
-    x_validation, y_validation, validation_groups, _, _ = matrix(
-        validation_rows, feature_names
-    )
+    x_validation, y_validation, validation_groups, _, _ = matrix(validation_rows, feature_names)
 
     model = LambdaMARTModel()
     model.fit(x_train, y_train, groups, feature_names)
