@@ -10,6 +10,7 @@ from orientation.contracts.profile import StudentProfile
 from orientation.occupation_knowledge.catalog import OccupationCatalog
 from orientation.occupation_knowledge.models import DirectionExploration, OccupationMatch
 from orientation.occupation_knowledge.scoring import OccupationScorer
+from orientation.occupation_knowledge.training import TrainingRecommendation, load_training_catalog, recommend_training
 
 router = APIRouter(tags=["occupation-v2"])
 
@@ -58,3 +59,22 @@ def discover_directions(request: OccupationRecommendationRequest) -> list[Direct
     if not records:
         raise HTTPException(status_code=404, detail="no_occupation_evidence")
     return OccupationScorer().discover_directions(request.profile, records, min(request.limit, 20))
+
+
+class TrainingRecommendationRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    skill_ids: tuple[str, ...] = ()
+    limit: int = Field(default=5, ge=1, le=20)
+
+
+@router.post("/occupation-v2/training", response_model=list[TrainingRecommendation])
+def recommend_training_opportunities(request: TrainingRecommendationRequest) -> list[TrainingRecommendation]:
+    configured = os.getenv("OTHELOO_TRAINING_CATALOG")
+    if not configured:
+        raise HTTPException(status_code=503, detail="training_catalog_not_configured")
+    path = Path(configured)
+    if not path.is_file():
+        raise HTTPException(status_code=503, detail="training_catalog_unavailable")
+    catalog = load_training_catalog(path)
+    return list(recommend_training({}, request.skill_ids, catalog, request.limit))
