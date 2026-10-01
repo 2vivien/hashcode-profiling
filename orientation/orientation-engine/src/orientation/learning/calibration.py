@@ -22,7 +22,7 @@ class ScoreCalibrator:
         if method not in {"sigmoid", "isotonic"}:
             raise ValueError("method must be sigmoid or isotonic")
         self.method = method
-        self._model: LogisticRegression | IsotonicRegression | None = None
+        self._model: object | None = None
 
     def fit(self, scores: np.ndarray, labels: np.ndarray) -> CalibrationReport:
         x = np.asarray(scores, dtype=np.float64)
@@ -32,7 +32,7 @@ class ScoreCalibrator:
         if not np.all(np.isin(y, (0, 1))) or len(np.unique(y)) < 2:
             raise ValueError("binary calibration labels with both classes are required")
         if self.method == "sigmoid":
-            model: LogisticRegression | IsotonicRegression = LogisticRegression()
+            model = LogisticRegression()
             model.fit(x.reshape(-1, 1), y)
             probabilities = model.predict_proba(x.reshape(-1, 1))[:, 1]
         else:
@@ -51,10 +51,10 @@ class ScoreCalibrator:
             raise RuntimeError("calibrator is not fitted")
         x = np.asarray(scores, dtype=np.float64)
         if self.method == "sigmoid":
-            model = cast(LogisticRegression, self._model)
-            return np.asarray(model.predict_proba(x.reshape(-1, 1))[:, 1], dtype=np.float64)
-        model = cast(IsotonicRegression, self._model)
-        return np.asarray(model.predict(x), dtype=np.float64)
+            sigmoid_model = cast(LogisticRegression, self._model)
+            return np.asarray(sigmoid_model.predict_proba(x.reshape(-1, 1))[:, 1], dtype=np.float64)
+        isotonic_model = cast(IsotonicRegression, self._model)
+        return np.asarray(isotonic_model.predict(x), dtype=np.float64)
 
     def evaluate(self, scores: np.ndarray, labels: np.ndarray) -> CalibrationReport:
         y = np.asarray(labels, dtype=np.int64)
