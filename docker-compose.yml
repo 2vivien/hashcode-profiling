@@ -1,0 +1,148 @@
+# hashcode-profiling — moteur d'orientation (service indépendant).
+# Ce dépôt n'est PAS spécifique à Otheloo : Otheloo n'est que le premier consommateur.
+#
+# Réseaux :
+#   - `proxy`     : réseau EXTERNE partagé du VPS (Traefik). Sert uniquement au routage public.
+#   - `profiling` : réseau DÉDIÉ au moteur (nom Docker explicite `hashcodeprofiling-net`).
+#
+# Sécurité (voir SECURITY.md) :
+#   - aucun secret par défaut (POSTGRES_PASSWORD obligatoire) ;
+#   - conteneurs durcis : non-root, read-only, cap_drop ALL, no-new-privileges, limites ;
+#   - base de données jamais publiée, réseau interne `profiling` uniquement ;
+#   - en-têtes de sécurité + rate-limit Traefik sur la route publique.
+#
+# Ne PAS lancer de Traefik ici : les ports 80/443 sont déjà pris par le proxy partagé.
+
+name: hashcodeprofiling
+
+networks:
+  proxy:
+    external: true
+  profiling:
+    name: hashcodeprofiling-net
+    driver: bridge
+
+services:
+  orientation-engine:
+    build:
+      context: ./orientation/orientation-engine
+      dockerfile: Dockerfile
+    container_name: hashcodeprofiling-engine
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      - DOMAIN=${DOMAIN:-profiler.otheloo.com}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD requis}@supabase-db:5432/${POSTGRES_DB:-postgres}
+      - DATA_PATH=/app/data/knowledge/${OTHELOO_KNOWLEDGE_VERSION:-v2}
+      - OTHELOO_KNOWLEDGE_VERSION=${OTHELOO_KNOWLEDGE_VERSION:-v2}
+      # Lecture de la connaissance via le data-service (repli JSON si indisponible).
+      - OTHELOO_DATA_SERVICE_URL=${OTHELOO_DATA_SERVICE_URL:-http://data-service:4100}
+      # Laisser vide en local ; définir une clé en production pour exiger X-API-Key.
+      - OTHELOO_API_KEY=${OTHELOO_API_KEY:-}
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+      data-service:
+        condition: service_healthy
+    networks:
+      - proxy
+      - profiling
+    volumes:
+      - ./orientation/orientation-engine/data:/app/data:ro
+      - runtime-data:/app/data/runtime
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 1g
+    cpus: 1.5
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.profiler.rule=Host(`profiler.otheloo.com`)"
+      - "traefik.http.routers.profiler.entrypoints=websecure"
+      - "traefik.http.routers.profiler.service=profiler"
+      - "traefik.http.routers.profiler.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.profiler.tls.domains[0].main=profiler.otheloo.com"
+      - "traefik.http.routers.profiler.middlewares=security-headers@file,compress@file,rate-limit-api@file"
+      - "traefik.http.services.profiler.loadbalancer.server.port=8000"
+
+  supabase-db:
+    image: supabase/postgres:15.1.0.117
+    container_name: hashcodeprofiling-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD requis}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+    networks:
+      - profiling
+    volumes:
+      - supabase-data:/var/lib/postgresql/data
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Service de données (Drizzle ORM) — source de vérité, non exposé publiquement.
+  data-service:
+    build:
+      context: ./data-service
+      dockerfile: Dockerfile
+    container_name: hashcodeprofiling-data
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD requis}@supabase-db:5432/${POSTGRES_DB:-postgres}
+      - PORT=4100
+    networks:
+      - profiling
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 512m
+    cpus: 1.0
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:4100/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  # Sandbox de développement (notebooks) — non déployé par défaut.
+  # Lancer : docker compose --profile dev up -d jupyter
+  jupyter:
+    build:
+      context: ./orientation/orientation-engine
+      dockerfile: Dockerfile.dev
+    container_name: hashcodeprofiling-jupyter
+    profiles: ["dev"]
+    working_dir: /app
+    ports:
+      - "127.0.0.1:8888:8888"
+    environment:
+      - PYTHONPATH=/app/src
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD requis}@supabase-db:5432/${POSTGRES_DB:-postgres}
+      - DATA_PATH=/app/data/knowledge/v1
+    networks:
+      - profiling
+    volumes:
+      - ./orientation/orientation-engine/notebooks:/app/notebooks
+
+volumes:
+  supabase-data:
+    name: hashcodeprofiling-data
+  runtime-data:
+    name: hashcodeprofiling-runtime
