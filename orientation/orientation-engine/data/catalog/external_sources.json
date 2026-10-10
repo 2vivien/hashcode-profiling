@@ -4,13 +4,74 @@
     "release_date": "2025-12-10",
     "download_page": "https://esco.ec.europa.eu/en/use-esco/download",
     "local_api_page": "https://esco.ec.europa.eu/en/use-esco/use-esco-services-api/esco-local-api",
-    "formats": ["csv", "ods", "rdf", "ttl", "xml", "json-ld"]
+    "web_service_api_page": "https://esco.ec.europa.eu/en/use-esco/use-esco-services-api/esco-web-service-api",
+    "formats": ["csv", "ods", "rdf", "ttl", "xml", "json-ld"],
+    "license": "CC BY 4.0",
+    "verified_on": "2026-10-10"
   },
   "onet": {
     "version": "31.0",
     "release_date": "2026-08",
     "release_page": "https://www.onetcenter.org/db_releases.html",
-    "formats": ["csv", "json", "sql", "rdf"]
+    "downloads": {
+      "excel": "https://www.onetcenter.org/dl_files/database/db_31_0_excel.zip",
+      "jsonld": "https://www.onetcenter.org/dl_files/database/db_31_0_jsonld.zip",
+      "sql": "https://www.onetcenter.org/dl_files/database/db_31_0_mysql.zip"
+    },
+    "formats": ["csv", "json", "sql", "rdf"],
+    "license": "CC BY 4.0",
+    "auth": "none",
+    "verified_on": "2026-10-10"
+  },
+  "esco_onet_crosswalk": {
+    "version": "v6.0.0",
+    "page": "https://esco.ec.europa.eu/en/use-esco/other-crosswalks",
+    "license": "CC BY 4.0",
+    "relations": ["exact", "narrow", "broad", "close", "related"],
+    "note": "Pont officiel entre ESCO et O*NET ; charge apres les deux taxonomies.",
+    "verified_on": "2026-10-10"
+  },
+  "rome": {
+    "version": "2026-06",
+    "authority": "France Travail",
+    "license": "Ouvert",
+    "auth": "none",
+    "base_url": "https://www.francetravail.org/files/live/sites/peorg/files/documents/Statistiques-et-analyses/Open-data/ROME",
+    "files": {
+      "arborescence_principale": "rome-arborescence-principale-juin-2026.xlsx",
+      "arborescence_competences": "rome-arborescence-des-competences-juin-2026.xlsx",
+      "arborescence_competences_simplifiee": "260611-arborescence-simplifiee-des-competences.xlsx",
+      "arborescence_savoirs": "rome-arborescence-des-savoirs-juin-2026.xlsx",
+      "arborescence_contextes": "rome-arborescence-des-contextes-de-travail-juin-2026.xlsx",
+      "arborescence_secteurs": "rome-arborescence-des-secteurs-d-activite-juin-2026.xlsx",
+      "arborescence_centres_interet": "rome-arborescence-des-centres-d-interet-juin-2026.xlsx"
+    },
+    "format": "xlsx",
+    "sheets_competences": ["Définition", "Macro-compétences", "Compétences"],
+    "verified_on": "2026-10-10",
+    "note": "openpyxl requis : le lecteur d'ingestion actuel ne lit que du CSV."
+  },
+  "wikidata": {
+    "endpoint": "https://query.wikidata.org/sparql",
+    "license": "CC0",
+    "auth": "none",
+    "user_agent_required": true,
+    "verified_on": "2026-10-10"
+  },
+  "datagouv": {
+    "endpoint": "https://www.data.gouv.fr/api/1/datasets/",
+    "license": "Ouvert",
+    "auth": "none",
+    "verified_on": "2026-10-10"
+  },
+  "rejected": {
+    "apis_aggregator": {
+      "url": "https://github.com/cporter202/API-mega-list",
+      "reason": "Catalogue de liens vers des APIs commerciales de scraping ; aucun jeu de donnees metier exploitable."
+    },
+    "onisep": { "url": "https://www.onisep.fr/", "reason": "HTTP 403 / DNS echoue depuis le serveur de production." },
+    "eurostat": { "url": "https://ec.europa.eu/eurostat/api/", "reason": "HTTP 404 sur les jeux de donnees testes depuis ce serveur." },
+    "huggingface": { "url": "https://huggingface.co/api/datasets", "reason": "Aucun jeu exploitable pour esco / onet / occupation skills." }
   },
   "policy": {
     "downloaded_files_are_external_artifacts": true,
