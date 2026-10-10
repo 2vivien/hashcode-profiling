@@ -1,0 +1,91 @@
+<section class="page-head">
+  <div class="wrap">
+    <p class="crumbs"><a href="/">Accueil</a><span>/</span>Développeurs</p>
+    <h1>Connectez le moteur <span class="g shimmer">à vos systèmes</span>.</h1>
+    <p class="lede">Service indépendant exposé en REST/JSON. Aucun code n'est intégré de force : vous consommez l'API, point. État réel du service, paramètres de connexion, endpoints et extraits prêts à copier.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Statut système</h2>
+    <p class="sub">Données live depuis <code>/v1/orientation/system/info</code>. Aucun secret exposé.</p>
+    <div class="status-grid" id="status">
+      <div class="card"><div class="k">Service</div><div class="v"><span class="dot wait"></span>…</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Connexion</h2>
+    <p class="sub">Paramètres non sensibles. Le mot de passe vit uniquement dans <code>.env</code> côté serveur.</p>
+    <div id="conn"></div>
+    <p class="note">Le moteur est un service séparé. Otheloo (et tout autre consommateur) l'appelle par HTTP — il n'y a aucune dépendance de code croisée.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Endpoints</h2>
+    <p class="sub">Contrats versionnés. Réponses versionnées (profil, modèle, connaissance).</p>
+    <div class="rows">
+      <div class="row"><span class="l"><code>GET</code></span><code>/v1/orientation/system/info</code></div>
+      <div class="row"><span class="l"><code>GET</code></span><code>/health</code></div>
+      <div class="row"><span class="l"><code>POST</code></span><code>/v1/orientation/recommendations</code></div>
+      <div class="row"><span class="l"><code>POST</code></span><code>/v1/orientation/profiles</code></div>
+      <div class="row"><span class="l"><code>POST</code></span><code>/v1/orientation/assessments</code></div>
+      <div class="row"><span class="l"><code>POST</code></span><code>/v1/orientation/feedback</code></div>
+      <div class="row"><span class="l"><code>GET</code></span><code>/v1/orientation/knowledge/*</code></div>
+      <div class="row"><span class="l">Docs</span><code>/docs · /redoc · /openapi.json</code></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Extraits prêts à copier</h2>
+    <p class="sub">Adaptez l'URL de base à votre environnement.</p>
+    <div class="tabs" id="tabs">
+      <button class="tab on" data-t="curl">cURL</button>
+      <button class="tab" data-t="node">Node / TypeScript</button>
+      <button class="tab" data-t="python">Python</button>
+      <button class="tab" data-t="psql">psql (Supabase)</button>
+    </div>
+    <div class="code"><button class="copy" data-copy>Copier</button><pre id="snippet"></pre></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Notifications (toasts)</h2>
+    <p class="sub">Composant accessible : <code>aria-live</code>, fermeture manuelle (ou <kbd>Échap</kbd>), pause au survol, barre de progression. Les erreurs ne reposent jamais sur la couleur seule (icône + bord).</p>
+    <div class="hero-cta" style="margin-top:8px">
+      <button class="btn ghost" data-toast="success">Succès</button>
+      <button class="btn ghost" data-toast="info">Info</button>
+      <button class="btn ghost" data-toast="warn">Attention</button>
+      <button class="btn ghost" data-toast="error">Erreur</button>
+      <button class="btn ghost" data-toast="action">Avec action (Annuler)</button>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Console de test</h2>
+    <p class="sub">Envoie un profil au moteur et affiche la réponse brute.</p>
+    <textarea id="payload" spellcheck="false">{
+  "student_id": "dev-1",
+  "interests": {"investigative": 0.8, "realistic": 0.7, "conventional": 0.6},
+  "abilities": {"logical": 0.9, "verbal": 0.5},
+  "subjects": {"mathematics": 0.8, "computer_science": 0.9},
+  "skills": [
+    {"skill_id": "programming", "level": 0.8, "confidence": 0.7, "source": "declared", "status": "declared"}
+  ]
+}</textarea>
+    <div style="margin-top:12px"><button class="btn primary" id="send-dev">POST /v1/orientation/recommendations</button></div>
+    <pre class="out hidden" id="out"></pre>
+  </div>
+</section>
+
+<script src="/assets/js/dev.js?v=3" defer></script>

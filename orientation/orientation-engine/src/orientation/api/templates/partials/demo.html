@@ -1,0 +1,44 @@
+<section id="demo">
+  <div class="wrap">
+    <p class="kicker reveal">Démo live</p>
+    <h2 class="reveal">Interrogez le moteur, en direct.</h2>
+    <p class="sub reveal">Même contrat que les intégrateurs : un profil normalisé, des directions expliquées. Modifiez le corps et relancez.</p>
+
+    <div class="api reveal">
+      <div class="api-bar">
+        <span class="method">POST</span>
+        <code class="url">/v1/orientation/recommendations</code>
+        <span class="status" id="apiStatus">prêt</span>
+        <button class="ic-btn" id="apiCopy" title="Copier l'URL" aria-label="Copier l'URL">⧉</button>
+      </div>
+      <div class="api-grid">
+        <div class="api-pane">
+          <div class="pane-head"><span>Corps de la requête</span><span class="field-status" id="jsonStatus" aria-live="polite"></span></div>
+          <div class="editor">
+            <pre class="hl" aria-hidden="true"><code id="hl"></code></pre>
+            <textarea id="payload" spellcheck="false" aria-label="Profil JSON">{
+  "student_id": "demo-1",
+  "interests": {"investigative": 0.8, "realistic": 0.7, "conventional": 0.6},
+  "abilities": {"logical": 0.9, "verbal": 0.5},
+  "subjects": {"mathematics": 0.8, "computer_science": 0.9},
+  "skills": [
+    {"skill_id": "programming", "level": 0.8, "confidence": 0.7, "source": "declared", "status": "declared"},
+    {"skill_id": "problem_solving", "level": 0.7, "confidence": 0.6, "source": "declared", "status": "declared"}
+  ]
+}</textarea>
+          </div>
+          <div class="pane-foot">
+            <span class="hint">application/json</span>
+            <button class="btn primary" id="send" style="padding:9px 18px;font-size:.85rem">Envoyer la requête</button>
+          </div>
+        </div>
+        <div class="api-pane">
+          <div class="pane-head"><span>Réponse</span><span class="hint" id="apiMeta"></span></div>
+          <div class="results" id="results">
+            <div class="empty">Les directions recommandées s'afficheront ici.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

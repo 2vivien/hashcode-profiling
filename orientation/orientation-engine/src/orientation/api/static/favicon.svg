@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="15" fill="#07090f"/>
+  <rect x="1.4" y="1.4" width="61.2" height="61.2" rx="13.8" fill="none" stroke="#2a3242" stroke-width="1.4"/>
+  <!-- trajectoire d'exploration : trois paliers reliés -->
+  <path d="M17 46 C24 42 27 37 33 33" fill="none" stroke="#22d3ee" stroke-width="3.6" stroke-linecap="round"/>
+  <path d="M33 33 C39 29 43 24 48 18" fill="none" stroke="#a855f7" stroke-width="3.6" stroke-linecap="round"/>
+  <!-- noeuds -->
+  <circle cx="17" cy="46" r="5" fill="#22d3ee"/>
+  <circle cx="48" cy="18" r="5" fill="#a855f7"/>
+  <circle cx="33" cy="33" r="3.6" fill="#eef1f6"/>
+</svg>
