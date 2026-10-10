@@ -113,9 +113,7 @@ class RGCNModel:
         output_bias = np.zeros(class_count, dtype=np.float64)
 
         for _ in range(self.config.epochs):
-            pre_activation = self._aggregate(
-                features, edges, relations, relation_weights, self_weight
-            )
+            pre_activation = self._aggregate(features, edges, relations, relation_weights, self_weight)
             hidden = np.maximum(pre_activation, 0.0)
             probabilities = self._softmax(hidden @ output_weight + output_bias)
             gradient_logits = probabilities.copy()
@@ -141,9 +139,7 @@ class RGCNModel:
                 for edge_index in range(relation_edges.shape[1]):
                     source = int(relation_edges[0, edge_index])
                     target = int(relation_edges[1, edge_index])
-                    gradient_relations[relation] += np.outer(
-                        features[source], gradient_pre[target]
-                    ) / max(counts[target], 1.0)
+                    gradient_relations[relation] += np.outer(features[source], gradient_pre[target]) / max(counts[target], 1.0)
                 gradient_relations[relation] += self.config.l2 * relation_weights[relation]
 
             relation_weights -= self.config.learning_rate * gradient_relations
@@ -176,12 +172,7 @@ class RGCNModel:
         self_weight = self.self_weight
         output_weight = self.output_weight
         output_bias = self.output_bias
-        if (
-            relation_weights is None
-            or self_weight is None
-            or output_weight is None
-            or output_bias is None
-        ):
+        if relation_weights is None or self_weight is None or output_weight is None or output_bias is None:
             raise RuntimeError("RGCN model is not trained")
         if features.ndim != 2 or features.shape[1] != self_weight.shape[0]:
             raise ValueError("prediction features have the wrong shape")

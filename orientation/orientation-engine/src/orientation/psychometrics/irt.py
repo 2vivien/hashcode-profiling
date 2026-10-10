@@ -56,20 +56,11 @@ def estimate_mirt(
         raise ValueError("MIRT inputs must have shapes [items, dimensions], [items], [items]")
     if a_matrix.shape[0] != len(responses_array) or len(b_vector) != len(responses_array):
         raise ValueError("MIRT item arrays must align")
-    theta = (
-        np.zeros(a_matrix.shape[1], dtype=np.float64)
-        if initial is None
-        else np.asarray(initial, dtype=np.float64).copy()
-    )
+    theta = np.zeros(a_matrix.shape[1], dtype=np.float64) if initial is None else np.asarray(initial, dtype=np.float64).copy()
     if theta.shape != (a_matrix.shape[1],):
         raise ValueError("initial theta has the wrong dimension")
     for _ in range(iterations):
-        probabilities = np.asarray(
-            [
-                probability_mirt(theta, a_matrix[i], float(b_vector[i]))
-                for i in range(len(responses_array))
-            ]
-        )
+        probabilities = np.asarray([probability_mirt(theta, a_matrix[i], float(b_vector[i])) for i in range(len(responses_array))])
         residual = responses_array - probabilities
         information = ridge * np.eye(a_matrix.shape[1], dtype=np.float64)
         gradient = -ridge * theta

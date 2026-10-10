@@ -26,9 +26,7 @@ class RemoteKnowledge:
     Retourne ``None`` en cas d'indisponibilité : l'appelant garde le repli JSON.
     """
 
-    def __init__(
-        self, base_url: str, version: str, timeout: float = 2.0, ttl: float = 60.0
-    ) -> None:
+    def __init__(self, base_url: str, version: str, timeout: float = 2.0, ttl: float = 60.0) -> None:
         self.base_url = base_url.rstrip("/")
         self.version = version
         self.timeout = timeout

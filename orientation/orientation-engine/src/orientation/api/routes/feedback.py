@@ -25,9 +25,7 @@ def _evolve(event: FeedbackEvent) -> str | None:
     if kind is None or profile is None:
         return None
     bundle = get_service().knowledge()
-    direction = next(
-        (item for item in bundle.directions if item.direction_id == event.direction_id), None
-    )
+    direction = next((item for item in bundle.directions if item.direction_id == event.direction_id), None)
     if direction is None:
         return None
     updated = evolution.apply_feedback(profile, kind, direction)

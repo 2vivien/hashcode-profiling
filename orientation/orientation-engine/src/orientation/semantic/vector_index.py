@@ -62,13 +62,8 @@ class NumpyVectorIndex:
             stored_version = str(payload["index_version"].item())
             metadata = json.loads(str(payload["metadata"].item()))
         if stored_version != self.index_version:
-            raise ValueError(
-                "vector index version mismatch: "
-                f"expected {self.index_version}, got {stored_version}"
-            )
-        if not isinstance(metadata, dict) or not all(
-            isinstance(key, str) and isinstance(value, str) for key, value in metadata.items()
-        ):
+            raise ValueError(f"vector index version mismatch: expected {self.index_version}, got {stored_version}")
+        if not isinstance(metadata, dict) or not all(isinstance(key, str) and isinstance(value, str) for key, value in metadata.items()):
             raise ValueError("invalid vector index metadata")
         self.fit(ids, vectors, metadata)
 

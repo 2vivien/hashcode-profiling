@@ -52,16 +52,8 @@ def grouped_temporal_split(
         raise ValueError("temporal split requires train and validation student cohorts")
 
     cutoff = min(latest_by_student[student] for student in validation_students)
-    train = [
-        row
-        for index, row in enumerate(rows)
-        if str(row["student_id"]) in train_students and timestamps[index] < cutoff
-    ]
-    validation = [
-        row
-        for index, row in enumerate(rows)
-        if str(row["student_id"]) in validation_students and timestamps[index] >= cutoff
-    ]
+    train = [row for index, row in enumerate(rows) if str(row["student_id"]) in train_students and timestamps[index] < cutoff]
+    validation = [row for index, row in enumerate(rows) if str(row["student_id"]) in validation_students and timestamps[index] >= cutoff]
     if not train or not validation:
         raise ValueError("temporal split produced an empty train or validation set")
 

@@ -19,11 +19,5 @@ class CandidateGenerationService:
             if set(profile.subjects) & set(direction.subjects):
                 sources[direction.direction_id].add("subject")
         if not sources:
-            return [
-                Candidate(direction_id=direction.direction_id, generation_sources=["baseline"])
-                for direction in directions
-            ]
-        return [
-            Candidate(direction_id=key, generation_sources=sorted(value))
-            for key, value in sorted(sources.items())
-        ]
+            return [Candidate(direction_id=direction.direction_id, generation_sources=["baseline"]) for direction in directions]
+        return [Candidate(direction_id=key, generation_sources=sorted(value)) for key, value in sorted(sources.items())]

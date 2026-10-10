@@ -33,10 +33,7 @@ def test_question_bank_is_exactly_40_and_closed() -> None:
     assert len(QUESTIONS_V1) == 40
     assert [q.question_id for q in QUESTIONS_V1] == [f"Q{i:02d}" for i in range(1, 41)]
     assert all(question.options for question in QUESTIONS_V1)
-    assert all(
-        len({option.option_id for option in question.options}) == len(question.options)
-        for question in QUESTIONS_V1
-    )
+    assert all(len({option.option_id for option in question.options}) == len(question.options) for question in QUESTIONS_V1)
 
 
 def test_profile_is_normalized_and_confidence_is_bounded() -> None:
@@ -58,16 +55,12 @@ def test_profile_is_normalized_and_confidence_is_bounded() -> None:
 
 def test_adaptive_questions_stop_when_confidence_is_high() -> None:
     profile = AssessmentV1Engine().build_profile(_submission())
-    request = AdaptiveQuestionRequest(
-        profile_confidence=profile.profile_confidence, maximum_questions=3
-    )
+    request = AdaptiveQuestionRequest(profile_confidence=profile.profile_confidence, maximum_questions=3)
     assert AssessmentV1Engine().adaptive_questions(profile, request) == ()
 
 
 def test_invalid_option_is_rejected() -> None:
-    submission = _submission().model_copy(
-        update={"answers": (Answer(question_id="Q01", option_ids=("invalid",)),)}
-    )
+    submission = _submission().model_copy(update={"answers": (Answer(question_id="Q01", option_ids=("invalid",)),)})
     with pytest.raises(ValueError, match="invalid_option"):
         AssessmentV1Engine().build_profile(submission)
 

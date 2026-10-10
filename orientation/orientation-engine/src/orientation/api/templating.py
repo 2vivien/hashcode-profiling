@@ -40,12 +40,8 @@ def expand(html: str) -> str:
 def render(page: str, active: str, title: str, description: str) -> str:
     base = _read(TEMPLATES / "base.html")
     content = expand(_read(PAGES / f"{page}.html"))
-    nav = _ACTIVE.sub(
-        lambda m: " active" if m.group(1) == active else "", expand(_read(PARTIALS / "nav.html"))
-    )
+    nav = _ACTIVE.sub(lambda m: " active" if m.group(1) == active else "", expand(_read(PARTIALS / "nav.html")))
     footer = expand(_read(PARTIALS / "footer.html"))
-    html = (
-        base.replace("{{nav}}", nav).replace("{{content}}", content).replace("{{footer}}", footer)
-    )
+    html = base.replace("{{nav}}", nav).replace("{{content}}", content).replace("{{footer}}", footer)
     html = expand(html)
     return html.replace("{{title}}", title).replace("{{description}}", description)

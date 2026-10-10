@@ -14,11 +14,7 @@ def main() -> None:
     parser.add_argument("--threshold", type=float, default=0.5)
     args = parser.parse_args()
 
-    rows = [
-        json.loads(line)
-        for line in args.input.read_text(encoding="utf-8").splitlines()
-        if line.strip()
-    ]
+    rows = [json.loads(line) for line in args.input.read_text(encoding="utf-8").splitlines() if line.strip()]
     groups = np.asarray([str(row["group"]) for row in rows])
     scores = np.asarray([float(row["score"]) for row in rows], dtype=np.float64)
     labels = np.asarray([int(row["label"]) for row in rows], dtype=np.int64)

@@ -1,9 +1,7 @@
 from orientation.contracts.recommendation import RecommendationItem
 
 
-def diversify(
-    items: list[RecommendationItem], final_k: int, lambda_value: float
-) -> list[RecommendationItem]:
+def diversify(items: list[RecommendationItem], final_k: int, lambda_value: float) -> list[RecommendationItem]:
     selected: list[RecommendationItem] = []
     remaining = list(items)
     while remaining and len(selected) < final_k:

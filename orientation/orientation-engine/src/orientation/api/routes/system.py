@@ -39,16 +39,12 @@ def _database_status() -> dict[str, object]:
 @router.get("/system/info")
 def system_info() -> dict[str, object]:
     data_path = Path(os.environ.get("DATA_PATH", _DEFAULT_DATA))
-    knowledge_dirs = (
-        sorted(p.name for p in data_path.parent.iterdir()) if data_path.parent.exists() else []
-    )
+    knowledge_dirs = sorted(p.name for p in data_path.parent.iterdir()) if data_path.parent.exists() else []
     return {
         "service": "hashcode-profiling engine",
         "code_version": versions.CODE_VERSION,
         "model_version": os.environ.get("OTHELLOO_MODEL_VERSION", versions.MODEL_VERSION),
-        "knowledge_version": os.environ.get(
-            "OTHELLOO_KNOWLEDGE_VERSION", versions.KNOWLEDGE_VERSION
-        ),
+        "knowledge_version": os.environ.get("OTHELLOO_KNOWLEDGE_VERSION", versions.KNOWLEDGE_VERSION),
         "profile_version": versions.PROFILE_VERSION,
         "assessment_version": versions.ASSESSMENT_VERSION,
         "configuration_version": versions.CONFIGURATION_VERSION,

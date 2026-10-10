@@ -46,17 +46,13 @@ def doubly_robust(
     target = np.asarray(target_actions)
     propensities = np.asarray(logged_propensities, dtype=np.float64)
     baseline = np.asarray(baseline_rewards, dtype=np.float64)
-    if not (
-        rewards_array.shape == logged.shape == target.shape == propensities.shape == baseline.shape
-    ):
+    if not (rewards_array.shape == logged.shape == target.shape == propensities.shape == baseline.shape):
         raise ValueError("off-policy arrays must align")
     if np.any((propensities <= 0) | (propensities > 1)):
         raise ValueError("logged propensities must be in (0,1]")
     mask = logged == target
     correction = np.zeros_like(rewards_array)
-    correction[mask] = (rewards_array[mask] - baseline[mask]) / np.maximum(
-        propensities[mask], min_propensity
-    )
+    correction[mask] = (rewards_array[mask] - baseline[mask]) / np.maximum(propensities[mask], min_propensity)
     values = baseline + correction
     weights = np.zeros_like(rewards_array)
     weights[mask] = 1.0 / np.maximum(propensities[mask], min_propensity)

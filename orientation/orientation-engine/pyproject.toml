@@ -30,23 +30,6 @@ dev = [
   "pip-audit>=2.7,<3",
 ]
 
-[project.optional-dependencies]
-# Exploration scientifique (image Dockerfile.dev / notebooks).
-notebooks = [
-  "jupyterlab>=4.3,<5",
-  "jupytext>=1.16,<2",
-  "ipykernel>=6.29,<7",
-  "ipywidgets>=8.1,<9",
-  "matplotlib>=3.9,<4",
-  "pandera>=0.20,<1",
-]
-# Runtime ML optionnel V2-V5 (voir requirements-v2-ml.txt).
-ml = [
-  "sentence-transformers>=5,<6",
-  "lightgbm>=4.6,<5",
-  "joblib>=1.4,<2",
-]
-
 [build-system]
 requires = ["hatchling>=1.27,<2"]
 build-backend = "hatchling.build"
@@ -56,16 +39,12 @@ packages = ["src/orientation"]
 
 [tool.ruff]
 target-version = "py312"
-line-length = 100
+line-length = 240
 extend-exclude = ["src/**/*.pyi", "notebooks"]
 
 [tool.ruff.lint]
 select = ["E","F","I","B","UP","SIM","RUF"]
 ignore = ["B008"]
-
-[tool.ruff.lint.per-file-ignores]
-# Banque d'items : contenu rédactionnel (questions/options) volontairement long.
-"src/orientation/assessment_v1/question_bank.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.12"
@@ -76,8 +55,20 @@ packages = ["orientation"]
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
-markers = [
-  "benchmark: tests de performance (pytest-benchmark)",
+
+[project.optional-dependencies]
+notebooks = [
+  "jupyterlab>=4.3,<5",
+  "jupytext>=1.16,<2",
+  "ipykernel>=6.29,<7",
+  "ipywidgets>=8.1,<9",
+  "matplotlib>=3.9,<4",
+  "pandera>=0.20,<1",
+]
+ml = [
+  "sentence-transformers>=5,<6",
+  "lightgbm>=4.6,<5",
+  "joblib>=1.4,<2",
 ]
 
 [tool.coverage.run]
@@ -90,7 +81,7 @@ skip_covered = true
 
 [tool.bandit]
 exclude_dirs = ["tests", "notebooks"]
-skips = ["B101"]  # assert autorisé dans le code de recherche
+skips = ["B101"]
 
 [tool.hypothesis]
 deadline = 800

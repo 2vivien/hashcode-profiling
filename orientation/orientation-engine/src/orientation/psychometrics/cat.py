@@ -55,9 +55,7 @@ class TwoPLCAT:
             available = [i for i in range(len(self.item_ids)) if i not in administered]
             if not available:
                 break
-            information = [
-                fisher_information_2pl(theta, float(self.a[i]), float(self.b[i])) for i in available
-            ]
+            information = [fisher_information_2pl(theta, float(self.a[i]), float(self.b[i])) for i in available]
             item_index = available[int(np.argmax(information))]
             response = float(response_provider(self.item_ids[item_index]))
             if response not in (0.0, 1.0):
@@ -71,9 +69,7 @@ class TwoPLCAT:
                 self.b[administered],
                 initial=theta,
             )
-            total_information = sum(
-                item_information(theta, float(self.a[i]), float(self.b[i])) for i in administered
-            )
+            total_information = sum(item_information(theta, float(self.a[i]), float(self.b[i])) for i in administered)
             se = float(1.0 / np.sqrt(max(total_information, 1e-9)))
             if n >= self.min_items and se <= self.target_se:
                 return CATResult(theta, se, tuple(self.item_ids[i] for i in administered), True)

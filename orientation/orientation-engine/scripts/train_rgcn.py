@@ -59,12 +59,8 @@ def main() -> None:
 
     if set(train_nodes) & set(validation_nodes):
         raise ValueError("graph split leaks nodes across train and validation")
-    train_features, train_edges, train_relations, train_labels = subgraph(
-        features, edges, relations, labels, train_nodes
-    )
-    validation_features, validation_edges, validation_relations, validation_labels = subgraph(
-        features, edges, relations, labels, validation_nodes
-    )
+    train_features, train_edges, train_relations, train_labels = subgraph(features, edges, relations, labels, train_nodes)
+    validation_features, validation_edges, validation_relations, validation_labels = subgraph(features, edges, relations, labels, validation_nodes)
 
     model = RGCNModel(RGCNConfig())
     model.fit(train_features, train_edges, train_relations, train_labels)

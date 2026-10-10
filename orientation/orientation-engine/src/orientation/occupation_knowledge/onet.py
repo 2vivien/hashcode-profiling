@@ -102,9 +102,7 @@ def enrich_onet_records(
         key = ABILITY_MAP.get(name)
         value = _float(row.get("Data Value", ""))
         if code and key and value is not None:
-            ability_values[code][key] = max(
-                ability_values[code].get(key, 0.0), _normalize_rating(value)
-            )
+            ability_values[code][key] = max(ability_values[code].get(key, 0.0), _normalize_rating(value))
             evidence[code] += 1
 
     for row in _rows(essential_skills):
@@ -113,9 +111,7 @@ def enrich_onet_records(
         key = SKILL_MAP.get(name)
         value = _float(row.get("Data Value", ""))
         if code and key and value is not None:
-            skill_values[code][key] = max(
-                skill_values[code].get(key, 0.0), _normalize_rating(value)
-            )
+            skill_values[code][key] = max(skill_values[code].get(key, 0.0), _normalize_rating(value))
             evidence[code] += 1
 
     for row in _rows(work_styles):
@@ -124,9 +120,7 @@ def enrich_onet_records(
         key = WORK_STYLE_MAP.get(name)
         value = _float(row.get("Data Value", ""))
         if code and key and value is not None:
-            work_style_values[code][key] = max(
-                work_style_values[code].get(key, 0.0), _normalize_rating(value)
-            )
+            work_style_values[code][key] = max(work_style_values[code].get(key, 0.0), _normalize_rating(value))
             evidence[code] += 1
 
     enriched: list[OccupationRecord] = []

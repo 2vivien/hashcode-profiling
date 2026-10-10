@@ -15,9 +15,7 @@ from orientation.infrastructure.knowledge.remote import RemoteKnowledge
 router = APIRouter(tags=["recommendations"])
 
 # Injection au démarrage — pas au niveau module global
-_DEFAULT_KNOWLEDGE = Path(
-    os.environ.get("DATA_PATH") or Path(__file__).resolve().parents[4] / "data" / "knowledge" / "v1"
-)
+_DEFAULT_KNOWLEDGE = Path(os.environ.get("DATA_PATH") or Path(__file__).resolve().parents[4] / "data" / "knowledge" / "v1")
 _recommendation_service: GenerateRecommendation | None = None
 _pipeline: PipelineOrchestrator | None = None
 
@@ -25,11 +23,7 @@ _pipeline: PipelineOrchestrator | None = None
 def init_pipeline(data_path: Path) -> PipelineOrchestrator:
     global _pipeline, _recommendation_service
     settings = Settings()
-    remote = (
-        RemoteKnowledge(settings.data_service_url, settings.knowledge_version)
-        if settings.data_service_url
-        else None
-    )
+    remote = RemoteKnowledge(settings.data_service_url, settings.knowledge_version) if settings.data_service_url else None
     _recommendation_service = GenerateRecommendation(data_path, remote=remote)
     _pipeline = PipelineOrchestrator(_recommendation_service)
     return _pipeline

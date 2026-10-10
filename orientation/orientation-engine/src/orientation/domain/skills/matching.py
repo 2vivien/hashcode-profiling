@@ -20,9 +20,5 @@ class SkillMatcher:
             matched += min(current.level / max(required, 0.01), 1.0) * required
             evidence.append(f"skill:{skill_id}")
         score = matched / total if total else 0.0
-        confidence = sum(
-            student[key].confidence for key in direction.skills if key in student
-        ) / max(len(direction.skills), 1)
-        return MatchResult(
-            score=score, confidence=confidence, evidence=evidence, missing_data=missing
-        )
+        confidence = sum(student[key].confidence for key in direction.skills if key in student) / max(len(direction.skills), 1)
+        return MatchResult(score=score, confidence=confidence, evidence=evidence, missing_data=missing)

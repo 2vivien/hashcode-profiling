@@ -31,11 +31,7 @@ def read_esco_occupations(path: Path, version: str = "v1.2.1") -> list[Occupatio
                 continue
             code = _first(row, "iscoCode", "ISCO08Code", "ISCO-08 code")
             group_code, domains = _group_for(code)
-            aliases = tuple(
-                value.strip()
-                for value in _first(row, "altLabels", "alternativeLabels").split("|")
-                if value.strip()
-            )
+            aliases = tuple(value.strip() for value in _first(row, "altLabels", "alternativeLabels").split("|") if value.strip())
             records.append(
                 OccupationRecord(
                     occupation_id=f"esco:{uri}",

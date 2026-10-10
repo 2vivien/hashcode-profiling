@@ -91,9 +91,7 @@ class GenerateRecommendation:
             formations=self.loader.repository.formations(),
         )
 
-    def _resolve_paths(
-        self, direction: Direction, profile: StudentProfile, bundle: KnowledgeBundle
-    ) -> tuple[list[OccupationPath], list[FormationPath]]:
+    def _resolve_paths(self, direction: Direction, profile: StudentProfile, bundle: KnowledgeBundle) -> tuple[list[OccupationPath], list[FormationPath]]:
         """Voies métier scorées + formations accessibles (les plus accessibles d'abord)."""
         by_occupation = {item.occupation_id: item for item in bundle.occupations}
         scored: list[tuple[OccupationMatch, OccupationRecord]] = []
@@ -111,20 +109,13 @@ class GenerateRecommendation:
                 match=round(match.score, 1),
                 confidence=round(match.confidence, 3),
                 recommendation_class=match.recommendation_class,
-                key_skills=[
-                    skill
-                    for skill, _ in sorted(record.skills.items(), key=lambda item: -item[1])[:3]
-                ],
+                key_skills=[skill for skill, _ in sorted(record.skills.items(), key=lambda item: -item[1])[:3]],
             )
             for match, record in scored[:3]
         ]
 
         by_formation = {item.formation_id: item for item in bundle.formations}
-        available = [
-            by_formation[formation_id]
-            for formation_id in direction.formations
-            if formation_id in by_formation
-        ]
+        available = [by_formation[formation_id] for formation_id in direction.formations if formation_id in by_formation]
         available.sort(key=lambda item: (item.level, item.duration_years or 0))
         formations = [
             FormationPath(
@@ -171,23 +162,17 @@ class GenerateRecommendation:
                 )
             )
         ranked = self.ranking.rank(items)[: self.config.top_k]
-        selected = self.diversification.diversify(
-            ranked, self.config.final_k, self.config.diversification_lambda
-        )
+        selected = self.diversification.diversify(ranked, self.config.final_k, self.config.diversification_lambda)
         final: list[RecommendationItem] = []
         for item in selected:
             item.explanation = self.explanations.build(item)
             item.explorations = self.exploration.ideas(item)
-            item.occupation_paths, item.formations = self._resolve_paths(
-                by_id[item.direction_id], profile, bundle
-            )
+            item.occupation_paths, item.formations = self._resolve_paths(by_id[item.direction_id], profile, bundle)
             final.append(item)
         scores = {item.direction_id: item.score for item in final}
         uncertainties = {item.direction_id: item.uncertainty for item in final}
         ranking = [item.direction_id for item in final]
-        canonical = json.dumps(
-            profile.model_dump(mode="json"), sort_keys=True, separators=(",", ":")
-        )
+        canonical = json.dumps(profile.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
         recommendation_id = "rec-" + hashlib.sha256(canonical.encode("utf-8")).hexdigest()[:24]
         audit = self.audit.build(
             recommendation_id,

@@ -56,9 +56,5 @@ def test_recommendation_exposes_occupation_and_formation_paths() -> None:
 
 def test_occupation_paths_are_scored_against_the_profile() -> None:
     technical = GenerateRecommendation(V2).execute(_profile())
-    technical_ids = {
-        path.occupation_id for item in technical.candidates for path in item.occupation_paths
-    }
-    assert any(
-        "software" in occupation_id or "data" in occupation_id for occupation_id in technical_ids
-    )
+    technical_ids = {path.occupation_id for item in technical.candidates for path in item.occupation_paths}
+    assert any("software" in occupation_id or "data" in occupation_id for occupation_id in technical_ids)

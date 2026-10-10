@@ -26,8 +26,5 @@ def build_catalog(
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("w", encoding="utf-8") as handle:
         for record in merged:
-            handle.write(
-                json.dumps(record.model_dump(mode="json"), ensure_ascii=False, sort_keys=True)
-                + "\n"
-            )
+            handle.write(json.dumps(record.model_dump(mode="json"), ensure_ascii=False, sort_keys=True) + "\n")
     return len(merged)

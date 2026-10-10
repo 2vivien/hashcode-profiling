@@ -50,10 +50,7 @@ def _choice(
         response_type="multi" if multi else "single",
         min_selections=1,
         max_selections=max_selections,
-        options=tuple(
-            AnswerOption(option_id=option_id, label=label, latent_weights=weights)
-            for option_id, label, weights in options
-        ),
+        options=tuple(AnswerOption(option_id=option_id, label=label, latent_weights=weights) for option_id, label, weights in options),
         dimensions=dimensions,
     )
 

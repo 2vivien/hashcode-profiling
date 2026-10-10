@@ -137,10 +137,7 @@ def build_occupations(direction: dict[str, Any], taxonomy: str) -> list[dict[str
                 "source": "curated",
                 "source_version": "2026.1",
                 "title": title,
-                "description": (
-                    f"Curation interne dérivée de la direction « {direction['canonical_name']} » "
-                    f"(taxonomie {taxonomy})."
-                ),
+                "description": (f"Curation interne dérivée de la direction « {direction['canonical_name']} » (taxonomie {taxonomy})."),
                 "aliases": [],
                 "isco08_code": isco,
                 "isco_major_group": major,
@@ -172,9 +169,7 @@ def build_formations(direction: dict[str, Any], taxonomy: str) -> list[dict[str,
             "duration_years": duration,
             "fields": [taxonomy, theme],
             "domains": [taxonomy],
-            "description": (
-                f"Parcours issu de la curation de la direction « {direction['canonical_name']} »."
-            ),
+            "description": (f"Parcours issu de la curation de la direction « {direction['canonical_name']} »."),
             "knowledge_version": VERSION,
         }
         for suffix, title, level, duration, theme in FORMATIONS[direction["direction_id"]]
@@ -222,29 +217,16 @@ def main() -> None:
             for item in forms
         )
 
-    (DST / "directions.json").write_text(
-        json.dumps(directions, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
-    (DST / "occupations.json").write_text(
-        json.dumps(occupations, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
-    (DST / "formations.json").write_text(
-        json.dumps(formations, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
-    (DST / "mappings.json").write_text(
-        json.dumps(mappings, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
-    (DST / "skills.json").write_text(
-        (SRC / "skills.json").read_text(encoding="utf-8"), encoding="utf-8"
-    )
+    (DST / "directions.json").write_text(json.dumps(directions, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (DST / "occupations.json").write_text(json.dumps(occupations, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (DST / "formations.json").write_text(json.dumps(formations, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (DST / "mappings.json").write_text(json.dumps(mappings, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (DST / "skills.json").write_text((SRC / "skills.json").read_text(encoding="utf-8"), encoding="utf-8")
 
     digest = hashlib.sha256((DST / "directions.json").read_bytes()).hexdigest()
     manifest = {
         "version": VERSION,
-        "source": (
-            "Otheloo V2 curated catalog (interne) — occupations et formations "
-            "dérivées des directions v1"
-        ),
+        "source": ("Otheloo V2 curated catalog (interne) — occupations et formations dérivées des directions v1"),
         "date": "2026-10-10",
         "directions": len(directions),
         "sha256": digest,
@@ -262,9 +244,7 @@ def main() -> None:
             "occupations/formations: curation interne, PAS ESCO/O*NET",
         ],
     }
-    (DST / "manifest.json").write_text(
-        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
+    (DST / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     print(f"[v2] {manifest['item_counts']} sha256={digest[:12]}…")
 

@@ -34,9 +34,7 @@ def profile_payload(profile: StudentProfile) -> dict[str, Any]:
     }
 
 
-def recommendation_payload(
-    profile: StudentProfile, recommendation: Recommendation
-) -> dict[str, Any]:
+def recommendation_payload(profile: StudentProfile, recommendation: Recommendation) -> dict[str, Any]:
     return {
         "id": recommendation.recommendation_id,
         "studentRef": profile.student_id,

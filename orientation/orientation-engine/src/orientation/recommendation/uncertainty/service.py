@@ -6,6 +6,4 @@ from orientation.recommendation.uncertainty.propagation import propagate_uncerta
 class UncertaintyService:
     def calculate(self, profile: StudentProfile, confidence: float) -> float:
         assessment_confidence = profile.assessment_confidence or confidence
-        return propagate_uncertainty(
-            min(confidence, assessment_confidence, profile_completeness(profile))
-        )
+        return propagate_uncertainty(min(confidence, assessment_confidence, profile_completeness(profile)))

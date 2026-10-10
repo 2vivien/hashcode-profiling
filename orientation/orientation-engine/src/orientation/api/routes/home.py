@@ -15,29 +15,25 @@ _PAGES: dict[str, tuple[str, str, str, str]] = {
         "home",
         "home",
         "hashcode.profiling — Comprendre avant d'orienter",
-        "Moteur d'orientation : un profil multidimensionnel et évolutif, puis plusieurs "
-        "directions à explorer — avec le pourquoi, l'incertitude et les compétences à renforcer.",
+        "Moteur d'orientation : un profil multidimensionnel et évolutif, puis plusieurs directions à explorer — avec le pourquoi, l'incertitude et les compétences à renforcer.",
     ),
     "moteur": (
         "engine",
         "engine",
         "Le moteur — hashcode.profiling",
-        "Le pipeline d'orientation étape par étape : observations, profil, candidats, "
-        "matching, score, incertitude, diversification, explication.",
+        "Le pipeline d'orientation étape par étape : observations, profil, candidats, matching, score, incertitude, diversification, explication.",
     ),
     "principes": (
         "principles",
         "principles",
         "Principes — hashcode.profiling",
-        "Ce que le moteur fait, et ce qu'il ne fera jamais : ne pas imposer, expliquer, "
-        "préserver l'incertitude, auditer l'équité.",
+        "Ce que le moteur fait, et ce qu'il ne fera jamais : ne pas imposer, expliquer, préserver l'incertitude, auditer l'équité.",
     ),
     "etat": (
         "etat",
         "state",
         "État réel — hashcode.profiling",
-        "Code présent ≠ données présentes ≠ modèle entraîné ≠ modèle validé. "
-        "L'état honnête du moteur.",
+        "Code présent ≠ données présentes ≠ modèle entraîné ≠ modèle validé. L'état honnête du moteur.",
     ),
     "developers": (
         "developers",

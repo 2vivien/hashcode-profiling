@@ -37,9 +37,7 @@ RELIABILITY: dict[SourceType, float] = {
     SourceType.INFERRED: 0.5,
 }
 
-POSITIVE_FEEDBACK = frozenset(
-    {"pertinent", "interessant", "deja_explore", "je_veux_en_savoir_plus", "relevant"}
-)
+POSITIVE_FEEDBACK = frozenset({"pertinent", "interessant", "deja_explore", "je_veux_en_savoir_plus", "relevant"})
 NEGATIVE_FEEDBACK = frozenset({"pas_pertinent", "rejete", "pas_interesse", "incompris"})
 
 FEEDBACK_RATE = 0.12
@@ -76,13 +74,9 @@ def merge_value(
 class ProfileEvolutionService:
     """Fait évoluer un profil versionné à partir d'observations et de feedbacks."""
 
-    def apply_observations(
-        self, profile: StudentProfile, observations: Sequence[Observation]
-    ) -> StudentProfile:
+    def apply_observations(self, profile: StudentProfile, observations: Sequence[Observation]) -> StudentProfile:
         prior = profile.assessment_confidence
-        dimensions: dict[str, dict[str, float]] = {
-            name: dict(getattr(profile, name)) for name in DIMENSIONS
-        }
+        dimensions: dict[str, dict[str, float]] = {name: dict(getattr(profile, name)) for name in DIMENSIONS}
         skills: dict[str, StudentSkill] = {skill.skill_id: skill for skill in profile.skills}
         applied = 0
         boost = 1.0
@@ -123,9 +117,7 @@ class ProfileEvolutionService:
             for key, raw in value.items():
                 if not isinstance(raw, (int, float)):
                     continue
-                merged, confidence = merge_value(
-                    target.get(str(key)), prior, float(raw), observation.confidence, reliability
-                )
+                merged, confidence = merge_value(target.get(str(key)), prior, float(raw), observation.confidence, reliability)
                 target[str(key)] = merged
                 applied += 1
                 boost *= 1 - confidence
@@ -143,9 +135,7 @@ class ProfileEvolutionService:
             }
         )
 
-    def apply_feedback(
-        self, profile: StudentProfile, feedback_type: str, direction: Direction
-    ) -> StudentProfile:
+    def apply_feedback(self, profile: StudentProfile, feedback_type: str, direction: Direction) -> StudentProfile:
         """Feedback = signal faible : petit pas vers (ou loin de) la direction."""
         kind = feedback_type.strip().lower()
         if kind in POSITIVE_FEEDBACK:
