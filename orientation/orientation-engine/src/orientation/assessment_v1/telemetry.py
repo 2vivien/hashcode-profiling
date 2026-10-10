@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal, Protocol
 
@@ -86,7 +86,7 @@ class JsonlEventStore:
 
 
 def make_event(event_type: EventType, student_id: str, **kwargs: object) -> TelemetryEvent:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     seed = f"{student_id}:{event_type}:{now.isoformat()}"
     return TelemetryEvent(
         event_id=hashlib.sha256(seed.encode("utf-8")).hexdigest()[:32],

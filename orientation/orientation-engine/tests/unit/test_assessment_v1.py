@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 
@@ -17,7 +17,7 @@ def _submission() -> AssessmentSubmission:
                 question_id=question.question_id,
                 option_ids=(option.option_id,),
                 confidence=0.9,
-                answered_at=datetime.now(timezone.utc),
+                answered_at=datetime.now(UTC),
             )
         )
     return AssessmentSubmission(

@@ -18,15 +18,21 @@ class AssessmentProfileService:
         latent = self.build_latent_profile(submission)
         subjects: dict[str, float] = {}
         constraints: dict[str, float | str | bool | list[str]] = {}
+        signals = {key: estimate.value for key, estimate in latent.signals.items()}
+        for key in ("mathematics", "physical_science", "life_science", "language", "social_science", "economics", "technology", "arts", "practical"):
+            if key in signals:
+                subjects[key] = signals[key]
         for answer in submission.answers:
-            if answer.question_id == "Q19":
-                selected = set(answer.option_ids)
-                question = next(item for item in QUESTIONS_V1 if item.question_id == "Q19")
-                for option in question.options:
-                    if option.option_id in selected:
-                        subjects.update({key: 0.8 for key in option.latent_weights})
-            elif answer.question_id == "Q38":
-                constraints["selected"] = list(answer.option_ids)
+            question = next(item for item in QUESTIONS_V1 if item.question_id == answer.question_id)
+            for option in question.options:
+                if option.option_id not in answer.option_ids:
+                    continue
+                if answer.question_id == "Q19":
+                    for key in option.latent_weights:
+                        subjects[key] = max(subjects.get(key, 0.0), 0.8)
+                if answer.question_id == "Q38":
+                    constraints["selected"] = list(answer.option_ids)
+
         return StudentProfile(
             student_id=submission.student_id,
             profile_version=latent.profile_version,
@@ -40,6 +46,26 @@ class AssessmentProfileService:
             subjects=subjects,
             self_efficacy={key: value.value for key, value in latent.abilities.items()},
             adaptability={key: value.value for key, value in latent.adaptability.items()},
-            environment={key: value.value for key, value in latent.environment.items()},
+            environment={
+                **{key: value.value for key, value in latent.environment.items()},
+                **{key: value.value for key, value in latent.work_style.items()},
+            },
+            learning={
+                **{key: value.value for key, value in latent.learning.items()},
+                **{
+                    key: value
+                    for key, value in signals.items()
+                    if key
+                    in {
+                        "project_learning",
+                        "imitation_learning",
+                        "theoretical_learning",
+                        "social_learning",
+                        "iterative_learning",
+                        "structured_learning",
+                    }
+                },
+            },
+            trajectory={key: value.value for key, value in latent.learning.items() if key == "persistence"},
             constraints=constraints,
         )

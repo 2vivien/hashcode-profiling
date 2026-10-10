@@ -1,4 +1,4 @@
-from orientation.assessment_v1.models import AdaptivePair, AnswerOption, Question
+from orientation.assessment_v1.models import AdaptivePair, AnswerOption, Question  # noqa: I001
 
 
 ADAPTIVE_QUESTIONS = (
