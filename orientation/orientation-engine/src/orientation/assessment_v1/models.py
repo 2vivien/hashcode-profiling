@@ -5,7 +5,6 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-
 AnswerValue = str | int
 QuestionBlock = Literal["A", "B", "C", "D", "adaptive"]
 
@@ -32,7 +31,7 @@ class Question(BaseModel):
     required: bool = True
 
     @model_validator(mode="after")
-    def validate_selection_bounds(self) -> "Question":
+    def validate_selection_bounds(self) -> Question:
         if self.min_selections > self.max_selections:
             raise ValueError("min_selections cannot exceed max_selections")
         if self.max_selections > len(self.options):

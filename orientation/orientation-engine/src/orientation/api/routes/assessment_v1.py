@@ -1,20 +1,30 @@
 from pathlib import Path
 
 from fastapi import APIRouter
+from pydantic import BaseModel, ConfigDict, Field
 
 from orientation.assessment_v1.adaptive_bank import ADAPTIVE_BY_ID
 from orientation.assessment_v1.engine import AssessmentV1Engine
-from orientation.assessment_v1.models import AdaptiveQuestionRequest, AssessmentSubmission, LatentProfile, Question
+from orientation.assessment_v1.models import (
+    AdaptiveQuestionRequest,
+    AssessmentSubmission,
+    LatentProfile,
+    Question,
+)
 from orientation.assessment_v1.service import AssessmentProfileService
-from orientation.assessment_v1.telemetry import EventStore, EventType, JsonlEventStore, TelemetryEvent, make_event, reward_for
-from pydantic import BaseModel, ConfigDict, Field
+from orientation.assessment_v1.telemetry import (
+    EventStore,
+    EventType,
+    JsonlEventStore,
+    TelemetryEvent,
+    make_event,
+    reward_for,
+)
 
 router = APIRouter(tags=["assessment-v1"])
 service = AssessmentProfileService()
 engine = AssessmentV1Engine()
-event_store: EventStore = JsonlEventStore(
-    Path("data/runtime/othello-orientation-events.jsonl")
-)
+event_store: EventStore = JsonlEventStore(Path("data/runtime/othello-orientation-events.jsonl"))
 
 
 class TelemetryIngestRequest(BaseModel):

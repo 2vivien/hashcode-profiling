@@ -31,7 +31,9 @@ def _normalized_entropy(values: list[float]) -> float:
 
 def _estimate(raw_values: list[float], confidence_values: list[float]) -> DimensionEstimate:
     if not raw_values:
-        return DimensionEstimate(value=0.5, confidence=0.0, raw_mean=0.0, z_score=0.0, evidence_count=0)
+        return DimensionEstimate(
+            value=0.5, confidence=0.0, raw_mean=0.0, z_score=0.0, evidence_count=0
+        )
     mean = fmean(raw_values)
     scale = pstdev(raw_values) if len(raw_values) > 1 else 0.5
     z = mean / max(scale, 0.5)
@@ -70,7 +72,9 @@ class AssessmentV1Engine:
         for answer in submission.answers:
             question = QUESTION_BY_ID[answer.question_id]
             for option_id in answer.option_ids:
-                option = next(option for option in question.options if option.option_id == option_id)
+                option = next(
+                    option for option in question.options if option.option_id == option_id
+                )
                 if option.value is not None:
                     for dimension in question.dimensions:
                         raw[dimension].append(option.value)
@@ -83,7 +87,7 @@ class AssessmentV1Engine:
             return {name: _estimate(raw[name], conf[name]) for name in names}
 
         riasec = group(RIASEC)
-        # Intra-person RIASEC z-scores are computed across the six interests, not across respondents.
+        # Intra-person RIASEC z-scores: across the six interests, not respondents.
         riasec_means = [estimate.raw_mean for estimate in riasec.values()]
         riasec_scale = max(pstdev(riasec_means), 0.5)
         riasec = {
@@ -95,12 +99,43 @@ class AssessmentV1Engine:
             )
             for name, estimate in riasec.items()
         }
-        abilities = group(("numerical", "verbal", "logical", "technical_learning", "problem_solving", "communication"))
-        values = group(("income", "stability", "autonomy", "impact", "creativity", "recognition", "learning", "balance", "mobility", "entrepreneurship"))
+        abilities = group(
+            (
+                "numerical",
+                "verbal",
+                "logical",
+                "technical_learning",
+                "problem_solving",
+                "communication",
+            )
+        )
+        values = group(
+            (
+                "income",
+                "stability",
+                "autonomy",
+                "impact",
+                "creativity",
+                "recognition",
+                "learning",
+                "balance",
+                "mobility",
+                "entrepreneurship",
+            )
+        )
         work_style = group(("structure_preference", "teamwork", "autonomy"))
         environment = group(("human_interaction", "physical_activity", "uncertainty_tolerance"))
-        learning = group(("persistence", "self_directed_learning", "project_learning", "education_duration_tolerance"))
-        adaptability = group(("adaptability", "agency", "decision_under_uncertainty", "metacognition"))
+        learning = group(
+            (
+                "persistence",
+                "self_directed_learning",
+                "project_learning",
+                "education_duration_tolerance",
+            )
+        )
+        adaptability = group(
+            ("adaptability", "agency", "decision_under_uncertainty", "metacognition")
+        )
 
         interest = {name: estimate.value for name, estimate in riasec.items()}
         efficacy = {
@@ -113,7 +148,8 @@ class AssessmentV1Engine:
         }
         gap = {
             "analytical": interest["investigative"] - efficacy["analytical"],
-            "technical": (interest["realistic"] + interest["investigative"]) / 2 - efficacy["technical"],
+            "technical": (interest["realistic"] + interest["investigative"]) / 2
+            - efficacy["technical"],
             "social": interest["social"] - efficacy["communication"],
         }
         entropy = _normalized_entropy(list(interest.values()))
@@ -129,7 +165,9 @@ class AssessmentV1Engine:
         coverage = answered / 40.0
         mean_confidence = fmean(answer.confidence for answer in submission.answers)
         contradiction_penalty = min(0.30, 0.10 * len(contradictions))
-        profile_confidence = max(0.0, min(1.0, coverage * mean_confidence * (1.0 - contradiction_penalty)))
+        profile_confidence = max(
+            0.0, min(1.0, coverage * mean_confidence * (1.0 - contradiction_penalty))
+        )
 
         return LatentProfile(
             profile_version=self.profile_version,
@@ -150,7 +188,9 @@ class AssessmentV1Engine:
             total_questions=40,
         )
 
-    def adaptive_questions(self, profile: LatentProfile, request: AdaptiveQuestionRequest) -> tuple[AdaptivePair, ...]:
+    def adaptive_questions(
+        self, profile: LatentProfile, request: AdaptiveQuestionRequest
+    ) -> tuple[AdaptivePair, ...]:
         if profile.profile_confidence >= 0.65 or request.maximum_questions == 0:
             return ()
         answered = set(request.answered_question_ids)
@@ -162,7 +202,14 @@ class AssessmentV1Engine:
             ("adaptive_se", "social", "enterprising", 0.75),
         )
         candidates = [
-            AdaptivePair(question_id=qid, dimension=f"{a}:{b}", option_a=a, option_b=b, information_gain=gain)
-            for qid, a, b, gain in pairs if qid not in answered
+            AdaptivePair(
+                question_id=qid, dimension=f"{a}:{b}", option_a=a, option_b=b, information_gain=gain
+            )
+            for qid, a, b, gain in pairs
+            if qid not in answered
         ]
-        return tuple(sorted(candidates, key=lambda item: (-item.information_gain, item.question_id))[:request.maximum_questions])
+        return tuple(
+            sorted(candidates, key=lambda item: (-item.information_gain, item.question_id))[
+                : request.maximum_questions
+            ]
+        )
