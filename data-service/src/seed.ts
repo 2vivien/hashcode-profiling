@@ -4,7 +4,15 @@ import { join } from "node:path";
 import { count, eq } from "drizzle-orm";
 
 import { db, pool } from "./db/client.js";
-import { direction, formation, knowledgeVersion, mapping, occupation, skill } from "./db/schema.js";
+import {
+  direction,
+  formation,
+  knowledgeVersion,
+  mapping,
+  modelRegistry,
+  occupation,
+  skill,
+} from "./db/schema.js";
 
 const dir = process.env.KNOWLEDGE_DIR ?? "/seed/knowledge/v1";
 
@@ -139,7 +147,35 @@ for (const m of mappings) {
   });
 }
 
-// 5. Contrôle
+// 6. Registre des modeles : baseline deterministe (toujours declare, meme sans dataset)
+await db
+  .insert(modelRegistry)
+  .values({
+    task: "recommendation",
+    modelVersion: "deterministic-baseline-v1",
+    trainingDataVersion: `knowledge-${version}`,
+    features: [
+      "interest_fit",
+      "ability_fit",
+      "skill_fit",
+      "value_fit",
+      "subject_fit",
+      "self_efficacy_fit",
+      "adaptability_fit",
+      "environment_fit",
+      "trajectory_fit",
+      "semantic_fit",
+      "graph_fit",
+      "evidence",
+      "skill_gap_penalty",
+    ],
+    metrics: {},
+    status: "active",
+    active: true,
+  })
+  .onConflictDoNothing({ target: [modelRegistry.task, modelRegistry.modelVersion] });
+
+// 7. Contrôle
 const counts = await db
   .select({ value: count() })
   .from(direction)

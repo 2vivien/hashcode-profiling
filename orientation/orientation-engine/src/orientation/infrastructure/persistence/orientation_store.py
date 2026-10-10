@@ -92,5 +92,43 @@ class OrientationStore:
     def save_feedback(self, event: dict[str, Any]) -> bool:
         return self._post("/feedback", event)
 
+    def save_observations(self, profile: StudentProfile) -> bool:
+        rows = [
+            {
+                "studentRef": profile.student_id,
+                "dimension": observation.dimension,
+                "value": observation.value,
+                "confidence": observation.confidence,
+                "source": observation.source.value,
+                "state": observation.state.value,
+                "observedAt": (observation.observed_at.isoformat() if observation.observed_at else None),
+            }
+            for observation in profile.observations
+        ]
+        if not rows:
+            return True
+        return self._post("/observations", {"observations": rows})
+
+    def save_audit_event(
+        self,
+        profile: StudentProfile,
+        recommendation_id: str,
+        event_type: str = "recommendation_computed",
+        detail: dict[str, Any] | None = None,
+    ) -> bool:
+        return self._post(
+            "/audit-events",
+            {
+                "events": [
+                    {
+                        "recommendationId": recommendation_id,
+                        "studentRef": profile.student_id,
+                        "eventType": event_type,
+                        "detail": detail or {},
+                    }
+                ]
+            },
+        )
+
     def get_profile(self, student_ref: str) -> dict[str, Any] | None:
         return self._get(f"/profiles/{student_ref}")

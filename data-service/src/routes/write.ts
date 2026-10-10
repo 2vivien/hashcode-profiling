@@ -2,7 +2,7 @@ import { z } from "zod";
 import { eq } from "drizzle-orm";
 
 import { db } from "../db/client.js";
-import { feedback, profile, recommendation, recommendationItem } from "../db/schema.js";
+import { feedback, observation, auditEvent, profile, recommendation, recommendationItem } from "../db/schema.js";
 
 const dimensionsSchema = z.record(z.string(), z.record(z.string(), z.number()));
 
@@ -118,6 +118,72 @@ export async function postFeedback(body: unknown) {
     payload: data.payload,
   });
   return { status: 201, payload: { ok: true } };
+}
+
+const observationBody = z.object({
+  observations: z.array(
+    z.object({
+      studentRef: z.string().min(1),
+      dimension: z.string().min(1),
+      value: z.unknown(),
+      confidence: z.number().min(0).max(1),
+      source: z.string().min(1),
+      state: z.string().min(1),
+      observedAt: z.string().nullish(),
+    }),
+  ),
+});
+
+const auditEventBody = z.object({
+  events: z.array(
+    z.object({
+      recommendationId: z.string().optional(),
+      studentRef: z.string().optional(),
+      eventType: z.string().min(1),
+      detail: z.record(z.string(), z.unknown()).default({}),
+    }),
+  ),
+});
+
+export async function postObservations(body: unknown) {
+  const parsed = observationBody.safeParse(body);
+  if (!parsed.success) {
+    return { status: 422, payload: { detail: parsed.error.issues } };
+  }
+  const rows = parsed.data.observations;
+  if (rows.length > 0) {
+    await db.insert(observation).values(
+      rows.map((o) => ({
+        studentRef: o.studentRef,
+        dimension: o.dimension,
+        value: o.value,
+        confidence: o.confidence,
+        source: o.source,
+        state: o.state,
+        observedAt: o.observedAt ? new Date(o.observedAt) : new Date(),
+      })),
+    );
+  }
+  return { status: 201, payload: { ok: true, count: rows.length } };
+}
+
+export async function postAuditEvents(body: unknown) {
+  const parsed = auditEventBody.safeParse(body);
+  if (!parsed.success) {
+    return { status: 422, payload: { detail: parsed.error.issues } };
+  }
+  const rows = parsed.data.events;
+  if (rows.length > 0) {
+    await db.insert(auditEvent).values(
+      rows.map((e) => ({
+        recommendationId: e.recommendationId ?? null,
+        studentRef: e.studentRef ?? null,
+        eventType: e.eventType,
+        detail: e.detail,
+      })),
+    );
+  }
+  return { status: 201, payload: { ok: true, count: rows.length } };
 }
 
 export async function getProfile(studentRef: string) {

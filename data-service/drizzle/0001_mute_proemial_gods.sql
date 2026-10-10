@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "model_registry_task_version_idx" ON "model_registry" USING btree ("task","model_version");

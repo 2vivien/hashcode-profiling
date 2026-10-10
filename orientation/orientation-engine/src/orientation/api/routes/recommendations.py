@@ -49,6 +49,17 @@ def _mirror(profile: StudentProfile, recommendation: Recommendation) -> None:
     store = get_store()
     if store is not None:
         store.save_recommendation(profile, recommendation)
+        store.save_audit_event(
+            profile,
+            recommendation.recommendation_id,
+            detail={
+                "modelVersion": recommendation.model_version,
+                "knowledgeVersion": recommendation.knowledge_version,
+                "profileVersion": recommendation.profile_version,
+                "ranking": [item.direction_id for item in recommendation.candidates],
+                "scores": {item.direction_id: round(item.score, 4) for item in recommendation.candidates},
+            },
+        )
 
 
 @router.post("/recommendations", response_model=Recommendation)

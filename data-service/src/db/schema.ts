@@ -175,14 +175,18 @@ export const auditEvent = pgTable("audit_event", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
-export const modelRegistry = pgTable("model_registry", {
-  id: serial("id").primaryKey(),
-  task: text("task").notNull(),
-  modelVersion: text("model_version").notNull(),
-  trainingDataVersion: text("training_data_version"),
-  features: jsonb("features").$type<string[]>().notNull().default([]),
-  metrics: jsonb("metrics").$type<Record<string, number>>().notNull().default({}),
-  status: text("status").notNull().default("experimental"),
-  active: boolean("active").notNull().default(false),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-});
+export const modelRegistry = pgTable(
+  "model_registry",
+  {
+    id: serial("id").primaryKey(),
+    task: text("task").notNull(),
+    modelVersion: text("model_version").notNull(),
+    trainingDataVersion: text("training_data_version"),
+    features: jsonb("features").$type<string[]>().notNull().default([]),
+    metrics: jsonb("metrics").$type<Record<string, number>>().notNull().default({}),
+    status: text("status").notNull().default("experimental"),
+    active: boolean("active").notNull().default(false),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [uniqueIndex("model_registry_task_version_idx").on(t.task, t.modelVersion)],
+);

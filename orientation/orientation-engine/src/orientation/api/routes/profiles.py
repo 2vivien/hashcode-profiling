@@ -17,6 +17,7 @@ def persist_profile(profile: StudentProfile) -> None:
     store = get_store()
     if store is not None:
         store.save_profile(profile)
+        store.save_observations(profile)
 
 
 @router.post("/profiles", response_model=StudentProfile)

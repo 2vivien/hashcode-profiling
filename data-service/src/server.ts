@@ -3,7 +3,7 @@ import { desc, eq } from "drizzle-orm";
 
 import { db, pool } from "./db/client.js";
 import { direction, formation, knowledgeVersion, occupation, skill } from "./db/schema.js";
-import { getProfile, postFeedback, postProfile, postRecommendation } from "./routes/write.js";
+import { getProfile, postAuditEvents, postFeedback, postObservations, postProfile, postRecommendation } from "./routes/write.js";
 const app = Fastify({ logger: true });
 
 app.get("/health", async () => {
@@ -57,6 +57,16 @@ app.post("/recommendations", async (req, reply) => {
 
 app.post("/feedback", async (req, reply) => {
   const { status, payload } = await postFeedback(req.body);
+  return reply.code(status).send(payload);
+});
+
+app.post("/observations", async (req, reply) => {
+  const { status, payload } = await postObservations(req.body);
+  return reply.code(status).send(payload);
+});
+
+app.post("/audit-events", async (req, reply) => {
+  const { status, payload } = await postAuditEvents(req.body);
   return reply.code(status).send(payload);
 });
 
