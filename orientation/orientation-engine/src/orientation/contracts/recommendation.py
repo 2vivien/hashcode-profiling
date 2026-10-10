@@ -44,6 +44,19 @@ class RecommendationItem(BaseModel):
     formations: list[FormationPath] = Field(default_factory=list)
 
 
+class LayerReport(BaseModel):
+    """État réel d'une couche de la pile : active ou non, et pourquoi.
+
+    Sans ce rapport, « le moteur utilise un modèle » reste une affirmation.
+    """
+
+    layer: str
+    active: bool
+    reason: str
+    contribution: float = 0.0
+    details: dict[str, object] = Field(default_factory=dict)
+
+
 class Recommendation(BaseModel):
     recommendation_id: str
     profile_version: str
@@ -52,3 +65,4 @@ class Recommendation(BaseModel):
     candidates: list[RecommendationItem] = Field(default_factory=list)
     created_at: datetime
     audit: AuditSnapshot
+    layers: list[LayerReport] = Field(default_factory=list)

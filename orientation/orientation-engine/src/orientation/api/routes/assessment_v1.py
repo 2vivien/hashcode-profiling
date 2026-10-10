@@ -1,3 +1,4 @@
+from math import isfinite as _finite
 from pathlib import Path
 
 from fastapi import APIRouter
@@ -8,6 +9,7 @@ from orientation.assessment_v1.engine import AssessmentV1Engine
 from orientation.assessment_v1.models import AdaptiveQuestionRequest, AssessmentSubmission, LatentProfile, Question
 from orientation.assessment_v1.service import AssessmentProfileService
 from orientation.assessment_v1.telemetry import EventStore, EventType, JsonlEventStore, TelemetryEvent, make_event, reward_for
+from orientation.psychometrics.bridge import ItemBank, estimate_abilities
 
 router = APIRouter(tags=["assessment-v1"])
 service = AssessmentProfileService()
@@ -38,6 +40,30 @@ def get_questions() -> tuple[Question, ...]:
 @router.post("/assessment-v1/profile", response_model=LatentProfile)
 def build_profile(submission: AssessmentSubmission) -> LatentProfile:
     return service.build_latent_profile(submission)
+
+
+@router.post("/assessment-v1/ability")
+def estimate_ability(submission: AssessmentSubmission) -> dict[str, object]:
+    """Estimation psychométrique des niveaux latents (MIRT) quand elle est possible.
+
+    Répond aussi — et surtout — quand elle ne l'est pas : sans banque d'items
+    calibrée, la méthode renvoyée est ``heuristic-mean`` et le client sait
+    qu'il ne s'agit pas d'une estimation de niveau, mais d'une moyenne.
+    """
+    engine.validate_submission(submission)
+    profile = service.build_latent_profile(submission)
+    responses: dict[str, float] = {}
+    for answer in submission.answers:
+        responses[answer.question_id] = float(len(answer.option_ids) > 0)
+    # riasec contient des objets DimensionEstimate : on n'en garde que la valeur.
+    fallback = {name: float(estimate.value) for name, estimate in profile.riasec.items()}
+    estimate = estimate_abilities(responses, ItemBank.from_registry(), fallback=fallback)
+    return {
+        "ability": estimate.describe(),
+        "theta": {name: round(value, 6) for name, value in estimate.theta.items()},
+        "standard_error": {name: (None if not _finite(value) else round(value, 6)) for name, value in estimate.standard_error.items()},
+        "items_used": sum(1 for key in responses if key),
+    }
 
 
 @router.post("/assessment-v1/adaptive", response_model=tuple[Question, ...])

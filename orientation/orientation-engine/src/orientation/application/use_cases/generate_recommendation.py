@@ -10,11 +10,13 @@ from orientation.contracts.formation import Formation
 from orientation.contracts.profile import StudentProfile
 from orientation.contracts.recommendation import (
     FormationPath,
+    LayerReport,
     OccupationPath,
     Recommendation,
     RecommendationItem,
 )
 from orientation.domain.skills.gaps import SkillGapService
+from orientation.engine.stack import RecommendationStack
 from orientation.explanation.facts import ExplanationService
 from orientation.exploration.service import ExplorationService
 from orientation.infrastructure.knowledge.loader import KnowledgeLoader
@@ -59,6 +61,7 @@ class GenerateRecommendation:
         self.gaps = SkillGapService()
         self.scorer = HybridScorer(self.config)
         self.uncertainty = UncertaintyService()
+        self.stack = RecommendationStack()
         self.ranking = RankingService()
         self.diversification = DiversificationService()
         self.explanations = ExplanationService()
@@ -90,6 +93,28 @@ class GenerateRecommendation:
             occupations=self.loader.repository.occupations(),
             formations=self.loader.repository.formations(),
         )
+
+    @staticmethod
+    def _gender_by_direction(bundle: KnowledgeBundle) -> dict[str, str]:
+        """Genre *du marché* par direction, déduit des fiches métier rattachées.
+
+        Point important : le genre est ici une statistique du ROME sur le métier
+        (« Conducteur / Conductrice »), jamais une caractéristique de l'élève.
+        Le garde-fou s'en sert pour éviter qu'une famille de métiers déséquilibrée
+        sature la sortie — pas pour réorienter qui que ce soit.
+
+        Sans fiche métier rattachée, on ne devine rien : la direction n'apparaît
+        simplement pas dans la table, et le garde-fou se déclare inactif.
+        """
+        by_occupation = {item.occupation_id: item for item in bundle.occupations}
+        result: dict[str, str] = {}
+        for direction in bundle.directions:
+            genders = [str(getattr(by_occupation[occupation_id], "gender", "") or "") for occupation_id in direction.occupations if occupation_id in by_occupation]
+            known = [gender for gender in genders if gender]
+            if not known:
+                continue
+            result[direction.direction_id] = "female" if known.count("female") / len(known) >= 0.5 else "mixed"
+        return result
 
     def _resolve_paths(self, direction: Direction, profile: StudentProfile, bundle: KnowledgeBundle) -> tuple[list[OccupationPath], list[FormationPath]]:
         """Voies métier scorées + formations accessibles (les plus accessibles d'abord)."""
@@ -162,6 +187,22 @@ class GenerateRecommendation:
                 )
             )
         ranked = self.ranking.rank(items)[: self.config.top_k]
+
+        # Pile de scoring : c'est ici que les couches apprises entrent en jeu.
+        # Elles reçoivent les scores déterministes et rendent compte de ce
+        # qu'elles ont réellement fait.
+        stack = self.stack.apply(
+            {item.direction_id: item.score_breakdown for item in ranked},
+            gender_by_direction=self._gender_by_direction(bundle),
+            allow_exploration=profile.profile_version == "v2",
+        )
+        adjusted = {candidate.direction_id: candidate.score for candidate in stack.candidates}
+        if adjusted:
+            for item in ranked:
+                if item.direction_id in adjusted:
+                    item.score = max(0.0, min(1.0, adjusted[item.direction_id]))
+            ranked = self.ranking.rank(ranked)
+
         selected = self.diversification.diversify(ranked, self.config.final_k, self.config.diversification_lambda)
         final: list[RecommendationItem] = []
         for item in selected:
@@ -187,9 +228,10 @@ class GenerateRecommendation:
         return Recommendation(
             recommendation_id=recommendation_id,
             profile_version=profile.profile_version,
-            model_version=self.model_version,
+            model_version=stack.model_version or self.model_version,
             knowledge_version=knowledge_version,
             candidates=final,
             created_at=audit.timestamp,
             audit=audit,
+            layers=[LayerReport(**outcome.to_dict()) for outcome in stack.outcomes],
         )

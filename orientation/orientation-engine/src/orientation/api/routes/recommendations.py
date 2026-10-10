@@ -56,6 +56,7 @@ def _mirror(profile: StudentProfile, recommendation: Recommendation) -> None:
                 "modelVersion": recommendation.model_version,
                 "knowledgeVersion": recommendation.knowledge_version,
                 "profileVersion": recommendation.profile_version,
+                "layers": [outcome.model_dump(mode="json") for outcome in recommendation.layers],
                 "ranking": [item.direction_id for item in recommendation.candidates],
                 "scores": {item.direction_id: round(item.score, 4) for item in recommendation.candidates},
             },
