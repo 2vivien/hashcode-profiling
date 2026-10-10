@@ -2,9 +2,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from math import sqrt
+from typing import Literal
 
 from orientation.contracts.profile import StudentProfile
-from orientation.occupation_knowledge.models import OccupationMatch, OccupationRecord, ScoreComponent
+from orientation.occupation_knowledge.models import (
+    OccupationMatch,
+    OccupationRecord,
+    ScoreComponent,
+)
 
 
 @dataclass(frozen=True)
@@ -54,32 +59,63 @@ class OccupationScorer:
         profile_skills = {skill.skill_id: skill.level for skill in profile.skills}
         occupation_skills = occupation.skills or {skill: 1.0 for skill in occupation.skill_ids}
         components = (
-            ScoreComponent("interest", _cosine(profile.interests, occupation.riasec), self.weights["interest"]),
-            ScoreComponent("ability", _cosine(profile.abilities, occupation.abilities), self.weights["ability"]),
-            ScoreComponent("skill", _overlap(profile_skills, occupation_skills), self.weights["skill"]),
-            ScoreComponent("value", _cosine(profile.values, occupation.values), self.weights["value"]),
-            ScoreComponent("environment", _cosine(profile.environment, occupation.environment), self.weights["environment"]),
             ScoreComponent(
-                "work_style",
-                _cosine(
+                name="interest",
+                score=_cosine(profile.interests, occupation.riasec),
+                weight=self.weights["interest"],
+            ),
+            ScoreComponent(
+                name="ability",
+                score=_cosine(profile.abilities, occupation.abilities),
+                weight=self.weights["ability"],
+            ),
+            ScoreComponent(
+                name="skill",
+                score=_overlap(profile_skills, occupation_skills),
+                weight=self.weights["skill"],
+            ),
+            ScoreComponent(
+                name="value",
+                score=_cosine(profile.values, occupation.values),
+                weight=self.weights["value"],
+            ),
+            ScoreComponent(
+                name="environment",
+                score=_cosine(profile.environment, occupation.environment),
+                weight=self.weights["environment"],
+            ),
+            ScoreComponent(
+                name="work_style",
+                score=_cosine(
                     {
-                        "structure_preference": profile.environment.get("structure_preference", 0.5),
+                        "structure_preference": profile.environment.get(
+                            "structure_preference", 0.5
+                        ),
                         "teamwork": profile.environment.get("teamwork", 0.5),
                         "autonomy": profile.values.get("autonomy", 0.5),
                     },
                     occupation.work_style,
                 ),
-                self.weights["work_style"],
+                weight=self.weights["work_style"],
             ),
-            ScoreComponent("self_efficacy", _cosine(profile.self_efficacy, occupation.abilities), self.weights["self_efficacy"]),
-            ScoreComponent("adaptability", _cosine(profile.adaptability, occupation.environment), self.weights["adaptability"]),
-            ScoreComponent("evidence", occupation.data_completeness, self.weights["evidence"]),
+            ScoreComponent(
+                name="self_efficacy",
+                score=_cosine(profile.self_efficacy, occupation.abilities),
+                weight=self.weights["self_efficacy"],
+            ),
+            ScoreComponent(
+                name="adaptability",
+                score=_cosine(profile.adaptability, occupation.environment),
+                weight=self.weights["adaptability"],
+            ),
+            ScoreComponent(
+                name="evidence", score=occupation.data_completeness, weight=self.weights["evidence"]
+            ),
         )
         raw = sum(component.score * component.weight for component in components)
         evidence = min(
             1.0,
-            occupation.data_completeness * 0.75
-            + min(1.0, occupation.evidence_count / 12.0) * 0.25,
+            occupation.data_completeness * 0.75 + min(1.0, occupation.evidence_count / 12.0) * 0.25,
         )
         confidence = max(0.0, min(1.0, 0.55 * profile.assessment_confidence + 0.45 * evidence))
         score = max(0.0, min(100.0, raw * 100.0))
@@ -99,7 +135,7 @@ class OccupationScorer:
             for component in components
             if component.score >= 0.65
         )
-        classification = (
+        classification: Literal["strong_fit", "good_fit", "adjacent", "exploration"] = (
             "strong_fit"
             if score >= 80 and confidence >= 0.70
             else "good_fit"

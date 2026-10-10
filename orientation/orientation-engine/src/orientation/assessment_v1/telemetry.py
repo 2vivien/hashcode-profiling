@@ -2,16 +2,24 @@ from __future__ import annotations
 
 import hashlib
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Literal, Protocol
+from typing import Any, Literal, Protocol
 
 from pydantic import BaseModel, ConfigDict, Field
 
 EventType = Literal[
-    "QUESTIONNAIRE_STARTED", "QUESTIONNAIRE_COMPLETED", "ADAPTIVE_QUESTION_SHOWN",
-    "DIRECTION_CLICKED", "JOB_DETAIL_DWELL_TIME", "JOB_FAVORITED", "JOB_COMPARED",
-    "FORMATION_CLICKED", "FORMATION_STARTED", "FORMATION_COMPLETED", "USER_FEEDBACK_GIVEN",
+    "QUESTIONNAIRE_STARTED",
+    "QUESTIONNAIRE_COMPLETED",
+    "ADAPTIVE_QUESTION_SHOWN",
+    "DIRECTION_CLICKED",
+    "JOB_DETAIL_DWELL_TIME",
+    "JOB_FAVORITED",
+    "JOB_COMPARED",
+    "FORMATION_CLICKED",
+    "FORMATION_STARTED",
+    "FORMATION_COMPLETED",
+    "USER_FEEDBACK_GIVEN",
     "REAL_CHOICE_DECLARED",
 ]
 
@@ -85,8 +93,21 @@ class JsonlEventStore:
         return True
 
 
-def make_event(event_type: EventType, student_id: str, **kwargs: object) -> TelemetryEvent:
-    now = datetime.now(timezone.utc)
+def _as_number(value: object) -> float:
+    if isinstance(value, bool):
+        return float(value)
+    if isinstance(value, (int, float)):
+        return float(value)
+    if isinstance(value, str):
+        try:
+            return float(value)
+        except ValueError:
+            return 0.0
+    return 0.0
+
+
+def make_event(event_type: EventType, student_id: str, **kwargs: Any) -> TelemetryEvent:
+    now = datetime.now(UTC)
     seed = f"{student_id}:{event_type}:{now.isoformat()}"
     return TelemetryEvent(
         event_id=hashlib.sha256(seed.encode("utf-8")).hexdigest()[:32],
@@ -99,15 +120,20 @@ def make_event(event_type: EventType, student_id: str, **kwargs: object) -> Tele
 
 def reward_for(event: TelemetryEvent) -> float:
     weights: dict[str, float] = {
-        "QUESTIONNAIRE_COMPLETED": 0.05, "DIRECTION_CLICKED": 0.10,
-        "JOB_DETAIL_DWELL_TIME": 0.15, "JOB_FAVORITED": 0.35,
-        "JOB_COMPARED": 0.20, "FORMATION_CLICKED": 0.20,
-        "FORMATION_STARTED": 0.65, "FORMATION_COMPLETED": 1.00,
-        "USER_FEEDBACK_GIVEN": 0.70, "REAL_CHOICE_DECLARED": 1.00,
+        "QUESTIONNAIRE_COMPLETED": 0.05,
+        "DIRECTION_CLICKED": 0.10,
+        "JOB_DETAIL_DWELL_TIME": 0.15,
+        "JOB_FAVORITED": 0.35,
+        "JOB_COMPARED": 0.20,
+        "FORMATION_CLICKED": 0.20,
+        "FORMATION_STARTED": 0.65,
+        "FORMATION_COMPLETED": 1.00,
+        "USER_FEEDBACK_GIVEN": 0.70,
+        "REAL_CHOICE_DECLARED": 1.00,
     }
     if event.event_type == "USER_FEEDBACK_GIVEN":
-        return max(-1.0, min(1.0, float(event.payload.get("feedback", 0))))
+        return max(-1.0, min(1.0, _as_number(event.payload.get("feedback", 0))))
     if event.event_type == "JOB_DETAIL_DWELL_TIME":
-        seconds = max(0.0, float(event.payload.get("seconds", 0)))
+        seconds = max(0.0, _as_number(event.payload.get("seconds", 0)))
         return min(1.0, seconds / 180.0) * weights[event.event_type]
     return weights.get(event.event_type, 0.0)

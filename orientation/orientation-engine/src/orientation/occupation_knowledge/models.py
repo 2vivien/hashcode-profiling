@@ -4,7 +4,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-SourceName = Literal["esco", "onet", "isco", "merged"]
+SourceName = Literal["esco", "onet", "isco", "merged", "curated"]
 
 
 class OccupationRecord(BaseModel):
@@ -50,7 +50,9 @@ class OccupationMatch(BaseModel):
     source: str
     score: float = Field(ge=0, le=100)
     confidence: float = Field(ge=0, le=1)
-    recommendation_class: Literal["strong_fit", "good_fit", "adjacent", "exploration"] = "exploration"
+    recommendation_class: Literal["strong_fit", "good_fit", "adjacent", "exploration"] = (
+        "exploration"
+    )
     isco08_code: str | None = None
     isco_major_group: str | None = None
     components: tuple[ScoreComponent, ...] = ()

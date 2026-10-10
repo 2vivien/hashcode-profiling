@@ -176,10 +176,13 @@ class RGCNModel:
         self_weight = self.self_weight
         output_weight = self.output_weight
         output_bias = self.output_bias
-        assert relation_weights is not None
-        assert self_weight is not None
-        assert output_weight is not None
-        assert output_bias is not None
+        if (
+            relation_weights is None
+            or self_weight is None
+            or output_weight is None
+            or output_bias is None
+        ):
+            raise RuntimeError("RGCN model is not trained")
         if features.ndim != 2 or features.shape[1] != self_weight.shape[0]:
             raise ValueError("prediction features have the wrong shape")
         if edges.ndim != 2 or edges.shape[0] != 2:

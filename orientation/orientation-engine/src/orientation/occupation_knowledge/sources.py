@@ -32,7 +32,8 @@ SOURCES = (
         "31.0",
         "U.S. Department of Labor / National Center for O*NET Development",
         "https://www.onetcenter.org/database.html",
-        "Occupation descriptions plus skills, abilities, interests, work styles, tasks and work context.",
+        "Occupation descriptions plus skills, abilities, interests, work styles, "
+        "tasks and work context.",
     ),
 )
 

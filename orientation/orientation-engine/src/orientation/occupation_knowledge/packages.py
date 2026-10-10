@@ -18,7 +18,9 @@ def _csv_from_zip(archive: zipfile.ZipFile, suffix: str) -> list[dict[str, str]]
         return list(csv.DictReader(io.TextIOWrapper(raw, encoding="utf-8-sig")))
 
 
-def read_esco_zip(path: Path, version: str = "v1.2.1", language: str = "en") -> list[OccupationRecord]:
+def read_esco_zip(
+    path: Path, version: str = "v1.2.1", language: str = "en"
+) -> list[OccupationRecord]:
     """Read an official ESCO language package without committing upstream data."""
     with zipfile.ZipFile(path) as archive:
         occupations = _csv_from_zip(archive, f"occupations_{language}.csv")
@@ -54,9 +56,7 @@ def read_esco_zip(path: Path, version: str = "v1.2.1", language: str = "en") -> 
                 title=title,
                 description=row.get("description", "").strip(),
                 aliases=tuple(
-                    value.strip()
-                    for value in row.get("altLabels", "").split("|")
-                    if value.strip()
+                    value.strip() for value in row.get("altLabels", "").split("|") if value.strip()
                 ),
                 isco08_code=code or None,
                 isco_major_group=group.code if group else None,
