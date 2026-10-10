@@ -9,6 +9,26 @@ from orientation.contracts.scoring import ScoreBreakdown
 from orientation.contracts.skill import SkillGap
 
 
+class OccupationPath(BaseModel):
+    """Voie métier concrète, scorée et expliquée."""
+
+    occupation_id: str
+    title: str
+    match: float = Field(ge=0, le=100)
+    confidence: float = Field(ge=0, le=1)
+    recommendation_class: str = "exploration"
+    key_skills: list[str] = Field(default_factory=list)
+
+
+class FormationPath(BaseModel):
+    """Parcours de formation associé (accessibilité, pas verdict)."""
+
+    formation_id: str
+    title: str
+    level: float = Field(default=0.5, ge=0, le=1)
+    duration_years: int | None = None
+
+
 class RecommendationItem(BaseModel):
     direction_id: str
     direction_name: str
@@ -20,6 +40,8 @@ class RecommendationItem(BaseModel):
     skill_gaps: list[SkillGap] = Field(default_factory=list)
     explanation: Explanation = Field(default_factory=Explanation)
     explorations: list[ExplorationIdea] = Field(default_factory=list)
+    occupation_paths: list[OccupationPath] = Field(default_factory=list)
+    formations: list[FormationPath] = Field(default_factory=list)
 
 
 class Recommendation(BaseModel):

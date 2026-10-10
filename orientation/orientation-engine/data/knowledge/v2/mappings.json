@@ -1,0 +1,310 @@
+[
+  {
+    "id": "software-engineering->software-engineering-dev",
+    "source_id": "software-engineering",
+    "target_id": "software-engineering-dev",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "software-engineering->software-engineering-architect",
+    "source_id": "software-engineering",
+    "target_id": "software-engineering-architect",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "software-engineering->software-engineering-licence-info",
+    "source_id": "software-engineering",
+    "target_id": "software-engineering-licence-info",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "software-engineering->software-engineering-master-info",
+    "source_id": "software-engineering",
+    "target_id": "software-engineering-master-info",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "cybersecurity->cybersecurity-analyst",
+    "source_id": "cybersecurity",
+    "target_id": "cybersecurity-analyst",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "cybersecurity->cybersecurity-engineer",
+    "source_id": "cybersecurity",
+    "target_id": "cybersecurity-engineer",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "cybersecurity->cybersecurity-licence-info-sec",
+    "source_id": "cybersecurity",
+    "target_id": "cybersecurity-licence-info-sec",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "cybersecurity->cybersecurity-master-sec",
+    "source_id": "cybersecurity",
+    "target_id": "cybersecurity-master-sec",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "data-science->data-science-scientist",
+    "source_id": "data-science",
+    "target_id": "data-science-scientist",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "data-science->data-science-analyst",
+    "source_id": "data-science",
+    "target_id": "data-science-analyst",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "data-science->data-science-licence-math-info",
+    "source_id": "data-science",
+    "target_id": "data-science-licence-math-info",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "data-science->data-science-master-data",
+    "source_id": "data-science",
+    "target_id": "data-science-master-data",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "network-engineering->network-engineering-engineer",
+    "source_id": "network-engineering",
+    "target_id": "network-engineering-engineer",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "network-engineering->network-engineering-technician",
+    "source_id": "network-engineering",
+    "target_id": "network-engineering-technician",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "network-engineering->network-engineering-licence-reseau",
+    "source_id": "network-engineering",
+    "target_id": "network-engineering-licence-reseau",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "network-engineering->network-engineering-master-reseau",
+    "source_id": "network-engineering",
+    "target_id": "network-engineering-master-reseau",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "ux-ui->ux-ui-designer",
+    "source_id": "ux-ui",
+    "target_id": "ux-ui-designer",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "ux-ui->ux-ui-researcher",
+    "source_id": "ux-ui",
+    "target_id": "ux-ui-researcher",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "ux-ui->ux-ui-licence-design",
+    "source_id": "ux-ui",
+    "target_id": "ux-ui-licence-design",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "graphic-design->graphic-design-designer",
+    "source_id": "graphic-design",
+    "target_id": "graphic-design-designer",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "graphic-design->graphic-design-motion",
+    "source_id": "graphic-design",
+    "target_id": "graphic-design-motion",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "graphic-design->graphic-design-licence-design-2",
+    "source_id": "graphic-design",
+    "target_id": "graphic-design-licence-design-2",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "graphic-design->graphic-design-dsm",
+    "source_id": "graphic-design",
+    "target_id": "graphic-design-dsm",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "digital-marketing->digital-marketing-manager",
+    "source_id": "digital-marketing",
+    "target_id": "digital-marketing-manager",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "digital-marketing->digital-marketing-specialist",
+    "source_id": "digital-marketing",
+    "target_id": "digital-marketing-specialist",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "digital-marketing->digital-marketing-licence-mkt",
+    "source_id": "digital-marketing",
+    "target_id": "digital-marketing-licence-mkt",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "digital-marketing->digital-marketing-master-mkt",
+    "source_id": "digital-marketing",
+    "target_id": "digital-marketing-master-mkt",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "teaching->teaching-teacher",
+    "source_id": "teaching",
+    "target_id": "teaching-teacher",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "teaching->teaching-trainer",
+    "source_id": "teaching",
+    "target_id": "teaching-trainer",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "teaching->teaching-capes",
+    "source_id": "teaching",
+    "target_id": "teaching-capes",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "psychology->psychology-psychologist",
+    "source_id": "psychology",
+    "target_id": "psychology-psychologist",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "psychology->psychology-counselor",
+    "source_id": "psychology",
+    "target_id": "psychology-counselor",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "psychology->psychology-licence-psy",
+    "source_id": "psychology",
+    "target_id": "psychology-licence-psy",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "accounting->accounting-accountant",
+    "source_id": "accounting",
+    "target_id": "accounting-accountant",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "accounting->accounting-controller",
+    "source_id": "accounting",
+    "target_id": "accounting-controller",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "accounting->accounting-licence-gestion",
+    "source_id": "accounting",
+    "target_id": "accounting-licence-gestion",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "accounting->accounting-dcf",
+    "source_id": "accounting",
+    "target_id": "accounting-dcf",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "medicine->medicine-doctor",
+    "source_id": "medicine",
+    "target_id": "medicine-doctor",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "medicine->medicine-nurse",
+    "source_id": "medicine",
+    "target_id": "medicine-nurse",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "medicine->medicine-doctorat-med",
+    "source_id": "medicine",
+    "target_id": "medicine-doctorat-med",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "law->law-lawyer",
+    "source_id": "law",
+    "target_id": "law-lawyer",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "law->law-juriste",
+    "source_id": "law",
+    "target_id": "law-juriste",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "law->law-licence-droit",
+    "source_id": "law",
+    "target_id": "law-licence-droit",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "law->law-master-droit",
+    "source_id": "law",
+    "target_id": "law-master-droit",
+    "relation": "offers_formation",
+    "weight": 1.0
+  }
+]

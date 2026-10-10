@@ -1,0 +1,20 @@
+{
+  "version": "v2",
+  "source": "Otheloo V2 curated catalog (interne) — occupations et formations dérivées des directions v1",
+  "date": "2026-10-10",
+  "directions": 12,
+  "sha256": "7d3841d5da0a7de479216d935e084f548180fa7ff0c4a902ddd96d996a0c8c6b",
+  "item_counts": {
+    "directions": 12,
+    "occupations": 24,
+    "formations": 20,
+    "mappings": 44,
+    "skills": 11
+  },
+  "transformation_rules": [
+    "canonical IDs",
+    "normalized dimensions in [0,1]",
+    "unknown data is not zero",
+    "occupations/formations: curation interne, PAS ESCO/O*NET"
+  ]
+}

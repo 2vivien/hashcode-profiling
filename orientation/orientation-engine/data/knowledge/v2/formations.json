@@ -1,0 +1,302 @@
+[
+  {
+    "formation_id": "software-engineering-licence-info",
+    "title": "Licence Informatique",
+    "level": 0.55,
+    "duration_years": 3,
+    "fields": [
+      "technology",
+      "informatique"
+    ],
+    "domains": [
+      "technology"
+    ],
+    "description": "Parcours issu de la curation de la direction « Ingénierie logicielle ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "software-engineering-master-info",
+    "title": "Master Informatique",
+    "level": 0.8,
+    "duration_years": 5,
+    "fields": [
+      "technology",
+      "informatique"
+    ],
+    "domains": [
+      "technology"
+    ],
+    "description": "Parcours issu de la curation de la direction « Ingénierie logicielle ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "cybersecurity-licence-info-sec",
+    "title": "Licence Informatique (sécurité)",
+    "level": 0.6,
+    "duration_years": 3,
+    "fields": [
+      "technology",
+      "informatique"
+    ],
+    "domains": [
+      "technology"
+    ],
+    "description": "Parcours issu de la curation de la direction « Cybersécurité ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "cybersecurity-master-sec",
+    "title": "Master Cybersécurité",
+    "level": 0.85,
+    "duration_years": 5,
+    "fields": [
+      "technology",
+      "securite"
+    ],
+    "domains": [
+      "technology"
+    ],
+    "description": "Parcours issu de la curation de la direction « Cybersécurité ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "data-science-licence-math-info",
+    "title": "Licence Mathématiques-Informatique",
+    "level": 0.65,
+    "duration_years": 3,
+    "fields": [
+      "technology",
+      "donnees"
+    ],
+    "domains": [
+      "technology"
+    ],
+    "description": "Parcours issu de la curation de la direction « Data science ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "data-science-master-data",
+    "title": "Master Data Science",
+    "level": 0.85,
+    "duration_years": 5,
+    "fields": [
+      "technology",
+      "donnees"
+    ],
+    "domains": [
+      "technology"
+    ],
+    "description": "Parcours issu de la curation de la direction « Data science ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "network-engineering-licence-reseau",
+    "title": "Licence Réseaux et Télécommunications",
+    "level": 0.6,
+    "duration_years": 3,
+    "fields": [
+      "technology",
+      "reseaux"
+    ],
+    "domains": [
+      "technology"
+    ],
+    "description": "Parcours issu de la curation de la direction « Ingénierie réseaux ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "network-engineering-master-reseau",
+    "title": "Master Réseaux et Systèmes Distribués",
+    "level": 0.85,
+    "duration_years": 5,
+    "fields": [
+      "technology",
+      "reseaux"
+    ],
+    "domains": [
+      "technology"
+    ],
+    "description": "Parcours issu de la curation de la direction « Ingénierie réseaux ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "ux-ui-licence-design",
+    "title": "Licence Design et Communication",
+    "level": 0.55,
+    "duration_years": 3,
+    "fields": [
+      "design",
+      "design"
+    ],
+    "domains": [
+      "design"
+    ],
+    "description": "Parcours issu de la curation de la direction « UX / UI Design ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "graphic-design-licence-design-2",
+    "title": "Licence Design graphique",
+    "level": 0.55,
+    "duration_years": 3,
+    "fields": [
+      "design",
+      "design"
+    ],
+    "domains": [
+      "design"
+    ],
+    "description": "Parcours issu de la curation de la direction « Design graphique ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "graphic-design-dsm",
+    "title": "École Supérieure des Arts Décoratifs (DN MADE)",
+    "level": 0.75,
+    "duration_years": 3,
+    "fields": [
+      "design",
+      "design"
+    ],
+    "domains": [
+      "design"
+    ],
+    "description": "Parcours issu de la curation de la direction « Design graphique ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "digital-marketing-licence-mkt",
+    "title": "Licence Marketing et Communication",
+    "level": 0.55,
+    "duration_years": 3,
+    "fields": [
+      "business",
+      "marketing"
+    ],
+    "domains": [
+      "business"
+    ],
+    "description": "Parcours issu de la curation de la direction « Marketing digital ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "digital-marketing-master-mkt",
+    "title": "Master Marketing Digital",
+    "level": 0.8,
+    "duration_years": 5,
+    "fields": [
+      "business",
+      "marketing"
+    ],
+    "domains": [
+      "business"
+    ],
+    "description": "Parcours issu de la curation de la direction « Marketing digital ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "teaching-capes",
+    "title": "Capes / Master Éducation et Formation",
+    "level": 0.7,
+    "duration_years": 5,
+    "fields": [
+      "education",
+      "education"
+    ],
+    "domains": [
+      "education"
+    ],
+    "description": "Parcours issu de la curation de la direction « Enseignement ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "psychology-licence-psy",
+    "title": "Licence Psychologie",
+    "level": 0.65,
+    "duration_years": 3,
+    "fields": [
+      "health-social",
+      "psychologie"
+    ],
+    "domains": [
+      "health-social"
+    ],
+    "description": "Parcours issu de la curation de la direction « Psychologie ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "accounting-licence-gestion",
+    "title": "Licence Gestion des entreprises et des administrations",
+    "level": 0.55,
+    "duration_years": 3,
+    "fields": [
+      "business",
+      "gestion"
+    ],
+    "domains": [
+      "business"
+    ],
+    "description": "Parcours issu de la curation de la direction « Comptabilité ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "accounting-dcf",
+    "title": "Diplôme d'expert-comptable (DCG + DEC)",
+    "level": 0.9,
+    "duration_years": 7,
+    "fields": [
+      "business",
+      "gestion"
+    ],
+    "domains": [
+      "business"
+    ],
+    "description": "Parcours issu de la curation de la direction « Comptabilité ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "medicine-doctorat-med",
+    "title": "Diplôme de Docteur en Médecine",
+    "level": 0.95,
+    "duration_years": 9,
+    "fields": [
+      "health",
+      "sante"
+    ],
+    "domains": [
+      "health"
+    ],
+    "description": "Parcours issu de la curation de la direction « Médecine ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "law-licence-droit",
+    "title": "Licence Droit",
+    "level": 0.65,
+    "duration_years": 3,
+    "fields": [
+      "social",
+      "droit"
+    ],
+    "domains": [
+      "social"
+    ],
+    "description": "Parcours issu de la curation de la direction « Droit ».",
+    "knowledge_version": "v2"
+  },
+  {
+    "formation_id": "law-master-droit",
+    "title": "Master Droit des affaires",
+    "level": 0.85,
+    "duration_years": 5,
+    "fields": [
+      "social",
+      "droit"
+    ],
+    "domains": [
+      "social"
+    ],
+    "description": "Parcours issu de la curation de la direction « Droit ».",
+    "knowledge_version": "v2"
+  }
+]

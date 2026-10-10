@@ -1,0 +1,1124 @@
+[
+  {
+    "occupation_id": "software-engineering-dev",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Développeur logiciel",
+    "description": "Curation interne dérivée de la direction « Ingénierie logicielle » (taxonomie technology).",
+    "aliases": [],
+    "isco08_code": "2510",
+    "isco_major_group": "2",
+    "domains": [
+      "technology"
+    ],
+    "riasec": {
+      "realistic": 0.7,
+      "investigative": 0.8,
+      "conventional": 0.6
+    },
+    "abilities": {
+      "logical": 0.9,
+      "verbal": 0.5
+    },
+    "skills": {
+      "programming": 0.9,
+      "problem_solving": 0.9,
+      "communication": 0.5
+    },
+    "values": {
+      "autonomy": 0.8,
+      "innovation": 0.9
+    },
+    "work_style": {
+      "autonomy": 0.8
+    },
+    "environment": {
+      "autonomy": 0.64,
+      "innovation": 0.72
+    },
+    "education_level": 0.6,
+    "job_zone": 2,
+    "skill_ids": [
+      "communication",
+      "problem_solving",
+      "programming"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "software-engineering-architect",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Architecte logiciel",
+    "description": "Curation interne dérivée de la direction « Ingénierie logicielle » (taxonomie technology).",
+    "aliases": [],
+    "isco08_code": "2510",
+    "isco_major_group": "2",
+    "domains": [
+      "technology"
+    ],
+    "riasec": {
+      "realistic": 0.7,
+      "investigative": 0.8,
+      "conventional": 0.6
+    },
+    "abilities": {
+      "logical": 0.9,
+      "verbal": 0.5
+    },
+    "skills": {
+      "programming": 0.9,
+      "problem_solving": 0.9,
+      "communication": 0.5
+    },
+    "values": {
+      "autonomy": 0.8,
+      "innovation": 0.9
+    },
+    "work_style": {
+      "autonomy": 0.8
+    },
+    "environment": {
+      "autonomy": 0.64,
+      "innovation": 0.72
+    },
+    "education_level": 0.6,
+    "job_zone": 2,
+    "skill_ids": [
+      "communication",
+      "problem_solving",
+      "programming"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "cybersecurity-analyst",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Analyste sécurité",
+    "description": "Curation interne dérivée de la direction « Cybersécurité » (taxonomie technology).",
+    "aliases": [],
+    "isco08_code": "2621",
+    "isco_major_group": "2",
+    "domains": [
+      "technology"
+    ],
+    "riasec": {
+      "realistic": 0.8,
+      "investigative": 0.9,
+      "conventional": 0.7
+    },
+    "abilities": {
+      "logical": 0.9,
+      "verbal": 0.4
+    },
+    "skills": {
+      "programming": 0.7,
+      "networking": 0.9,
+      "problem_solving": 0.9
+    },
+    "values": {
+      "autonomy": 0.8,
+      "security": 0.9
+    },
+    "work_style": {
+      "autonomy": 0.8
+    },
+    "environment": {
+      "autonomy": 0.64,
+      "security": 0.72
+    },
+    "education_level": 0.6,
+    "job_zone": 2,
+    "skill_ids": [
+      "networking",
+      "problem_solving",
+      "programming"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "cybersecurity-engineer",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Ingénieur sécurité des systèmes",
+    "description": "Curation interne dérivée de la direction « Cybersécurité » (taxonomie technology).",
+    "aliases": [],
+    "isco08_code": "2621",
+    "isco_major_group": "2",
+    "domains": [
+      "technology"
+    ],
+    "riasec": {
+      "realistic": 0.8,
+      "investigative": 0.9,
+      "conventional": 0.7
+    },
+    "abilities": {
+      "logical": 0.9,
+      "verbal": 0.4
+    },
+    "skills": {
+      "programming": 0.7,
+      "networking": 0.9,
+      "problem_solving": 0.9
+    },
+    "values": {
+      "autonomy": 0.8,
+      "security": 0.9
+    },
+    "work_style": {
+      "autonomy": 0.8
+    },
+    "environment": {
+      "autonomy": 0.64,
+      "security": 0.72
+    },
+    "education_level": 0.6,
+    "job_zone": 2,
+    "skill_ids": [
+      "networking",
+      "problem_solving",
+      "programming"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "data-science-scientist",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Data scientist",
+    "description": "Curation interne dérivée de la direction « Data science » (taxonomie technology).",
+    "aliases": [],
+    "isco08_code": "2511",
+    "isco_major_group": "2",
+    "domains": [
+      "technology"
+    ],
+    "riasec": {
+      "investigative": 1.0,
+      "realistic": 0.5,
+      "conventional": 0.7
+    },
+    "abilities": {
+      "logical": 1.0,
+      "verbal": 0.5
+    },
+    "skills": {
+      "programming": 0.7,
+      "statistics": 0.9,
+      "problem_solving": 0.9
+    },
+    "values": {
+      "innovation": 0.9,
+      "autonomy": 0.7
+    },
+    "work_style": {
+      "autonomy": 0.7
+    },
+    "environment": {
+      "innovation": 0.72,
+      "autonomy": 0.56
+    },
+    "education_level": 0.6,
+    "job_zone": 2,
+    "skill_ids": [
+      "problem_solving",
+      "programming",
+      "statistics"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "data-science-analyst",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Analyste de données",
+    "description": "Curation interne dérivée de la direction « Data science » (taxonomie technology).",
+    "aliases": [],
+    "isco08_code": "2511",
+    "isco_major_group": "2",
+    "domains": [
+      "technology"
+    ],
+    "riasec": {
+      "investigative": 1.0,
+      "realistic": 0.5,
+      "conventional": 0.7
+    },
+    "abilities": {
+      "logical": 1.0,
+      "verbal": 0.5
+    },
+    "skills": {
+      "programming": 0.7,
+      "statistics": 0.9,
+      "problem_solving": 0.9
+    },
+    "values": {
+      "innovation": 0.9,
+      "autonomy": 0.7
+    },
+    "work_style": {
+      "autonomy": 0.7
+    },
+    "environment": {
+      "innovation": 0.72,
+      "autonomy": 0.56
+    },
+    "education_level": 0.6,
+    "job_zone": 2,
+    "skill_ids": [
+      "problem_solving",
+      "programming",
+      "statistics"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "network-engineering-engineer",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Ingénieur réseaux",
+    "description": "Curation interne dérivée de la direction « Ingénierie réseaux » (taxonomie technology).",
+    "aliases": [],
+    "isco08_code": "2521",
+    "isco_major_group": "2",
+    "domains": [
+      "technology"
+    ],
+    "riasec": {
+      "realistic": 0.9,
+      "investigative": 0.6,
+      "conventional": 0.6
+    },
+    "abilities": {
+      "logical": 0.8,
+      "verbal": 0.4
+    },
+    "skills": {
+      "networking": 1.0,
+      "problem_solving": 0.8,
+      "programming": 0.5
+    },
+    "values": {
+      "stability": 0.8,
+      "autonomy": 0.7
+    },
+    "work_style": {
+      "autonomy": 0.7
+    },
+    "environment": {
+      "stability": 0.64,
+      "autonomy": 0.56
+    },
+    "education_level": 0.6,
+    "job_zone": 2,
+    "skill_ids": [
+      "networking",
+      "problem_solving",
+      "programming"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "network-engineering-technician",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Technicien d'exploitation réseau",
+    "description": "Curation interne dérivée de la direction « Ingénierie réseaux » (taxonomie technology).",
+    "aliases": [],
+    "isco08_code": "2523",
+    "isco_major_group": "3",
+    "domains": [
+      "technology"
+    ],
+    "riasec": {
+      "realistic": 0.9,
+      "investigative": 0.6,
+      "conventional": 0.6
+    },
+    "abilities": {
+      "logical": 0.8,
+      "verbal": 0.4
+    },
+    "skills": {
+      "networking": 1.0,
+      "problem_solving": 0.8,
+      "programming": 0.5
+    },
+    "values": {
+      "stability": 0.8,
+      "autonomy": 0.7
+    },
+    "work_style": {
+      "autonomy": 0.7
+    },
+    "environment": {
+      "stability": 0.64,
+      "autonomy": 0.56
+    },
+    "education_level": 0.6,
+    "job_zone": 3,
+    "skill_ids": [
+      "networking",
+      "problem_solving",
+      "programming"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "ux-ui-designer",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Designer d'expérience utilisateur",
+    "description": "Curation interne dérivée de la direction « UX / UI Design » (taxonomie design).",
+    "aliases": [],
+    "isco08_code": "2683",
+    "isco_major_group": "2",
+    "domains": [
+      "design"
+    ],
+    "riasec": {
+      "artistic": 0.8,
+      "social": 0.7,
+      "investigative": 0.6
+    },
+    "abilities": {
+      "creative": 0.9,
+      "verbal": 0.7
+    },
+    "skills": {
+      "design": 0.9,
+      "communication": 0.7,
+      "research": 0.7
+    },
+    "values": {
+      "creativity": 1.0,
+      "empathy": 0.9
+    },
+    "work_style": {
+      "autonomy": 0.5
+    },
+    "environment": {
+      "creativity": 0.8,
+      "empathy": 0.72
+    },
+    "education_level": 0.6,
+    "job_zone": 2,
+    "skill_ids": [
+      "communication",
+      "design",
+      "research"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "ux-ui-researcher",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Chercheur UX",
+    "description": "Curation interne dérivée de la direction « UX / UI Design » (taxonomie design).",
+    "aliases": [],
+    "isco08_code": "2683",
+    "isco_major_group": "2",
+    "domains": [
+      "design"
+    ],
+    "riasec": {
+      "artistic": 0.8,
+      "social": 0.7,
+      "investigative": 0.6
+    },
+    "abilities": {
+      "creative": 0.9,
+      "verbal": 0.7
+    },
+    "skills": {
+      "design": 0.9,
+      "communication": 0.7,
+      "research": 0.7
+    },
+    "values": {
+      "creativity": 1.0,
+      "empathy": 0.9
+    },
+    "work_style": {
+      "autonomy": 0.5
+    },
+    "environment": {
+      "creativity": 0.8,
+      "empathy": 0.72
+    },
+    "education_level": 0.6,
+    "job_zone": 2,
+    "skill_ids": [
+      "communication",
+      "design",
+      "research"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "graphic-design-designer",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Graphiste",
+    "description": "Curation interne dérivée de la direction « Design graphique » (taxonomie design).",
+    "aliases": [],
+    "isco08_code": "2681",
+    "isco_major_group": "2",
+    "domains": [
+      "design"
+    ],
+    "riasec": {
+      "artistic": 1.0,
+      "realistic": 0.4
+    },
+    "abilities": {
+      "creative": 1.0,
+      "verbal": 0.4
+    },
+    "skills": {
+      "design": 1.0,
+      "communication": 0.6
+    },
+    "values": {
+      "creativity": 1.0,
+      "autonomy": 0.8
+    },
+    "work_style": {
+      "autonomy": 0.8
+    },
+    "environment": {
+      "creativity": 0.8,
+      "autonomy": 0.64
+    },
+    "education_level": 0.6,
+    "job_zone": 2,
+    "skill_ids": [
+      "communication",
+      "design"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "graphic-design-motion",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Graphiste motion / publicité",
+    "description": "Curation interne dérivée de la direction « Design graphique » (taxonomie design).",
+    "aliases": [],
+    "isco08_code": "2681",
+    "isco_major_group": "2",
+    "domains": [
+      "design"
+    ],
+    "riasec": {
+      "artistic": 1.0,
+      "realistic": 0.4
+    },
+    "abilities": {
+      "creative": 1.0,
+      "verbal": 0.4
+    },
+    "skills": {
+      "design": 1.0,
+      "communication": 0.6
+    },
+    "values": {
+      "creativity": 1.0,
+      "autonomy": 0.8
+    },
+    "work_style": {
+      "autonomy": 0.8
+    },
+    "environment": {
+      "creativity": 0.8,
+      "autonomy": 0.64
+    },
+    "education_level": 0.6,
+    "job_zone": 2,
+    "skill_ids": [
+      "communication",
+      "design"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "digital-marketing-manager",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Responsable marketing digital",
+    "description": "Curation interne dérivée de la direction « Marketing digital » (taxonomie business).",
+    "aliases": [],
+    "isco08_code": "2421",
+    "isco_major_group": "1",
+    "domains": [
+      "business"
+    ],
+    "riasec": {
+      "social": 0.9,
+      "artistic": 0.6,
+      "enterprising": 0.9
+    },
+    "abilities": {
+      "verbal": 0.9,
+      "creative": 0.7
+    },
+    "skills": {
+      "communication": 0.9,
+      "marketing": 0.9,
+      "analysis": 0.6
+    },
+    "values": {
+      "influence": 0.8,
+      "creativity": 0.8
+    },
+    "work_style": {
+      "autonomy": 0.5
+    },
+    "environment": {
+      "influence": 0.64,
+      "creativity": 0.64
+    },
+    "education_level": 0.6,
+    "job_zone": 1,
+    "skill_ids": [
+      "analysis",
+      "communication",
+      "marketing"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "digital-marketing-specialist",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Spécialiste acquisition et référencement",
+    "description": "Curation interne dérivée de la direction « Marketing digital » (taxonomie business).",
+    "aliases": [],
+    "isco08_code": "2431",
+    "isco_major_group": "3",
+    "domains": [
+      "business"
+    ],
+    "riasec": {
+      "social": 0.9,
+      "artistic": 0.6,
+      "enterprising": 0.9
+    },
+    "abilities": {
+      "verbal": 0.9,
+      "creative": 0.7
+    },
+    "skills": {
+      "communication": 0.9,
+      "marketing": 0.9,
+      "analysis": 0.6
+    },
+    "values": {
+      "influence": 0.8,
+      "creativity": 0.8
+    },
+    "work_style": {
+      "autonomy": 0.5
+    },
+    "environment": {
+      "influence": 0.64,
+      "creativity": 0.64
+    },
+    "education_level": 0.6,
+    "job_zone": 3,
+    "skill_ids": [
+      "analysis",
+      "communication",
+      "marketing"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "teaching-teacher",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Enseignant du secondaire",
+    "description": "Curation interne dérivée de la direction « Enseignement » (taxonomie education).",
+    "aliases": [],
+    "isco08_code": "2310",
+    "isco_major_group": "3",
+    "domains": [
+      "education"
+    ],
+    "riasec": {
+      "social": 1.0,
+      "conventional": 0.6
+    },
+    "abilities": {
+      "verbal": 0.9,
+      "empathy": 0.9
+    },
+    "skills": {
+      "communication": 0.9,
+      "pedagogy": 1.0
+    },
+    "values": {
+      "service": 1.0,
+      "stability": 0.7
+    },
+    "work_style": {
+      "autonomy": 0.5
+    },
+    "environment": {
+      "service": 0.8,
+      "stability": 0.56
+    },
+    "education_level": 0.6,
+    "job_zone": 3,
+    "skill_ids": [
+      "communication",
+      "pedagogy"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "teaching-trainer",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Formateur en entreprise",
+    "description": "Curation interne dérivée de la direction « Enseignement » (taxonomie education).",
+    "aliases": [],
+    "isco08_code": "2423",
+    "isco_major_group": "3",
+    "domains": [
+      "education"
+    ],
+    "riasec": {
+      "social": 1.0,
+      "conventional": 0.6
+    },
+    "abilities": {
+      "verbal": 0.9,
+      "empathy": 0.9
+    },
+    "skills": {
+      "communication": 0.9,
+      "pedagogy": 1.0
+    },
+    "values": {
+      "service": 1.0,
+      "stability": 0.7
+    },
+    "work_style": {
+      "autonomy": 0.5
+    },
+    "environment": {
+      "service": 0.8,
+      "stability": 0.56
+    },
+    "education_level": 0.6,
+    "job_zone": 3,
+    "skill_ids": [
+      "communication",
+      "pedagogy"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "psychology-psychologist",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Psychologue",
+    "description": "Curation interne dérivée de la direction « Psychologie » (taxonomie health-social).",
+    "aliases": [],
+    "isco08_code": "2442",
+    "isco_major_group": "2",
+    "domains": [
+      "health-social"
+    ],
+    "riasec": {
+      "social": 1.0,
+      "investigative": 0.8
+    },
+    "abilities": {
+      "verbal": 0.9,
+      "empathy": 1.0
+    },
+    "skills": {
+      "communication": 0.9,
+      "research": 0.7
+    },
+    "values": {
+      "service": 1.0,
+      "empathy": 1.0
+    },
+    "work_style": {
+      "autonomy": 0.5
+    },
+    "environment": {
+      "service": 0.8,
+      "empathy": 0.8
+    },
+    "education_level": 0.6,
+    "job_zone": 2,
+    "skill_ids": [
+      "communication",
+      "research"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "psychology-counselor",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Conseiller en orientation professionnelle",
+    "description": "Curation interne dérivée de la direction « Psychologie » (taxonomie health-social).",
+    "aliases": [],
+    "isco08_code": "2442",
+    "isco_major_group": "2",
+    "domains": [
+      "health-social"
+    ],
+    "riasec": {
+      "social": 1.0,
+      "investigative": 0.8
+    },
+    "abilities": {
+      "verbal": 0.9,
+      "empathy": 1.0
+    },
+    "skills": {
+      "communication": 0.9,
+      "research": 0.7
+    },
+    "values": {
+      "service": 1.0,
+      "empathy": 1.0
+    },
+    "work_style": {
+      "autonomy": 0.5
+    },
+    "environment": {
+      "service": 0.8,
+      "empathy": 0.8
+    },
+    "education_level": 0.6,
+    "job_zone": 2,
+    "skill_ids": [
+      "communication",
+      "research"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "accounting-accountant",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Comptable",
+    "description": "Curation interne dérivée de la direction « Comptabilité » (taxonomie business).",
+    "aliases": [],
+    "isco08_code": "2411",
+    "isco_major_group": "3",
+    "domains": [
+      "business"
+    ],
+    "riasec": {
+      "conventional": 1.0,
+      "investigative": 0.5
+    },
+    "abilities": {
+      "logical": 0.8,
+      "verbal": 0.5
+    },
+    "skills": {
+      "analysis": 0.8,
+      "communication": 0.5
+    },
+    "values": {
+      "stability": 0.9,
+      "precision": 1.0
+    },
+    "work_style": {
+      "autonomy": 0.5
+    },
+    "environment": {
+      "stability": 0.72,
+      "precision": 0.8
+    },
+    "education_level": 0.6,
+    "job_zone": 3,
+    "skill_ids": [
+      "analysis",
+      "communication"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "accounting-controller",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Contrôleur de gestion",
+    "description": "Curation interne dérivée de la direction « Comptabilité » (taxonomie business).",
+    "aliases": [],
+    "isco08_code": "2411",
+    "isco_major_group": "3",
+    "domains": [
+      "business"
+    ],
+    "riasec": {
+      "conventional": 1.0,
+      "investigative": 0.5
+    },
+    "abilities": {
+      "logical": 0.8,
+      "verbal": 0.5
+    },
+    "skills": {
+      "analysis": 0.8,
+      "communication": 0.5
+    },
+    "values": {
+      "stability": 0.9,
+      "precision": 1.0
+    },
+    "work_style": {
+      "autonomy": 0.5
+    },
+    "environment": {
+      "stability": 0.72,
+      "precision": 0.8
+    },
+    "education_level": 0.6,
+    "job_zone": 3,
+    "skill_ids": [
+      "analysis",
+      "communication"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "medicine-doctor",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Médecin",
+    "description": "Curation interne dérivée de la direction « Médecine » (taxonomie health).",
+    "aliases": [],
+    "isco08_code": "2211",
+    "isco_major_group": "2",
+    "domains": [
+      "health"
+    ],
+    "riasec": {
+      "investigative": 0.9,
+      "social": 0.8
+    },
+    "abilities": {
+      "logical": 0.9,
+      "empathy": 0.8
+    },
+    "skills": {
+      "research": 0.8,
+      "communication": 0.7,
+      "problem_solving": 0.9
+    },
+    "values": {
+      "service": 1.0,
+      "precision": 0.9
+    },
+    "work_style": {
+      "autonomy": 0.5
+    },
+    "environment": {
+      "service": 0.8,
+      "precision": 0.72
+    },
+    "education_level": 0.6,
+    "job_zone": 2,
+    "skill_ids": [
+      "communication",
+      "problem_solving",
+      "research"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "medicine-nurse",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Infirmierritorial",
+    "description": "Curation interne dérivée de la direction « Médecine » (taxonomie health).",
+    "aliases": [],
+    "isco08_code": "2211",
+    "isco_major_group": "2",
+    "domains": [
+      "health"
+    ],
+    "riasec": {
+      "investigative": 0.9,
+      "social": 0.8
+    },
+    "abilities": {
+      "logical": 0.9,
+      "empathy": 0.8
+    },
+    "skills": {
+      "research": 0.8,
+      "communication": 0.7,
+      "problem_solving": 0.9
+    },
+    "values": {
+      "service": 1.0,
+      "precision": 0.9
+    },
+    "work_style": {
+      "autonomy": 0.5
+    },
+    "environment": {
+      "service": 0.8,
+      "precision": 0.72
+    },
+    "education_level": 0.6,
+    "job_zone": 2,
+    "skill_ids": [
+      "communication",
+      "problem_solving",
+      "research"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "law-lawyer",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Avocat",
+    "description": "Curation interne dérivée de la direction « Droit » (taxonomie social).",
+    "aliases": [],
+    "isco08_code": "2421",
+    "isco_major_group": "2",
+    "domains": [
+      "social"
+    ],
+    "riasec": {
+      "social": 0.8,
+      "investigative": 0.7,
+      "enterprising": 0.8
+    },
+    "abilities": {
+      "verbal": 1.0,
+      "logical": 0.8
+    },
+    "skills": {
+      "communication": 0.9,
+      "research": 0.8
+    },
+    "values": {
+      "justice": 1.0,
+      "influence": 0.7
+    },
+    "work_style": {
+      "autonomy": 0.5
+    },
+    "environment": {
+      "justice": 0.8,
+      "influence": 0.56
+    },
+    "education_level": 0.6,
+    "job_zone": 2,
+    "skill_ids": [
+      "communication",
+      "research"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  },
+  {
+    "occupation_id": "law-juriste",
+    "source": "curated",
+    "source_version": "2026.1",
+    "title": "Juriste en entreprise",
+    "description": "Curation interne dérivée de la direction « Droit » (taxonomie social).",
+    "aliases": [],
+    "isco08_code": "2421",
+    "isco_major_group": "2",
+    "domains": [
+      "social"
+    ],
+    "riasec": {
+      "social": 0.8,
+      "investigative": 0.7,
+      "enterprising": 0.8
+    },
+    "abilities": {
+      "verbal": 1.0,
+      "logical": 0.8
+    },
+    "skills": {
+      "communication": 0.9,
+      "research": 0.8
+    },
+    "values": {
+      "justice": 1.0,
+      "influence": 0.7
+    },
+    "work_style": {
+      "autonomy": 0.5
+    },
+    "environment": {
+      "justice": 0.8,
+      "influence": 0.56
+    },
+    "education_level": 0.6,
+    "job_zone": 2,
+    "skill_ids": [
+      "communication",
+      "research"
+    ],
+    "task_terms": [],
+    "evidence_count": 1,
+    "data_completeness": 0.55
+  }
+]
