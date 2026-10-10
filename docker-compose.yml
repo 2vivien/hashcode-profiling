@@ -34,12 +34,17 @@ services:
     environment:
       - DOMAIN=${DOMAIN:-profiler.otheloo.com}
       - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD requis}@supabase-db:5432/${POSTGRES_DB:-postgres}
-      - DATA_PATH=/app/data/knowledge/${OTHELOO_KNOWLEDGE_VERSION:-v2}
-      - OTHELOO_KNOWLEDGE_VERSION=${OTHELOO_KNOWLEDGE_VERSION:-v2}
+      - DATA_PATH=/app/data/knowledge/${KNOWLEDGE_VERSION:-v2}
+      - OTHELOO_KNOWLEDGE_VERSION=${KNOWLEDGE_VERSION:-v2}
       # Lecture de la connaissance via le data-service (repli JSON si indisponible).
       - OTHELOO_DATA_SERVICE_URL=${OTHELOO_DATA_SERVICE_URL:-http://data-service:4100}
       # Laisser vide en local ; définir une clé en production pour exiger X-API-Key.
       - OTHELOO_API_KEY=${OTHELOO_API_KEY:-}
+      # Traduction des libellés externes ; vide = pas de traduction, source conservée.
+      - OTHELOO_GEMINI_API_KEY=${OTHELOO_GEMINI_API_KEY:-}
+      - OTHELOO_TRANSLATION_MODEL=${OTHELOO_TRANSLATION_MODEL:-gemini-2.5-flash}
+      - OTHELOO_GROQ_API_KEY=${OTHELOO_GROQ_API_KEY:-}
+      - OTHELOO_GROQ_TRANSLATION_MODEL=${OTHELOO_GROQ_TRANSLATION_MODEL:-qwen/qwen3.8-27b}
     depends_on:
       supabase-db:
         condition: service_healthy

@@ -41,7 +41,22 @@ make audit              # pip-audit
 | `DOMAIN` | domaine public | `profiler.otheloo.com` |
 | `POSTGRES_USER/PASSWORD/DB` | base | password **obligatoire** |
 | `OTHELOO_API_KEY` | auth API (vide = désactivée) | vide |
-| `DATA_PATH` | racine connaissance | `/app/data/knowledge/v1` |
+| `KNOWLEDGE_VERSION` | version de connaissance déployée (pilote compose) | `v2` |
+| `OTHELLOO_GEMINI_API_KEY` | traduction primaire (vide = pas de traduction) | vide |
+| `OTHELLOO_GROQ_API_KEY` | traduction de repli quand Gemini sature | vide |
+| `OTHELLOO_TRANSLATION_MODEL` | modèle Gemini | `gemini-2.5-flash` |
+| `OTHELLOO_GROQ_TRANSLATION_MODEL` | modèle Groq | `qwen/qwen3.8-27b` |
+| `DATA_PATH` | racine connaissance (dérivée dans compose) | `/app/data/knowledge/v<KNOWLEDGE_VERSION>` |
+
+> **Pourquoi `KNOWLEDGE_VERSION` et pas `OTHELLOO_KNOWLEDGE_VERSION` comme source ?**
+> Docker Compose v5 n'interpole pas correctement une variable qui fait référence
+> à elle-même dans une liste `environment:` : la valeur retombe silencieusement
+> sur le défaut. La variable source porte donc un nom distinct, et
+> `OTHELOO_KNOWLEDGE_VERSION` est calculée à partir d'elle.
+
+Les clés d'API vivent uniquement dans `.env` (gitignoré, mode 600). Elles ne sont
+jamais journalisées : le code les place dans un en-tête (`x-goog-api-key`,
+`Authorization`) et jamais dans une URL.
 
 ## Promotion staging → production
 
