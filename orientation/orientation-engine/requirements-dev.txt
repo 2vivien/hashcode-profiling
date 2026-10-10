@@ -1,0 +1,10 @@
+# Dépendances de développement/qualité (locales, CI, sandbox).
+# NE FAIT PAS PARTIE DE L'IMAGE DE PRODUCTION.
+# La production reste régie par pyproject.toml + uv.lock.
+hypothesis>=6.112,<7
+pytest-benchmark>=5,<6
+pytest-xdist>=3.6,<4
+coverage[toml]>=7.6,<8
+pre-commit>=4,<5
+pip-audit>=2.7,<3
+bandit>=1.7,<2

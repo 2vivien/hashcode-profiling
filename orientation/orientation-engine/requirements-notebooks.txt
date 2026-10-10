@@ -1,0 +1,11 @@
+# Dépendances d'exploration scientifique et de notebooks.
+# NE FAIT PAS PARTIE DE L'IMAGE DE PRODUCTION (Dockerfile).
+# Utilisées par Dockerfile.dev (service `jupyter`, profil `dev`).
+jupyterlab>=4.3,<5
+jupytext>=1.16,<2
+nbqa>=1.9,<2
+ipykernel>=6.29,<7
+ipywidgets>=8.1,<9
+matplotlib>=3.9,<4
+seaborn>=0.13,<1
+pandera>=0.20,<1

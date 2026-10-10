@@ -21,6 +21,30 @@ dev = [
   "pytest>=8.4,<9",
   "pytest-cov>=7,<8",
   "ruff>=0.14,<1",
+  "hypothesis>=6.112,<7",
+  "pytest-benchmark>=5,<6",
+  "pytest-xdist>=3.6,<4",
+  "httpx>=0.28,<1",
+  "pre-commit>=4,<5",
+  "bandit>=1.7,<2",
+  "pip-audit>=2.7,<3",
+]
+
+[project.optional-dependencies]
+# Exploration scientifique (image Dockerfile.dev / notebooks).
+notebooks = [
+  "jupyterlab>=4.3,<5",
+  "jupytext>=1.16,<2",
+  "ipykernel>=6.29,<7",
+  "ipywidgets>=8.1,<9",
+  "matplotlib>=3.9,<4",
+  "pandera>=0.20,<1",
+]
+# Runtime ML optionnel V2-V5 (voir requirements-v2-ml.txt).
+ml = [
+  "sentence-transformers>=5,<6",
+  "lightgbm>=4.6,<5",
+  "joblib>=1.4,<2",
 ]
 
 [build-system]
@@ -33,11 +57,15 @@ packages = ["src/orientation"]
 [tool.ruff]
 target-version = "py312"
 line-length = 100
-exclude = ["src/**/*.pyi"]
+extend-exclude = ["src/**/*.pyi", "notebooks"]
 
 [tool.ruff.lint]
 select = ["E","F","I","B","UP","SIM","RUF"]
 ignore = ["B008"]
+
+[tool.ruff.lint.per-file-ignores]
+# Banque d'items : contenu rédactionnel (questions/options) volontairement long.
+"src/orientation/assessment_v1/question_bank.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.12"
@@ -48,3 +76,22 @@ packages = ["orientation"]
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
+markers = [
+  "benchmark: tests de performance (pytest-benchmark)",
+]
+
+[tool.coverage.run]
+source = ["orientation"]
+omit = ["*/tests/*", "src/**/*.pyi"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[tool.bandit]
+exclude_dirs = ["tests", "notebooks"]
+skips = ["B101"]  # assert autorisé dans le code de recherche
+
+[tool.hypothesis]
+deadline = 800
+max_examples = 100
