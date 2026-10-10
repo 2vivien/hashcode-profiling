@@ -50,6 +50,9 @@ export const skill = pgTable(
     id: text("id").notNull(),
     version: text("version").notNull(),
     label: text("label"),
+    language: text("language").notNull().default("fr"),
+    originalLabel: text("original_label"),
+    translationStatus: text("translation_status").notNull().default("none"),
     data: jsonb("data").$type<Record<string, unknown>>().notNull().default({}),
   },
   (t) => [primaryKey({ columns: [t.id, t.version] })],
@@ -63,9 +66,43 @@ export const occupation = pgTable(
     title: text("title"),
     source: text("source"),
     isco08Code: text("isco08_code"),
+    /** Langue du contenu de `title` (ISO 639-1). */
+    language: text("language").notNull().default("fr"),
+    /** Libellé d'origine avant traduction (null si la source est déjà en français). */
+    originalTitle: text("original_title"),
+    /** none | pending | done | failed | source */
+    translationStatus: text("translation_status").notNull().default("none"),
+    /** female | male | mixed | null — dénote le genre, jamais l'orientation d'une personne. */
+    gender: text("gender"),
+    /** Répartition observée sur le marché, ex. { "female": 0.42, "male": 0.58 }. */
+    genderDistribution: jsonb("gender_distribution").$type<Record<string, number>>().notNull().default({}),
     data: jsonb("data").$type<Record<string, unknown>>().notNull().default({}),
   },
-  (t) => [primaryKey({ columns: [t.id, t.version] }), index("occupation_version_idx").on(t.version)],
+  (t) => [
+    primaryKey({ columns: [t.id, t.version] }),
+    index("occupation_version_idx").on(t.version),
+    index("occupation_language_idx").on(t.language),
+  ],
+);
+
+/** Langues exigées ou valorisées par un métier (CEFR : A1..C2). */
+export const languageRequirement = pgTable(
+  "language_requirement",
+  {
+    occupationId: text("occupation_id").notNull(),
+    version: text("version").notNull(),
+    /** Code ISO 639-1, ex. "en". */
+    languageCode: text("language_code").notNull(),
+    /** Niveau CECRL attendu : A1..C2 ; null si non qualifié. */
+    cefrLevel: text("cefr_level"),
+    required: boolean("required").notNull().default(false),
+    importance: real("importance"),
+    data: jsonb("data").$type<Record<string, unknown>>().notNull().default({}),
+  },
+  (t) => [
+    primaryKey({ columns: [t.occupationId, t.version, t.languageCode] }),
+    index("language_requirement_occupation_idx").on(t.occupationId),
+  ],
 );
 
 export const formation = pgTable(
@@ -74,6 +111,11 @@ export const formation = pgTable(
     id: text("id").notNull(),
     version: text("version").notNull(),
     title: text("title"),
+    language: text("language").notNull().default("fr"),
+    originalTitle: text("original_title"),
+    translationStatus: text("translation_status").notNull().default("none"),
+    /** Niveau CECRL de sortie visé, quand la formation est certifye. */
+    cefrLevel: text("cefr_level"),
     data: jsonb("data").$type<Record<string, unknown>>().notNull().default({}),
   },
   (t) => [primaryKey({ columns: [t.id, t.version] })],

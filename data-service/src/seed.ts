@@ -8,6 +8,7 @@ import {
   direction,
   formation,
   knowledgeVersion,
+  languageRequirement,
   mapping,
   modelRegistry,
   occupation,
@@ -86,7 +87,7 @@ const skills = await readJson<string[]>("skills.json");
 for (const id of skills) {
   await db
     .insert(skill)
-    .values({ id, version, label: id, data: {} })
+    .values({ id, version, label: id, language: "fr", translationStatus: "source", data: {} })
     .onConflictDoNothing({ target: [skill.id, skill.version] });
 }
 
@@ -105,18 +106,47 @@ const occupations = (await readOptional<JsonRecord[]>("occupations.json")) ?? []
 // Synchronisation complète de la version : on purge avant de réinsérer (seed idempotent).
 await db.delete(occupation).where(eq(occupation.version, version));
 for (const o of occupations) {
+  // Genre : le champ peut venir du JSON de connaissance ou n'être porté que par `data`.
+  const inner = (o.data as JsonRecord | undefined) ?? {};
+  const gender = (o.gender as string | undefined) ?? (inner.gender as string | undefined) ?? null;
+  const genderDistribution =
+    (o.gender_distribution as Record<string, number> | undefined) ??
+    (inner.gender_distribution as Record<string, number> | undefined) ??
+    {};
   const row = {
     id: String(o.occupation_id ?? ""),
     version,
     title: (o.title as string) ?? null,
     source: (o.source as string) ?? null,
     isco08Code: (o.isco08_code as string) ?? null,
+    language: (o.language as string) ?? "fr",
+    originalTitle: (o.original_title as string) ?? null,
+    translationStatus: (o.translation_status as string) ?? "none",
+    gender,
+    genderDistribution,
     data: o,
   };
   await db
     .insert(occupation)
     .values(row)
     .onConflictDoUpdate({ target: [occupation.id, occupation.version], set: row });
+}
+
+// Langues exigées / valorisées par métier (table dédiée : une ligne par langue).
+const languageRequirements = (await readOptional<JsonRecord[]>("language_requirements.json")) ?? [];
+await db.delete(languageRequirement).where(eq(languageRequirement.version, version));
+for (const r of languageRequirements) {
+  const occupationId = String(r.occupation_id ?? "");
+  if (!occupationId) continue;
+  await db.insert(languageRequirement).values({
+    occupationId,
+    version,
+    languageCode: String(r.language_code ?? ""),
+    cefrLevel: (r.cefr_level as string) ?? null,
+    required: r.required === true,
+    importance: typeof r.importance === "number" ? r.importance : null,
+    data: r,
+  });
 }
 
 const formations = (await readOptional<JsonRecord[]>("formations.json")) ?? [];
@@ -126,6 +156,10 @@ for (const f of formations) {
     id: String(f.formation_id ?? ""),
     version,
     title: (f.title as string) ?? null,
+    language: (f.language as string) ?? "fr",
+    originalTitle: (f.original_title as string) ?? null,
+    translationStatus: (f.translation_status as string) ?? "none",
+    cefrLevel: (f.cefr_level as string) ?? null,
     data: f,
   };
   await db
@@ -184,7 +218,8 @@ const dirCount = counts[0]?.value ?? 0;
 
 console.log(
   `[seed] version=${version} directions=${dirCount} skills=${skills.length} ` +
-    `occupations=${occupations.length} formations=${formations.length} mappings=${mappings.length}`,
+    `occupations=${occupations.length} formations=${formations.length} mappings=${mappings.length} ` +
+    `language_requirements=${languageRequirements.length}`,
 );
 
 await pool.end();

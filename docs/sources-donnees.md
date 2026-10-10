@@ -56,6 +56,25 @@ Il manque **uniquement** :
 2. **Un lecteur ROME xlsx** — `openpyxl` requis ; l'existant ne lit que du CSV.
 3. **Le crosswalk ESCO ↔ O*NET** — aucun lecteur pour ce format.
 
+## État de l'ingestion (2026-10-10)
+
+| Étape | État |
+|---|---|
+| Fetcher (`scripts/fetch_external.py`) | ✅ O*NET 31.0 (91,8 Mo) et ROME (8 fichiers) téléchargés, SHA-256 et provenance journalisés |
+| v3 (fiches métiers ROME) | ✅ **1 911 métiers réels** + 24 curés, en base |
+| v3 (compétences ROME) | ✅ 19 479 compétences dans `competences.json` |
+| Traduction | ✅ chaîne Gemini → Groq branchée (voir `docs/translation.md`) |
+| O*NET → base | ⏳ archive téléchargée, pas encore ingérée (attend le crosswalk) |
+| ESCO | ⏳ page de téléchargement à suivre manuellement (liens rendus en JS) |
+| Genre par métier | ❌ aucune source de répartition en open data |
+
+**Appariement vers les directions : volontairement minimal.** Sur 1 911 fiches,
+seules **58** sont rattachées à une direction, et toutes ont été relues à la
+main : les 1 853 autres restent dans le catalogue sans être appariées. Une
+première version plus permissive en appariait 185 — dont « Analyste de la
+performance sportive » classé en *cybersécurité*, via le mot « sécurité ». Le
+matching actuel refuse les mots polysémiques (`sécurité`, `service`, `social`…).
+
 ## Ordre d'ingestion recommandé
 
 1. **O*NET 31.0** — le meilleur rapport valeur/effort : archive unique, sans clé, ~1 000 occupations, remplace immédiatement la curation de 24 occupations.

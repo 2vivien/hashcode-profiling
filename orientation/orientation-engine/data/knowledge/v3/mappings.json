@@ -1,0 +1,948 @@
+[
+  {
+    "id": "software-engineering->software-engineering-dev",
+    "source_id": "software-engineering",
+    "target_id": "software-engineering-dev",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "software-engineering->software-engineering-architect",
+    "source_id": "software-engineering",
+    "target_id": "software-engineering-architect",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "software-engineering->software-engineering-licence-info",
+    "source_id": "software-engineering",
+    "target_id": "software-engineering-licence-info",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "software-engineering->software-engineering-master-info",
+    "source_id": "software-engineering",
+    "target_id": "software-engineering-master-info",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "cybersecurity->cybersecurity-analyst",
+    "source_id": "cybersecurity",
+    "target_id": "cybersecurity-analyst",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "cybersecurity->cybersecurity-engineer",
+    "source_id": "cybersecurity",
+    "target_id": "cybersecurity-engineer",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "cybersecurity->cybersecurity-licence-info-sec",
+    "source_id": "cybersecurity",
+    "target_id": "cybersecurity-licence-info-sec",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "cybersecurity->cybersecurity-master-sec",
+    "source_id": "cybersecurity",
+    "target_id": "cybersecurity-master-sec",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "data-science->data-science-scientist",
+    "source_id": "data-science",
+    "target_id": "data-science-scientist",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "data-science->data-science-analyst",
+    "source_id": "data-science",
+    "target_id": "data-science-analyst",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "data-science->data-science-licence-math-info",
+    "source_id": "data-science",
+    "target_id": "data-science-licence-math-info",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "data-science->data-science-master-data",
+    "source_id": "data-science",
+    "target_id": "data-science-master-data",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "network-engineering->network-engineering-engineer",
+    "source_id": "network-engineering",
+    "target_id": "network-engineering-engineer",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "network-engineering->network-engineering-technician",
+    "source_id": "network-engineering",
+    "target_id": "network-engineering-technician",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "network-engineering->network-engineering-licence-reseau",
+    "source_id": "network-engineering",
+    "target_id": "network-engineering-licence-reseau",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "network-engineering->network-engineering-master-reseau",
+    "source_id": "network-engineering",
+    "target_id": "network-engineering-master-reseau",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "ux-ui->ux-ui-designer",
+    "source_id": "ux-ui",
+    "target_id": "ux-ui-designer",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "ux-ui->ux-ui-researcher",
+    "source_id": "ux-ui",
+    "target_id": "ux-ui-researcher",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "ux-ui->ux-ui-licence-design",
+    "source_id": "ux-ui",
+    "target_id": "ux-ui-licence-design",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "graphic-design->graphic-design-designer",
+    "source_id": "graphic-design",
+    "target_id": "graphic-design-designer",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "graphic-design->graphic-design-motion",
+    "source_id": "graphic-design",
+    "target_id": "graphic-design-motion",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "graphic-design->graphic-design-licence-design-2",
+    "source_id": "graphic-design",
+    "target_id": "graphic-design-licence-design-2",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "graphic-design->graphic-design-dsm",
+    "source_id": "graphic-design",
+    "target_id": "graphic-design-dsm",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "digital-marketing->digital-marketing-manager",
+    "source_id": "digital-marketing",
+    "target_id": "digital-marketing-manager",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "digital-marketing->digital-marketing-specialist",
+    "source_id": "digital-marketing",
+    "target_id": "digital-marketing-specialist",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "digital-marketing->digital-marketing-licence-mkt",
+    "source_id": "digital-marketing",
+    "target_id": "digital-marketing-licence-mkt",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "digital-marketing->digital-marketing-master-mkt",
+    "source_id": "digital-marketing",
+    "target_id": "digital-marketing-master-mkt",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "teaching->teaching-teacher",
+    "source_id": "teaching",
+    "target_id": "teaching-teacher",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "teaching->teaching-trainer",
+    "source_id": "teaching",
+    "target_id": "teaching-trainer",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "teaching->teaching-capes",
+    "source_id": "teaching",
+    "target_id": "teaching-capes",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "psychology->psychology-psychologist",
+    "source_id": "psychology",
+    "target_id": "psychology-psychologist",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "psychology->psychology-counselor",
+    "source_id": "psychology",
+    "target_id": "psychology-counselor",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "psychology->psychology-licence-psy",
+    "source_id": "psychology",
+    "target_id": "psychology-licence-psy",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "accounting->accounting-accountant",
+    "source_id": "accounting",
+    "target_id": "accounting-accountant",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "accounting->accounting-controller",
+    "source_id": "accounting",
+    "target_id": "accounting-controller",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "accounting->accounting-licence-gestion",
+    "source_id": "accounting",
+    "target_id": "accounting-licence-gestion",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "accounting->accounting-dcf",
+    "source_id": "accounting",
+    "target_id": "accounting-dcf",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "medicine->medicine-doctor",
+    "source_id": "medicine",
+    "target_id": "medicine-doctor",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "medicine->medicine-nurse",
+    "source_id": "medicine",
+    "target_id": "medicine-nurse",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "medicine->medicine-doctorat-med",
+    "source_id": "medicine",
+    "target_id": "medicine-doctorat-med",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "law->law-lawyer",
+    "source_id": "law",
+    "target_id": "law-lawyer",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "law->law-juriste",
+    "source_id": "law",
+    "target_id": "law-juriste",
+    "relation": "offers_occupation",
+    "weight": 1.0
+  },
+  {
+    "id": "law->law-licence-droit",
+    "source_id": "law",
+    "target_id": "law-licence-droit",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "law->law-master-droit",
+    "source_id": "law",
+    "target_id": "law-master-droit",
+    "relation": "offers_formation",
+    "weight": 1.0
+  },
+  {
+    "id": "network-engineering->rome-f1605",
+    "source_id": "network-engineering",
+    "target_id": "rome-f1605",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-f1623",
+    "source_id": "network-engineering",
+    "target_id": "rome-f1623",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-i1104",
+    "source_id": "network-engineering",
+    "target_id": "rome-i1104",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-i1106",
+    "source_id": "network-engineering",
+    "target_id": "rome-i1106",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-i1311",
+    "source_id": "network-engineering",
+    "target_id": "rome-i1311",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-i1312",
+    "source_id": "network-engineering",
+    "target_id": "rome-i1312",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-i1319",
+    "source_id": "network-engineering",
+    "target_id": "rome-i1319",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "medicine->rome-j1101",
+    "source_id": "medicine",
+    "target_id": "rome-j1101",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "medicine->rome-j1102",
+    "source_id": "medicine",
+    "target_id": "rome-j1102",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "medicine->rome-j1105",
+    "source_id": "medicine",
+    "target_id": "rome-j1105",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "medicine->rome-j1107",
+    "source_id": "medicine",
+    "target_id": "rome-j1107",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "medicine->rome-j1108",
+    "source_id": "medicine",
+    "target_id": "rome-j1108",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "medicine->rome-j1109",
+    "source_id": "medicine",
+    "target_id": "rome-j1109",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "medicine->rome-j1110",
+    "source_id": "medicine",
+    "target_id": "rome-j1110",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "medicine->rome-j1120",
+    "source_id": "medicine",
+    "target_id": "rome-j1120",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "medicine->rome-j1123",
+    "source_id": "medicine",
+    "target_id": "rome-j1123",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "medicine->rome-j1124",
+    "source_id": "medicine",
+    "target_id": "rome-j1124",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "medicine->rome-j1126",
+    "source_id": "medicine",
+    "target_id": "rome-j1126",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "medicine->rome-j1127",
+    "source_id": "medicine",
+    "target_id": "rome-j1127",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "psychology->rome-k1104",
+    "source_id": "psychology",
+    "target_id": "rome-k1104",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "psychology->rome-k1107",
+    "source_id": "psychology",
+    "target_id": "rome-k1107",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "psychology->rome-k1113",
+    "source_id": "psychology",
+    "target_id": "rome-k1113",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "psychology->rome-k1114",
+    "source_id": "psychology",
+    "target_id": "rome-k1114",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "medicine->rome-k1402",
+    "source_id": "medicine",
+    "target_id": "rome-k1402",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "law->rome-k1915",
+    "source_id": "law",
+    "target_id": "rome-k1915",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-k2301",
+    "source_id": "network-engineering",
+    "target_id": "rome-k2301",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "accounting->rome-m1202",
+    "source_id": "accounting",
+    "target_id": "rome-m1202",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "accounting->rome-m1203",
+    "source_id": "accounting",
+    "target_id": "rome-m1203",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "accounting->rome-m1211",
+    "source_id": "accounting",
+    "target_id": "rome-m1211",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "accounting->rome-m1213",
+    "source_id": "accounting",
+    "target_id": "rome-m1213",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "accounting->rome-m1215",
+    "source_id": "accounting",
+    "target_id": "rome-m1215",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "accounting->rome-m1225",
+    "source_id": "accounting",
+    "target_id": "rome-m1225",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "data-science->rome-m1405",
+    "source_id": "data-science",
+    "target_id": "rome-m1405",
+    "relation": "matched",
+    "weight": 1.0,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-m1427",
+    "source_id": "network-engineering",
+    "target_id": "rome-m1427",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "accounting->rome-m1608",
+    "source_id": "accounting",
+    "target_id": "rome-m1608",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "medicine->rome-m1617",
+    "source_id": "medicine",
+    "target_id": "rome-m1617",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "digital-marketing->rome-m1716",
+    "source_id": "digital-marketing",
+    "target_id": "rome-m1716",
+    "relation": "matched",
+    "weight": 1.0,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "digital-marketing->rome-m1718",
+    "source_id": "digital-marketing",
+    "target_id": "rome-m1718",
+    "relation": "matched",
+    "weight": 1.0,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-m1802",
+    "source_id": "network-engineering",
+    "target_id": "rome-m1802",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-m1807",
+    "source_id": "network-engineering",
+    "target_id": "rome-m1807",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-m1816",
+    "source_id": "network-engineering",
+    "target_id": "rome-m1816",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-m1829",
+    "source_id": "network-engineering",
+    "target_id": "rome-m1829",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-m1830",
+    "source_id": "network-engineering",
+    "target_id": "rome-m1830",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-m1835",
+    "source_id": "network-engineering",
+    "target_id": "rome-m1835",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-m1839",
+    "source_id": "network-engineering",
+    "target_id": "rome-m1839",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-m1847",
+    "source_id": "network-engineering",
+    "target_id": "rome-m1847",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-m1854",
+    "source_id": "network-engineering",
+    "target_id": "rome-m1854",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "software-engineering->rome-m1861",
+    "source_id": "software-engineering",
+    "target_id": "rome-m1861",
+    "relation": "matched",
+    "weight": 1.0,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-m1884",
+    "source_id": "network-engineering",
+    "target_id": "rome-m1884",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-n4302",
+    "source_id": "network-engineering",
+    "target_id": "rome-n4302",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-n4303",
+    "source_id": "network-engineering",
+    "target_id": "rome-n4303",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-n4304",
+    "source_id": "network-engineering",
+    "target_id": "rome-n4304",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-n4401",
+    "source_id": "network-engineering",
+    "target_id": "rome-n4401",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-n4402",
+    "source_id": "network-engineering",
+    "target_id": "rome-n4402",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-n4403",
+    "source_id": "network-engineering",
+    "target_id": "rome-n4403",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-n4404",
+    "source_id": "network-engineering",
+    "target_id": "rome-n4404",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-n4405",
+    "source_id": "network-engineering",
+    "target_id": "rome-n4405",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  },
+  {
+    "id": "network-engineering->rome-n4406",
+    "source_id": "network-engineering",
+    "target_id": "rome-n4406",
+    "relation": "matched",
+    "weight": 0.9,
+    "data": {
+      "method": "lexical",
+      "rome_release": "2026-06"
+    }
+  }
+]

@@ -1,0 +1,87 @@
+{
+  "artifacts": {
+    "arborescence_centres_interet": {
+      "bytes": 128229,
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | https://www.francetravail.org/files/live/sites/peorg/files/documents/Statistiques-et-analyses/Open-data/ROME/rome-arborescence-des-centres-d-interet-juin-2026.xlsx",
+      "downloaded_at": "2026-10-10T23:21:01.138945+00:00",
+      "file": "rome-arborescence-des-centres-d-interet-juin-2026.xlsx",
+      "license": "Ouvert",
+      "sha256": "7701a2be85dbc42daf9c7abe8c2550db3d07c994c91501bb9c6ea2361da2607b",
+      "url": "https://www.francetravail.org/files/live/sites/peorg/files/documents/Statistiques-et-analyses/Open-data/ROME/rome-arborescence-des-centres-d-interet-juin-2026.xlsx",
+      "version": "2026-06"
+    },
+    "arborescence_competences": {
+      "bytes": 946803,
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | https://www.francetravail.org/files/live/sites/peorg/files/documents/Statistiques-et-analyses/Open-data/ROME/rome-arborescence-des-competences-juin-2026.xlsx",
+      "downloaded_at": "2026-10-10T23:20:50.507014+00:00",
+      "file": "rome-arborescence-des-competences-juin-2026.xlsx",
+      "license": "Ouvert",
+      "sha256": "4585122c703ae63fb5c323511fae6b260a83f102662f21024484e5ee464e4317",
+      "url": "https://www.francetravail.org/files/live/sites/peorg/files/documents/Statistiques-et-analyses/Open-data/ROME/rome-arborescence-des-competences-juin-2026.xlsx",
+      "version": "2026-06"
+    },
+    "arborescence_competences_simplifiee": {
+      "bytes": 2325024,
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | https://www.francetravail.org/files/live/sites/peorg/files/documents/Statistiques-et-analyses/Open-data/ROME/260611-arborescence-simplifiee-des-competences.xlsx",
+      "downloaded_at": "2026-10-10T23:20:52.761948+00:00",
+      "file": "260611-arborescence-simplifiee-des-competences.xlsx",
+      "license": "Ouvert",
+      "sha256": "520f67ec7897b3b84feecd449adec510ba6bf6b52710ba7a95a7ffb5f954765d",
+      "url": "https://www.francetravail.org/files/live/sites/peorg/files/documents/Statistiques-et-analyses/Open-data/ROME/260611-arborescence-simplifiee-des-competences.xlsx",
+      "version": "2026-06"
+    },
+    "arborescence_contextes": {
+      "bytes": 20077,
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | https://www.francetravail.org/files/live/sites/peorg/files/documents/Statistiques-et-analyses/Open-data/ROME/rome-arborescence-des-contextes-de-travail-juin-2026.xlsx",
+      "downloaded_at": "2026-10-10T23:20:56.937805+00:00",
+      "file": "rome-arborescence-des-contextes-de-travail-juin-2026.xlsx",
+      "license": "Ouvert",
+      "sha256": "8a00ffdde7f812b86f9846f18232c03bf942895f13db92155059d5fdcfb5bb54",
+      "url": "https://www.francetravail.org/files/live/sites/peorg/files/documents/Statistiques-et-analyses/Open-data/ROME/rome-arborescence-des-contextes-de-travail-juin-2026.xlsx",
+      "version": "2026-06"
+    },
+    "arborescence_principale": {
+      "bytes": 611226,
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | https://www.francetravail.org/files/live/sites/peorg/files/documents/Statistiques-et-analyses/Open-data/ROME/rome-arborescence-principale-juin-2026.xlsx",
+      "downloaded_at": "2026-10-10T23:20:48.318571+00:00",
+      "file": "rome-arborescence-principale-juin-2026.xlsx",
+      "license": "Ouvert",
+      "sha256": "cc5daf20e1f64eda9c5d03f4b1195ad6580efaf94c094713f5b413e836596886",
+      "url": "https://www.francetravail.org/files/live/sites/peorg/files/documents/Statistiques-et-analyses/Open-data/ROME/rome-arborescence-principale-juin-2026.xlsx",
+      "version": "2026-06"
+    },
+    "arborescence_savoirs": {
+      "bytes": 557046,
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | https://www.francetravail.org/files/live/sites/peorg/files/documents/Statistiques-et-analyses/Open-data/ROME/rome-arborescence-des-savoirs-juin-2026.xlsx",
+      "downloaded_at": "2026-10-10T23:20:54.880949+00:00",
+      "file": "rome-arborescence-des-savoirs-juin-2026.xlsx",
+      "license": "Ouvert",
+      "sha256": "0da91e5272293ad392fcdab736e6c14fab27e56c9ef4d8255f6a970fdd1b8a35",
+      "url": "https://www.francetravail.org/files/live/sites/peorg/files/documents/Statistiques-et-analyses/Open-data/ROME/rome-arborescence-des-savoirs-juin-2026.xlsx",
+      "version": "2026-06"
+    },
+    "arborescence_secteurs": {
+      "bytes": 98155,
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | https://www.francetravail.org/files/live/sites/peorg/files/documents/Statistiques-et-analyses/Open-data/ROME/rome-arborescence-des-secteurs-d-activite-juin-2026.xlsx",
+      "downloaded_at": "2026-10-10T23:20:59.020313+00:00",
+      "file": "rome-arborescence-des-secteurs-d-activite-juin-2026.xlsx",
+      "license": "Ouvert",
+      "sha256": "e60757d79865505050c4c9f97507dda7f5a61f6f481d07675dac3193f0b064f5",
+      "url": "https://www.francetravail.org/files/live/sites/peorg/files/documents/Statistiques-et-analyses/Open-data/ROME/rome-arborescence-des-secteurs-d-activite-juin-2026.xlsx",
+      "version": "2026-06"
+    },
+    "fiches_metiers_tags": {
+      "bytes": 158441,
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | https://www.francetravail.org/files/live/sites/peorg/files/documents/Statistiques-et-analyses/Open-data/ROME/250528-fiches-rome-26m06-tag-pour-diffusion.xlsx",
+      "downloaded_at": "2026-10-10T23:21:03.234007+00:00",
+      "file": "250528-fiches-rome-26m06-tag-pour-diffusion.xlsx",
+      "license": "Ouvert",
+      "sha256": "485506d0ea90ee4c4083403c015c608d2697c892a8cd9ba85bb07a06ce12b689",
+      "url": "https://www.francetravail.org/files/live/sites/peorg/files/documents/Statistiques-et-analyses/Open-data/ROME/250528-fiches-rome-26m06-tag-pour-diffusion.xlsx",
+      "version": "2026-06"
+    }
+  },
+  "license": "Ouvert",
+  "source_version": "2026-06",
+  "verified_on": "2026-10-10"
+}

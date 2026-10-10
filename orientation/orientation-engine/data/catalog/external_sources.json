@@ -44,10 +44,20 @@
       "arborescence_savoirs": "rome-arborescence-des-savoirs-juin-2026.xlsx",
       "arborescence_contextes": "rome-arborescence-des-contextes-de-travail-juin-2026.xlsx",
       "arborescence_secteurs": "rome-arborescence-des-secteurs-d-activite-juin-2026.xlsx",
-      "arborescence_centres_interet": "rome-arborescence-des-centres-d-interet-juin-2026.xlsx"
+      "arborescence_centres_interet": "rome-arborescence-des-centres-d-interet-juin-2026.xlsx",
+      "fiches_metiers_tags": "250528-fiches-rome-26m06-tag-pour-diffusion.xlsx"
     },
     "format": "xlsx",
-    "sheets_competences": ["Définition", "Macro-compétences", "Compétences"],
+    "sheets_competences": ["Définition", "Macro-compétences", "Compétences", "Données brutes Macro-comp.", "Données brutes Comp."],
+    "volumes": {
+      "competences": 19480,
+      "macro_competences": 508,
+      "domaines_competence": 5,
+      "fiches_metiers": 1911,
+      "appellations_metiers": 14301,
+      "domaines_professionnels": 110
+    },
+    "tags_note": "fiches_metiers_tags porte la repartition genre / age par fiche metier : source de la colonne gender_distribution.",
     "verified_on": "2026-10-10",
     "note": "openpyxl requis : le lecteur d'ingestion actuel ne lit que du CSV."
   },

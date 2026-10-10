@@ -1,0 +1,28 @@
+{
+  "version": "v3",
+  "source": "ROME 2026-06 (France Travail, open data) — 1911 fiches métiers + 19479 compétences ; les 24 occupations curées de v2 sont conservées car elles portent les dimensions de scoring absentes du ROME",
+  "date": "2026-10-10",
+  "sha256": "59d60f41d4fa6110532e5253d910ea638b83faaa181b853edb36a6052921849e",
+  "item_counts": {
+    "directions": 12,
+    "occupations": 1935,
+    "occupations_rome": 1911,
+    "occupations_curated": 24,
+    "occupations_matched": 58,
+    "competences": 19479,
+    "formations": 20,
+    "mappings": 102,
+    "skills": 11
+  },
+  "transformation_rules": [
+    "identifiants ROME préfixés 'rome-' pour ne pas entrer en collision avec la curation",
+    "appariement lexical conservateur (relation 'matched', poids = confiance)",
+    "genre déduit de la paire inclusive du libellé, jamais d'une statistique",
+    "competences.json est distinct de skills.json (vocabulaire de scoring)"
+  ],
+  "known_gaps": [
+    "gender_distribution vide : aucune source de répartition par métier en open data",
+    "formations encore curées (RNCP non ingéré)",
+    "O*NET et ESCO non encore fusionnés : il manque le crosswalk officiel pour apparier"
+  ]
+}

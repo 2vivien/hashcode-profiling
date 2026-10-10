@@ -8,3 +8,11 @@ htmlcov/
 .env
 *.pyc
 dist/
+
+# Artefacts externes téléchargés (volumineux) : on garde la provenance, pas les octets.
+data/raw/**
+!data/raw/
+!data/raw/.gitkeep
+!data/raw/*/
+!data/raw/**/manifest.json
+data/runtime/translation-cache.json

@@ -1,0 +1,37 @@
+{
+  "artifacts": {
+    "excel": {
+      "bytes": 47880800,
+      "content_type": "application/zip | https://www.onetcenter.org/dl_files/database/db_31_0_excel.zip",
+      "downloaded_at": "2026-10-10T23:20:07.769383+00:00",
+      "file": "db_31_0_excel.zip",
+      "license": "CC BY 4.0",
+      "sha256": "c63ad00a8e45f3d3ef8e1529fcf8864d2279f2dfcb98737436818f5664781b04",
+      "url": "https://www.onetcenter.org/dl_files/database/db_31_0_excel.zip",
+      "version": "31.0"
+    },
+    "jsonld": {
+      "bytes": 30443490,
+      "content_type": "application/zip | https://www.onetcenter.org/dl_files/database/db_31_0_jsonld.zip",
+      "downloaded_at": "2026-10-10T23:20:33.957402+00:00",
+      "file": "db_31_0_jsonld.zip",
+      "license": "CC BY 4.0",
+      "sha256": "3dfcbdff88bdbe3f2156d62d32e0855d262bb4bb1c2073d01bedae66869c7e63",
+      "url": "https://www.onetcenter.org/dl_files/database/db_31_0_jsonld.zip",
+      "version": "31.0"
+    },
+    "sql": {
+      "bytes": 13504988,
+      "content_type": "application/zip | https://www.onetcenter.org/dl_files/database/db_31_0_mysql.zip",
+      "downloaded_at": "2026-10-10T23:20:45.667791+00:00",
+      "file": "db_31_0_mysql.zip",
+      "license": "CC BY 4.0",
+      "sha256": "c12835621573ce527e3400cc8a2c18be44114d9bd22e156449893689327ef619",
+      "url": "https://www.onetcenter.org/dl_files/database/db_31_0_mysql.zip",
+      "version": "31.0"
+    }
+  },
+  "license": "CC BY 4.0",
+  "source_version": "31.0",
+  "verified_on": "2026-10-10"
+}
