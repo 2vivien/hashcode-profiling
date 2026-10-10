@@ -28,3 +28,15 @@ Commencer par orientation/README.md, puis orientation/25-blueprint-implementatio
 Projet de recherche, conception et planification d'implémentation : l'architecture et la spécification sont consolidées et le blueprint d'implémentation est maintenant explicite, mais le moteur opérationnel n'est pas encore implémenté.
 
 La documentation ne doit jamais être interprétée comme une preuve d'implémentation. Les futurs commits doivent apporter le code, les tests, les données de démonstration, les métriques et les preuves de validation correspondant à chaque étape.
+
+## Guides opérationnels
+
+| Document | Rôle |
+|---|---|
+| [RAPPORT-VEILLE.md](./RAPPORT-VEILLE.md) | état du projet | mesures, risques, feuille de route |
+| [SECURITY.md](./SECURITY.md) | durcissement, secrets, checklist, incident |
+| [ENVIRONMENTS.md](./ENVIRONMENTS.md) | local / sandbox / staging / production |
+| [docs/README.md](./docs/README.md) | index des guides |
+| [docs/admin-guide.md](./docs/admin-guide.md) | déployer, exploiter, surveiller |
+| [docs/user-guide.md](./docs/user-guide.md) | comprendre les directions et l'incertitude |
+| [docs/data-drizzle.md](./docs/data-drizzle.md) | base de données dynamique, Drizzle, migrations |
