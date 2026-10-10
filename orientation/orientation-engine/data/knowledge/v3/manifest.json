@@ -2,7 +2,9 @@
   "version": "v3",
   "source": "ROME 2026-06 (France Travail, open data) — 1911 fiches métiers + 19479 compétences ; les 24 occupations curées de v2 sont conservées car elles portent les dimensions de scoring absentes du ROME",
   "date": "2026-10-10",
-  "sha256": "59d60f41d4fa6110532e5253d910ea638b83faaa181b853edb36a6052921849e",
+  "directions": 12,
+  "sha256": "c7b5690bf8c55ad592b49fde522f783b0b72121bfab89745582a652cc9d60845",
+  "occupations_sha256": "59d60f41d4fa6110532e5253d910ea638b83faaa181b853edb36a6052921849e",
   "item_counts": {
     "directions": 12,
     "occupations": 1935,

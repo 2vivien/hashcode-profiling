@@ -16,3 +16,4 @@ data/raw/**
 !data/raw/*/
 !data/raw/**/manifest.json
 data/runtime/translation-cache.json
+data/runtime/rag-index.json

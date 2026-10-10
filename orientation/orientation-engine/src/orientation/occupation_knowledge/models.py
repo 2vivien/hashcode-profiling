@@ -4,7 +4,12 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-SourceName = Literal["esco", "onet", "isco", "merged", "curated"]
+SourceName = Literal["esco", "onet", "isco", "rome", "merged", "curated"]
+# État de la traduction d'un libellé : `source` = la donnée d'origine est déjà
+# en français, donc il n'y a rien à traduire.
+TranslationStatus = Literal["none", "source", "pending", "done", "failed"]
+# Genre dénote le métier, jamais l'orientation d'une personne.
+Gender = Literal["female", "male", "mixed", "unknown"]
 
 
 class OccupationRecord(BaseModel):
@@ -18,6 +23,22 @@ class OccupationRecord(BaseModel):
     aliases: tuple[str, ...] = ()
     isco08_code: str | None = None
     isco_major_group: str | None = None
+    # Langue et traduction (catalogues externes publiés en anglais).
+    language: str = "fr"
+    original_title: str | None = None
+    translation_status: TranslationStatus = "none"
+    # Genre et langues du métier.
+    gender: Gender | None = None
+    gender_distribution: dict[str, float] = Field(default_factory=dict)
+    language_requirements: tuple[str, ...] = ()
+    # Nomenclature ROME.
+    grand_domaine: str | None = None
+    domaine: str | None = None
+    code_ogr: str | None = None
+    tags: dict[str, str] = Field(default_factory=dict)
+    # Rattachement à une direction du moteur (confiance comprise).
+    matched_direction: str | None = None
+    match_confidence: float | None = Field(default=None, ge=0, le=1)
     domains: tuple[str, ...] = ()
     riasec: dict[str, float] = Field(default_factory=dict)
     abilities: dict[str, float] = Field(default_factory=dict)

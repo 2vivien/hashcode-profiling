@@ -47,6 +47,7 @@ make audit              # pip-audit
 | `OTHELLOO_TRANSLATION_MODEL` | modèle Gemini | `gemini-2.5-flash` |
 | `OTHELLOO_GROQ_TRANSLATION_MODEL` | modèle Groq | `qwen/qwen3.8-27b` |
 | `DATA_PATH` | racine connaissance (dérivée dans compose) | `/app/data/knowledge/v<KNOWLEDGE_VERSION>` |
+| `OTHELOO_RAG_EMBEDDER` | embeddings RAG : `auto` / `hashing` / `gemini` | `auto` (= local) |
 
 > **Pourquoi `KNOWLEDGE_VERSION` et pas `OTHELLOO_KNOWLEDGE_VERSION` comme source ?**
 > Docker Compose v5 n'interpole pas correctement une variable qui fait référence

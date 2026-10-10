@@ -11,6 +11,7 @@ from orientation.api.routes.home import router as home_router
 from orientation.api.routes.knowledge import router as knowledge_router
 from orientation.api.routes.occupation_v2 import router as occupation_v2_router
 from orientation.api.routes.profiles import router as profiles_router
+from orientation.api.routes.rag import router as rag_router
 from orientation.api.routes.recommendations import router as recommendations_router
 from orientation.api.routes.system import router as system_router
 from orientation.api.security import ApiKeyMiddleware, SecurityHeadersMiddleware
@@ -33,3 +34,4 @@ app.include_router(occupation_v2_router, prefix="/v1/orientation")
 app.include_router(recommendations_router, prefix="/v1/orientation")
 app.include_router(knowledge_router, prefix="/v1/orientation")
 app.include_router(feedback_router, prefix="/v1/orientation")
+app.include_router(rag_router, prefix="/v1/orientation")

@@ -45,6 +45,7 @@ services:
       - OTHELOO_TRANSLATION_MODEL=${OTHELOO_TRANSLATION_MODEL:-gemini-2.5-flash}
       - OTHELOO_GROQ_API_KEY=${OTHELOO_GROQ_API_KEY:-}
       - OTHELOO_GROQ_TRANSLATION_MODEL=${OTHELOO_GROQ_TRANSLATION_MODEL:-qwen/qwen3.8-27b}
+      - OTHELOO_RAG_EMBEDDER=${OTHELOO_RAG_EMBEDDER:-auto}
     depends_on:
       supabase-db:
         condition: service_healthy

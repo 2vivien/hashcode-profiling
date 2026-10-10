@@ -304,7 +304,10 @@ def main() -> None:
     (DST / "mappings.json").write_text(json.dumps(mappings, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (DST / "skills.json").write_text((SRC / "skills.json").read_text(encoding="utf-8"), encoding="utf-8")
 
-    digest = hashlib.sha256((DST / "occupations.json").read_bytes()).hexdigest()
+    # Contrat de `load_manifest` : sha256 porte le hash de directions.json.
+    # Le hash des occupations est conservé à part, pour la traçabilité.
+    digest = hashlib.sha256((DST / "directions.json").read_bytes()).hexdigest()
+    occupations_digest = hashlib.sha256((DST / "occupations.json").read_bytes()).hexdigest()
     manifest = {
         "version": VERSION,
         "source": (
@@ -313,7 +316,9 @@ def main() -> None:
             "car elles portent les dimensions de scoring absentes du ROME"
         ),
         "date": "2026-10-10",
+        "directions": len(directions),
         "sha256": digest,
+        "occupations_sha256": occupations_digest,
         "item_counts": {
             "directions": len(directions),
             "occupations": len(occupations),
