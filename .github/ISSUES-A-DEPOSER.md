@@ -1,13 +1,11 @@
 # Issues à déposer sur GitHub
 
-> **Le token GitHub utilisé jusqu'ici est révoqué (HTTP 401).** Ces issues sont
-> rédigées ici, prêtes à copier dans GitHub ou à créer en lot :
+> **Ces 13 issues ont été créées sur GitHub** : #33, #38, #39, #40, #41, #42, #43,
+> #44, #45, #46, #47, #48, #49. Ce fichier reste la référence détaillée.
 >
-> ```bash
-> gh auth login
-> # puis, pour chaque bloc ci-dessous :
-> gh issue create --title "…" --body-file …
-> ```
+> Note d'exploitation (#48) : le PAT exposé est révoqué et renvoie 401 sur l'API,
+> mais `git` utilise **un autre credential stocké sur disque** (`~/.git-credentials`),
+> ce qui explique que le push ait continué à fonctionner.
 
 État au **11 octobre 2026**. 10 issues déjà ouvertes sur le dépôt, cette liste
 les complète et les priorise.
