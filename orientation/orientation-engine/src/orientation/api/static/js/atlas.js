@@ -97,12 +97,22 @@
       const title = covered
         ? `${name} — ${count.toLocaleString('fr-FR')} métiers`
         : `${name} — non couvert`;
+      // La vague monte du sud vers le nord : la carte « se dessine » au lieu
+      // d'apparaître d'un bloc, et l'œil suit un ordre géographique.
+      const delay = (p.y * 900).toFixed(0);
+      if (covered) {
+        // Onde : un cercle qui s'ouvre et s'efface, en boucle, pour signaler
+        // visuellement le seul pays réellement couvert.
+        parts.push(
+          `<circle cx="${(p.x * 100).toFixed(2)}" cy="${(p.y * 100).toFixed(2)}" r="6" class="map-ripple" style="animation-delay:${delay}ms"/>`
+        );
+      }
       parts.push(
-        `<circle cx="${(p.x * 100).toFixed(2)}" cy="${(p.y * 100).toFixed(2)}" r="${r}" fill="${fill}" class="dot-map"><title>${esc(title)}</title></circle>`
+        `<circle cx="${(p.x * 100).toFixed(2)}" cy="${(p.y * 100).toFixed(2)}" r="${r}" fill="${fill}" class="dot-map${covered ? ' covered' : ''}" style="animation-delay:${delay}ms"><title>${esc(title)}</title></circle>`
       );
       if (covered) {
         parts.push(
-          `<text x="${(p.x * 100).toFixed(2)}" y="${(p.y * 100 - 1.6).toFixed(2)}" class="lbl-map">${esc(iso)}</text>`
+          `<text x="${(p.x * 100).toFixed(2)}" y="${(p.y * 100 - 1.6).toFixed(2)}" class="lbl-map" style="animation-delay:${(Number(delay) + 700).toFixed(0)}ms">${esc(iso)}</text>`
         );
       }
     }
@@ -115,10 +125,10 @@
     return `<div class="bars">${rows
       .map((r) => {
         const w = Math.max(2, Math.round((r.count / max) * 100));
-        return `<div class="bar-row">
+        return `<div class="bar-row" data-reveal-item>
           <span class="bar-lbl" title="${esc(r.domain || r.country || r.gender || r.language)}">${esc(r.domain || r.country || r.gender || r.language)}</span>
-          <span class="bar-track"><i style="width:${w}%"></i></span>
-          <span class="bar-val">${r.count.toLocaleString('fr-FR')}${unit ? ' ' + unit : ''}</span>
+          <span class="bar-track"><i style="--w:${w}%"></i></span>
+          <span class="bar-val" data-count="${r.count}">${unit ? r.count.toLocaleString('fr-FR') + ' ' + unit : ''}</span>
         </div>`;
       })
       .join('')}</div>`;
@@ -157,31 +167,40 @@
             ${cov.retrieved_at ? ' · données de ' + esc(cov.retrieved_at) : ''}
           </p>
           <p class="note">Un point plein = des métiers réels chargés pour ce pays. Les autres pays n'ont aucune donnée : ni métier, ni compétence, ni marché du travail.</p>
+          <p class="note atlas-next">Le référentiel international de l'OIT (ISCO) n'est pas encore branché : chaque pays couvert jusqu'ici repose sur sa propre nomenclature. C'est le prochain chantier.</p>
         </div>
 
         <div class="card">
           <div class="k">Volume</div>
           <div class="atlas-stats">
-            <div><b>${(totals.occupations || 0).toLocaleString('fr-FR')}</b><span>métiers</span></div>
-            <div><b>${(totals.competences || 0).toLocaleString('fr-FR')}</b><span>compétences</span></div>
-            <div><b>${(totals.directions || 0).toLocaleString('fr-FR')}</b><span>directions</span></div>
-            <div><b>${(totals.formations || 0).toLocaleString('fr-FR')}</b><span>formations</span></div>
+            <div><b data-count="${totals.occupations || 0}">0</b><span>métiers</span></div>
+            <div><b data-count="${totals.competences || 0}">0</b><span>compétences</span></div>
+            <div><b data-count="${totals.directions || 0}">0</b><span>directions</span></div>
+            <div><b data-count="${totals.formations || 0}">0</b><span>formations</span></div>
           </div>
         </div>
       </div>
 
-      <div class="atlas-grid">
+      <div class="atlas-grid" data-reveal>
         <div class="card"><div class="k">Métiers par grand domaine</div>${barList(data.occupations_by_domain)}</div>
         <div class="card"><div class="k">Compétences par domaine</div>${barList(data.competences_by_domain)}</div>
       </div>
 
-      <div class="atlas-grid">
+      <div class="atlas-grid" data-reveal>
         <div class="card"><div class="k">Écriture inclusive des métiers</div>${barList(data.occupations_by_gender)}</div>
         <div class="card"><div class="k">Langues des données</div>${barList(data.occupations_by_language)}</div>
       </div>
 
       ${cov.note ? `<p class="note">${esc(cov.note)}</p>` : ''}
     `;
+
+    const section = root.querySelector('#atlas');
+    if (section) {
+      window.observeReveal(section);
+      window.observeCounters(section);
+      const map = section.querySelector('.atlas-map');
+      if (map) window.observeReveal(map);
+    }
   }
 
   render();

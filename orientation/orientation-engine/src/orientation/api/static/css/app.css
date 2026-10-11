@@ -353,6 +353,12 @@ kbd{font-family:ui-monospace,monospace;font-size:.78em;border:1px solid var(--li
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
   .reveal{opacity:1;transform:none;filter:none}
+  /* Sans ce bloc, les lignes de graphique resteraient à opacity:0 : leurs
+     éléments reçoivent `.in` via une cascade JS, que ce réglage court-circuite. */
+  [data-reveal-item]{opacity:1;transform:none}
+  .dot-map,.lbl-map,.map-ripple{opacity:1}
+  .dot-map{transform:none}
+  .bar-track i{transform:none}
   ::view-transition-old(root),::view-transition-new(root){animation:none}
 }
 
@@ -421,3 +427,56 @@ kbd{font-family:ui-monospace,monospace;font-size:.78em;border:1px solid var(--li
 .bar-track{background:var(--bg-2);border-radius:999px;height:8px;overflow:hidden;border:1px solid var(--muted);border-color:color-mix(in srgb,var(--muted) 22%,transparent)}
 .bar-track i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--i),var(--c))}
 .bar-val{color:var(--muted);font-size:.74rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.atlas-next{margin-top:8px;opacity:.8}
+
+/* ============================================================
+   Motion immersif — carte, barres, compteurs
+   Tout est neutralisé par le bloc prefers-reduced-motion plus bas,
+   et par le garde RM côté JS.
+   ============================================================ */
+[data-reveal-item]{opacity:0;transform:translateY(10px);transition:opacity .55s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.22,1,.36,1)}
+[data-reveal-item].in{opacity:1;transform:none}
+
+/* Vague d'apparition des points, du sud vers le nord */
+.dot-map{opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(.2)}
+@media(prefers-reduced-motion:no-preference){
+  .dot-map{animation:dotIn .5s cubic-bezier(.22,1,.36,1) forwards}
+  .dot-map:hover{transform:scale(1.9)}
+}
+@keyframes dotIn{to{opacity:1;transform:scale(1)}}
+.lbl-map{opacity:0}
+@media(prefers-reduced-motion:no-preference){
+  .lbl-map{animation:fadeIn .5s ease forwards}
+}
+.dot-map.covered{filter:drop-shadow(0 0 4px color-mix(in srgb,var(--ok) 70%,transparent))}
+
+/* Onde du pays couvert */
+.map-ripple{fill:none;stroke:var(--ok);stroke-width:.4;opacity:0;transform-box:fill-box;transform-origin:center}
+@media(prefers-reduced-motion:no-preference){
+  .map-ripple{animation:ripple 2.8s cubic-bezier(.2,.6,.3,1) infinite}
+}
+@keyframes ripple{
+  0%{opacity:.55;transform:scale(.7)}
+  70%{opacity:0;transform:scale(2.4)}
+  100%{opacity:0;transform:scale(2.4)}
+}
+
+/* Barres : elles poussent depuis la gauche, avec un balayage de lumière */
+.bar-track i{width:var(--w,0%);transform-origin:left;transform:scaleX(0);transition:transform .9s cubic-bezier(.22,1,.36,1)}
+[data-reveal-item].in .bar-track i{transform:scaleX(1)}
+@media(prefers-reduced-motion:no-preference){
+  .bar-track i::after{
+    content:'';position:absolute;inset:0;border-radius:999px;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.42),transparent);
+    transform:translateX(-100%);animation:sheen 2.8s ease-in-out infinite .6s;
+  }
+  .bar-track{position:relative;overflow:hidden}
+}
+@keyframes sheen{0%{transform:translateX(-100%)}55%,100%{transform:translateX(220%)}}
+
+/* Cartes de l'atlas : léger soulèvement au survol */
+.atlas-grid .card{transition:transform .35s cubic-bezier(.22,1,.36,1),border-color .35s}
+@media(prefers-reduced-motion:no-preference){
+  .atlas-grid .card:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--i) 45%,var(--line))}
+}
+.atlas-stats b{font-variant-numeric:tabular-nums;background:linear-gradient(180deg,var(--fg),var(--c));-webkit-background-clip:text;background-clip:text;color:transparent}
