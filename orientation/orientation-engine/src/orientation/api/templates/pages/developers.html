@@ -18,6 +18,26 @@
 
 <section>
   <div class="wrap">
+    <h2>Couches du moteur</h2>
+    <p class="sub">Ce qui décide vraiment du score, et ce qui est branché mais inactif. Une couche sans modèle entraîné le dit — elle ne produit pas un score qui aurait l'air trained.</p>
+    <div id="layers">
+      <div class="card"><div class="sk sk-line w40"></div><div class="sk sk-line w60"></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Contexte RAG</h2>
+    <p class="sub">Index documentaire construit sur la connaissance réellement chargée. Sert à répondre en langage naturel et à sourcer les explications.</p>
+    <div id="rag">
+      <div class="card"><div class="sk sk-line w40"></div><div class="sk sk-line w60"></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
     <h2>Connexion</h2>
     <p class="sub">Paramètres non sensibles. Le mot de passe vit uniquement dans <code>.env</code> côté serveur.</p>
     <div id="conn"></div>
@@ -87,5 +107,3 @@
     <pre class="out hidden" id="out"></pre>
   </div>
 </section>
-
-<script src="/assets/js/dev.js?v=3" defer></script>

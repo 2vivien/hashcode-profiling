@@ -18,13 +18,19 @@
     const db = info.database || {};
     const dbCls = db.reachable === true ? 'ok' : (db.reachable === false ? 'ko' : 'wait');
     const dbTxt = db.reachable === true ? 'Connectée' : (db.reachable === false ? 'Injoignable' : 'Non configurée');
+    const counts = info.knowledge_counts || {};
+    const occ = counts.occupations;
+    const comp = counts.competences;
     status.innerHTML = `
       <div class="card"><div class="k">Service</div><div class="v"><span class="dot ok"></span>opérationnel</div></div>
       <div class="card"><div class="k">Base de données</div><div class="v"><span class="dot ${dbCls}"></span>${dbTxt}</div></div>
       <div class="card"><div class="k">Modèle</div><div class="v sm">${esc(info.model_version)}</div></div>
+      <div class="card"><div class="k">Couches actives</div><div class="v">${(info.engine_layers || []).filter((l) => l.active).length} / ${(info.engine_layers || []).length}</div></div>
       <div class="card"><div class="k">Connaissance</div><div class="v sm">${esc(info.knowledge_version)}</div></div>
       <div class="card"><div class="k">Uptime</div><div class="v">${Math.round(info.uptime_seconds)}s</div></div>
-      <div class="card"><div class="k">Code</div><div class="v sm">${esc(info.code_version)}</div></div>`;
+      <div class="card"><div class="k">Code</div><div class="v sm">${esc(info.code_version)}</div></div>
+      ${occ != null ? `<div class="card"><div class="k">Métiers</div><div class="v">${Number(occ).toLocaleString('fr-FR')}</div></div>` : ''}
+      ${comp != null ? `<div class="card"><div class="k">Compétences</div><div class="v">${Number(comp).toLocaleString('fr-FR')}</div></div>` : ''}`;
     if (conn) {
       const rows = [
         ['Base URL', API],
@@ -38,8 +44,46 @@
       conn.innerHTML = `<div class="rows">${rows.map(([k, v]) =>
         `<div class="row"><span class="l">${esc(k)}</span><code>${esc(v)}</code></div>`).join('')}</div>`;
     }
+
+    /* ---- Couches du moteur : état réel, pas une chaîne figée ---- */
+    const layers = document.getElementById('layers');
+    if (layers) {
+      const items = info.engine_layers || [];
+      if (!items.length) {
+        layers.innerHTML = `<div class="card"><div class="k">Couches</div><div class="v sm">non rapportées</div></div>`;
+      } else {
+        layers.innerHTML = `<div class="rows">${items.map((l) => {
+          const on = l.active === true;
+          const label = on ? 'active' : 'inactive';
+          return `<div class="row"><span class="l"><span class="dot ${on ? 'ok' : 'wait'}"></span> ${esc(l.layer)} · ${label}</span><code>${esc(l.reason || '')}</code></div>`;
+        }).join('')}</div>`;
+      }
+    }
+
+    /* ---- RAG ---- */
+    const ragBox = document.getElementById('rag');
+    if (ragBox) {
+      const rag = info.rag || {};
+      if (rag.indexed) {
+        const kinds = rag.by_kind || {};
+        const parts = Object.entries(kinds).map(([k, v]) => `${k} ${Number(v).toLocaleString('fr-FR')}`);
+        ragBox.innerHTML = `<div class="rows">
+          <div class="row"><span class="l"><span class="dot ok"></span> Index</span><code>${Number(rag.documents || 0).toLocaleString('fr-FR')} documents</code></div>
+          <div class="row"><span class="l">Répartition</span><code>${esc(parts.join(' · ') || '—')}</code></div>
+          <div class="row"><span class="l">Embeddings</span><code>${esc(rag.embedder || '—')} · ${rag.dimensions || 0} dims</code></div>
+        </div>`;
+      } else {
+        ragBox.innerHTML = `<div class="card"><div class="k">Index RAG</div><div class="v sm">indisponible${rag.error ? ' (' + esc(rag.error) + ')' : ''}</div></div>`;
+      }
+    }
   } catch (e) {
     status.innerHTML = `<div class="card"><div class="k">Service</div><div class="v"><span class="dot ko"></span>injoignable</div></div>`;
+    // Les couches et le RAG dépendent de la même réponse : sans elle, on ne
+    // prétend rien du tout plutôt que d'afficher un état par défaut.
+    for (const id of ['layers', 'rag']) {
+      const box2 = document.getElementById(id);
+      if (box2) box2.innerHTML = `<div class="card"><div class="k">—</div><div class="v sm">indisponible</div></div>`;
+    }
     const box = status.closest('section') || status;
     const note = document.createElement('div');
     note.className = 'err-inline';
@@ -47,6 +91,49 @@
     note.innerHTML = `<span class="ez" aria-hidden="true">!</span><div><b>Statut indisponible.</b><br>${esc(e.message)}</div>`;
     box.appendChild(note);
     Toast.error('Statut indisponible', e.message);
+  }
+})();
+
+/* ---- Bandeau « état réel » de l'accueil : alimenté par l'API ---- */
+(async function () {
+  const grid = document.getElementById('status-grid');
+  if (!grid) return;
+  const note = document.getElementById('status-note');
+  const cards = Array.prototype.slice.call(grid.querySelectorAll('.scard'));
+  const setCard = (index, value, pill, ok) => {
+    const card = cards[index];
+    if (!card) return;
+    const val = card.querySelector('.val');
+    const badge = card.querySelector('.pill');
+    if (val) val.textContent = value;
+    if (badge) {
+      badge.textContent = pill;
+      badge.classList.toggle('ok', ok);
+      badge.classList.toggle('wait', !ok);
+    }
+  };
+
+  try {
+    const info = await apiFetch('/v1/orientation/system/info');
+    const counts = info.knowledge_counts || {};
+    const rag = info.rag || {};
+    const layers = info.engine_layers || [];
+    const learned = layers.filter((l) => l.active && l.layer !== 'fairness');
+
+    setCard(1, `${Number(counts.occupations || 0).toLocaleString('fr-FR')} métiers`, counts.occupations ? 'ROME v3' : 'Curé', true);
+    setCard(2, rag.indexed ? `${Number(rag.documents || 0).toLocaleString('fr-FR')} docs` : 'Indisponible', rag.indexed ? 'Index actif' : 'Non indexé', rag.indexed === true);
+    setCard(3, `${learned.length} / ${layers.length} actives`, learned.length ? 'Modèle en service' : 'Score déterministe seul', learned.length > 0);
+
+    // On n'affiche une note que s'il reste quelque chose d'honnête à signaler.
+    const inactive = layers.filter((l) => !l.active && l.layer !== 'fairness');
+    if (note && inactive.length) {
+      note.hidden = false;
+      note.textContent = `Les couches apprises (calibration, ranking, graphe, bandit) sont branchées mais inactives : aucun modèle entraîné. Le score affiché est intégralement déterministe et reproductible.`;
+    }
+  } catch {
+    setCard(1, 'Indisponible', 'État non lu', false);
+    setCard(2, 'Indisponible', 'État non lu', false);
+    setCard(3, 'Indisponible', 'État non lu', false);
   }
 })();
 
@@ -140,7 +227,20 @@ psql "postgresql://postgres:****@hashcodeprofiling-db:5432/postgres"`
   if (!btns.length) return;
   const samples = {
     success: () => Toast.success('Direction enregistrée', '3 pistes ajoutées au profil.'),
-    info: () => Toast.info('Modèle mis à jour', 'deterministic-baseline-v1 est actif.'),
+    info: async () => {
+      // Le nom du modèle venait de l'API : une chaîne figée serait fausse dès le
+      // premier modèle entraîné.
+      try {
+        const info = await apiFetch('/v1/orientation/system/info');
+        const active = (info.engine_layers || []).filter((l) => l.active).map((l) => l.layer);
+        const detail = active.length
+          ? `${info.model_version} · couches actives : ${active.join(', ')}`
+          : `${info.model_version} · score déterministe seul`;
+        Toast.info('Modèle en service', detail);
+      } catch {
+        Toast.info('Modèle en service', 'État indisponible.');
+      }
+    },
     warn: () => Toast.warn('Données partielles', 'Certaines dimensions restent incertaines.'),
     error: () => Toast.error('Requête échouée', 'HTTP 422 — champ "student_id" manquant.'),
     action: () => Toast.warn('Direction retirée', 'Le profil a été mis à jour.', {

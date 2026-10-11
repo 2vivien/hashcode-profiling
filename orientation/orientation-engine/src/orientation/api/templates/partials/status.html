@@ -3,11 +3,13 @@
     <p class="kicker reveal">État réel</p>
     <h2 class="reveal">Honnête sur ce qui est prêt — et ce qui ne l'est pas.</h2>
     <p class="sub reveal">Règle du dépôt : <em>code présent ≠ données présentes ≠ modèle entraîné ≠ modèle validé</em>.</p>
-    <div class="status-grid">
-      <div class="scard reveal"><div class="lbl">V1 baseline</div><div class="val">Déterministe</div><span class="pill ok">Code opérationnel</span></div>
-      <div class="scard reveal"><div class="lbl">Données réelles</div><div class="val">En attente</div><span class="pill wait">ESCO/O*NET à ingérer</span></div>
+    <div class="status-grid" id="status-grid">
+      <div class="scard reveal"><div class="lbl">Moteur de score</div><div class="val">Déterministe</div><span class="pill ok">En service</span></div>
+      <div class="scard reveal"><div class="lbl">Connaissance</div><div class="val">Chargement…</div><span class="pill wait">—</span></div>
+      <div class="scard reveal"><div class="lbl">Récupération (RAG)</div><div class="val">Chargement…</div><span class="pill wait">—</span></div>
+      <div class="scard reveal"><div class="lbl">Couches apprises</div><div class="val">Chargement…</div><span class="pill wait">—</span></div>
       <div class="scard reveal"><div class="lbl">Psychométrie</div><div class="val">Math présente</div><span class="pill wait">Banque non calibrée</span></div>
-      <div class="scard reveal"><div class="lbl">Modèles (V3–V5)</div><div class="val">Infra prête</div><span class="pill wait">Non entraînés / validés</span></div>
     </div>
+    <p class="sub reveal" id="status-note" hidden></p>
   </div>
 </section>

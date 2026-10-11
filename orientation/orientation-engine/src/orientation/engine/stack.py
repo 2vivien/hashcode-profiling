@@ -155,6 +155,20 @@ class RecommendationStack:
     def __init__(self, registry: ModelRegistry | None = None) -> None:
         self.registry = registry or ModelRegistry()
 
+    def report(self) -> list[LayerOutcome]:
+        """État des couches, sans avoir de candidats à scorer.
+
+        Alimente `/system/info` : l'interface doit pouvoir afficher ce qui est
+        réellement actif, au lieu d'afficher une chaîne figée qui deviendra
+        fausse au premier modèle entraîné.
+        """
+        return [
+            self._calibration_layer([]),
+            self._ranker_layer([]),
+            self._graph_layer([]),
+            self._bandit_layer([], allow_exploration=False),
+        ]
+
     def apply(
         self,
         breakdowns: dict[str, ScoreBreakdown],
@@ -209,8 +223,6 @@ class RecommendationStack:
                 active=False,
                 reason="aucun modèle LambdaMART entraîné : l'ordre déterministe est conservé",
             )
-        if not candidates:
-            return LayerOutcome(name="ranking", active=False, reason="aucun candidat")
         return LayerOutcome(
             name="ranking",
             active=True,
