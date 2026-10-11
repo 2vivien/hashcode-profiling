@@ -85,6 +85,46 @@ export const occupation = pgTable(
   ],
 );
 
+/**
+ * Employeur : qui recrute, où, en combien.
+ *
+ * Volontairement **séparé** de `occupation` : un métier est une notion stable
+ * et théorique, un emploi est une donnée qui bouge chaque semaine. Mélanger les
+ * deux produirait des recommandations fausses au bout de trois mois.
+ */
+export const employer = pgTable(
+  "employer",
+  {
+    id: text("id").notNull(),
+    version: text("version").notNull(),
+    name: text("name").notNull(),
+    /** Secteur d'activité (NAF/ISIC ou code local). */
+    activityCode: text("activity_code"),
+    /** Identifiant national de l'organisation (SIREN, registre local...). */
+    registryId: text("registry_id"),
+    /** ISO 3166-1 alpha-3 du pays où l'employeur opère. */
+    country: text("country").notNull().default("FR"),
+    /** ISO 3166-2 ou code local de la subdivision. */
+    region: text("region"),
+    /** Code postal ou identifiant de localité. */
+    locality: text("locality"),
+    /** Effectif déclaré, si connu. */
+    headcount: integer("headcount"),
+    /** Nombre d'offres au moment de la collecte — périmé vite. */
+    openings: integer("openings"),
+    /** Métiers rattachés : occupation_id, plusieurs possibles. */
+    occupationIds: jsonb("occupation_ids").$type<string[]>().notNull().default([]),
+    /** Date de la collecte : sans elle, une ligne d'employeur n'est pas datable. */
+    observedAt: timestamp("observed_at", { withTimezone: true }).notNull().defaultNow(),
+    data: jsonb("data").$type<Record<string, unknown>>().notNull().default({}),
+  },
+  (t) => [
+    primaryKey({ columns: [t.id, t.version] }),
+    index("employer_version_idx").on(t.version),
+    index("employer_country_idx").on(t.country),
+  ],
+);
+
 /** Langues exigées ou valorisées par un métier (CEFR : A1..C2). */
 export const languageRequirement = pgTable(
   "language_requirement",

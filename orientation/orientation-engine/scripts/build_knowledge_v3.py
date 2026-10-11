@@ -170,10 +170,11 @@ def read_rome_competences(path: Path) -> list[dict[str, Any]]:
     header = [str(cell).strip() if cell is not None else "" for cell in next(rows)]
 
     def value(entry: dict[str, Any], name: str) -> str:
-        for key, cell in zip(header, entry, strict=False):
-            if key == name:
-                return str(cell).strip() if cell is not None else ""
-        return ""
+        # `entry` est un dict indexé par en-tête : itérer dessus donne les noms
+        # de colonnes, pas les valeurs. Une version précédente itérait les clés
+        # et écrivait donc les en-têtes à la place des 19 479 compétences.
+        cell = entry.get(name)
+        return str(cell).strip() if cell is not None else ""
 
     records: list[dict[str, Any]] = []
     for row in rows:
@@ -181,6 +182,10 @@ def read_rome_competences(path: Path) -> list[dict[str, Any]]:
             continue
         entry = dict(zip(header, row, strict=False))
         label = value(entry, "5 - Compétence")
+        # Un libellé identique à un nom de colonne signale une ligne vide ou un
+        # décalage d'en-tête : mieux vaut la jeter que l'indexer.
+        if not label or label in header:
+            continue
         if not label:
             continue
         records.append(

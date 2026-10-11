@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 from fastapi import APIRouter
 
 from orientation.config import versions
+from orientation.infrastructure.knowledge.coverage import coverage_for
 
 router = APIRouter(tags=["system"])
 
@@ -107,6 +108,7 @@ def system_info() -> dict[str, object]:
         "data_path": str(data_path),
         "knowledge_versions_available": knowledge_dirs,
         "knowledge_counts": _knowledge_counts(data_path),
+        "coverage": coverage_for(os.environ.get("OTHELOO_KNOWLEDGE_VERSION", versions.KNOWLEDGE_VERSION)).describe(),
         "engine_layers": _engine_layers(),
         "rag": _rag_status(),
         "uptime_seconds": round(time.time() - _START, 1),

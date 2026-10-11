@@ -1,6 +1,6 @@
 {
   "version": "v3",
-  "source": "ROME 2026-06 (France Travail, open data) — 1911 fiches métiers + 19479 compétences ; les 24 occupations curées de v2 sont conservées car elles portent les dimensions de scoring absentes du ROME",
+  "source": "ROME 2026-06 (France Travail, open data) — 1911 fiches métiers + 19462 compétences ; les 24 occupations curées de v2 sont conservées car elles portent les dimensions de scoring absentes du ROME",
   "date": "2026-10-10",
   "directions": 12,
   "sha256": "c7b5690bf8c55ad592b49fde522f783b0b72121bfab89745582a652cc9d60845",
@@ -11,7 +11,7 @@
     "occupations_rome": 1911,
     "occupations_curated": 24,
     "occupations_matched": 58,
-    "competences": 19479,
+    "competences": 19462,
     "formations": 20,
     "mappings": 102,
     "skills": 11

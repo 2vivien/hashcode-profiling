@@ -226,3 +226,46 @@ def test_registry_meta_is_valid_json(tmp_path: Path) -> None:
     payload = json.loads((tmp_path / "graph.meta.json").read_text(encoding="utf-8"))
     assert payload["task"] == "graph"
     assert payload["training_data_version"] is None
+
+
+# --- perimetre geographique ----------------------------------------
+
+
+def test_coverage_declares_france(tmp_path: Path) -> None:
+    from orientation.infrastructure.knowledge.coverage import load_coverage
+
+    path = tmp_path / "coverage.json"
+    path.write_text(
+        '{"version":"v3","countries":["FR"],"languages":["fr"],"country_names":{"FR":"France"},"authority":"France Travail","coverage":{"type":"national","completeness":"complete"}}',
+        encoding="utf-8",
+    )
+    coverage = load_coverage(path)
+    assert coverage.countries == ("FR",)
+    assert coverage.country_count == 1
+    assert coverage.is_national
+    assert coverage.describe()["country_names"]["FR"] == "France"
+
+
+def test_missing_coverage_does_not_crash(tmp_path: Path) -> None:
+    from orientation.infrastructure.knowledge.coverage import load_coverage
+
+    coverage = load_coverage(tmp_path / "absent.json")
+    assert coverage.countries == ()
+    assert "non renseignee" in coverage.note or "non renseignée" in coverage.note
+
+
+def test_corrupt_coverage_is_reported_not_fatal(tmp_path: Path) -> None:
+    from orientation.infrastructure.knowledge.coverage import load_coverage
+
+    path = tmp_path / "coverage.json"
+    path.write_text("{pas du json", encoding="utf-8")
+    assert load_coverage(path).countries == ()
+
+
+def test_shipped_coverage_is_french() -> None:
+    from orientation.infrastructure.knowledge.coverage import load_coverage
+
+    shipped = load_coverage()
+    # Le depot est francais : le dire evite qu'on croie a une couverture mondiale.
+    assert shipped.countries == ("FR",)
+    assert "France" in shipped.authority

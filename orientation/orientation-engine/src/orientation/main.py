@@ -5,6 +5,7 @@ from fastapi.staticfiles import StaticFiles
 
 from orientation.api.routes.assessment_v1 import router as assessment_v1_router
 from orientation.api.routes.assessments import router as assessments_router
+from orientation.api.routes.atlas import router as atlas_router
 from orientation.api.routes.feedback import router as feedback_router
 from orientation.api.routes.health import router as health_router
 from orientation.api.routes.home import router as home_router
@@ -35,3 +36,4 @@ app.include_router(recommendations_router, prefix="/v1/orientation")
 app.include_router(knowledge_router, prefix="/v1/orientation")
 app.include_router(feedback_router, prefix="/v1/orientation")
 app.include_router(rag_router, prefix="/v1/orientation")
+app.include_router(atlas_router, prefix="/v1/orientation")

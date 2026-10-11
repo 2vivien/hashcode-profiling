@@ -1,0 +1,34 @@
+{
+  "version": "v3",
+  "code_version": "2026.1",
+  "authority": "France Travail (ROME), open data juin 2026",
+  "license": "Ouvert",
+  "retrieved_at": "2026-06-01",
+  "countries": ["FR"],
+  "languages": ["fr"],
+  "country_names": {
+    "FR": "France"
+  },
+  "coverage": {
+    "type": "national",
+    "completeness": "complete",
+    "note": "Couvre la France métropolitaine. Aucun métier hors France n'est présent dans cette version. L'international (ISCO-08 de l'OIT) n'est pas encore chargé : voir issue #21 et .github/ISSUES-A-DEPOSER.md."
+  },
+  "sources": {
+    "rome": {
+      "version": "2026-06",
+      "files": [
+        "250528-fiches-rome-26m06-tag-pour-diffusion.xlsx",
+        "rome-arborescence-des-competences-juin-2026.xlsx"
+      ],
+      "occupation_count": 1911,
+      "competence_count": 19462,
+      "sha256_manifest": "data/raw/rome/manifest.json"
+    },
+    "curated": {
+      "version": "2026.1",
+      "occupation_count": 24,
+      "note": "Curation pédagogique interne dérivée des 12 directions. Conservée car elle porte les dimensions de scoring absentes du ROME."
+    }
+  }
+}
