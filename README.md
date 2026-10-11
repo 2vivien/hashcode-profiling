@@ -61,7 +61,10 @@ open https://profiler.otheloo.com
 | Comprendre pourquoi le moteur dit « non entrené » | [docs/engine-stack.md](docs/engine-stack.md) |
 | Voir d'où viennent les données | [docs/sources-donnees.md](docs/sources-donnees.md) |
 | Comprendre la recherche documentaire | [docs/rag.md](docs/rag.md) |
-| Exploiter, déployer, surveiller | [docs/admin-guide.md](docs/admin-guide.md) |
+| Utiliser l'API | [docs/api.md](docs/api.md) |
+| Comprendre l'architecture | [docs/architecture.md](docs/architecture.md) |
+| Exploiter, déployer, surveiller | [docs/deploiement.md](docs/deploiement.md) |
+| Déboguer un mot inconnu | [docs/glossaire.md](docs/glossaire.md) |
 
 ## Le glossaire, sans jargon
 
