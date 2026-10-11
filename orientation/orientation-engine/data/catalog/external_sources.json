@@ -5,7 +5,14 @@
     "download_page": "https://esco.ec.europa.eu/en/use-esco/download",
     "local_api_page": "https://esco.ec.europa.eu/en/use-esco/use-esco-services-api/esco-local-api",
     "web_service_api_page": "https://esco.ec.europa.eu/en/use-esco/use-esco-services-api/esco-web-service-api",
-    "formats": ["csv", "ods", "rdf", "ttl", "xml", "json-ld"],
+    "formats": [
+      "csv",
+      "ods",
+      "rdf",
+      "ttl",
+      "xml",
+      "json-ld"
+    ],
     "license": "CC BY 4.0",
     "verified_on": "2026-10-10"
   },
@@ -18,7 +25,12 @@
       "jsonld": "https://www.onetcenter.org/dl_files/database/db_31_0_jsonld.zip",
       "sql": "https://www.onetcenter.org/dl_files/database/db_31_0_mysql.zip"
     },
-    "formats": ["csv", "json", "sql", "rdf"],
+    "formats": [
+      "csv",
+      "json",
+      "sql",
+      "rdf"
+    ],
     "license": "CC BY 4.0",
     "auth": "none",
     "verified_on": "2026-10-10"
@@ -27,7 +39,13 @@
     "version": "v6.0.0",
     "page": "https://esco.ec.europa.eu/en/use-esco/other-crosswalks",
     "license": "CC BY 4.0",
-    "relations": ["exact", "narrow", "broad", "close", "related"],
+    "relations": [
+      "exact",
+      "narrow",
+      "broad",
+      "close",
+      "related"
+    ],
     "note": "Pont officiel entre ESCO et O*NET ; charge apres les deux taxonomies.",
     "verified_on": "2026-10-10"
   },
@@ -48,7 +66,13 @@
       "fiches_metiers_tags": "250528-fiches-rome-26m06-tag-pour-diffusion.xlsx"
     },
     "format": "xlsx",
-    "sheets_competences": ["Définition", "Macro-compétences", "Compétences", "Données brutes Macro-comp.", "Données brutes Comp."],
+    "sheets_competences": [
+      "Définition",
+      "Macro-compétences",
+      "Compétences",
+      "Données brutes Macro-comp.",
+      "Données brutes Comp."
+    ],
     "volumes": {
       "competences": 19480,
       "macro_competences": 508,
@@ -79,14 +103,34 @@
       "url": "https://github.com/cporter202/API-mega-list",
       "reason": "Catalogue de liens vers des APIs commerciales de scraping ; aucun jeu de donnees metier exploitable."
     },
-    "onisep": { "url": "https://www.onisep.fr/", "reason": "HTTP 403 / DNS echoue depuis le serveur de production." },
-    "eurostat": { "url": "https://ec.europa.eu/eurostat/api/", "reason": "HTTP 404 sur les jeux de donnees testes depuis ce serveur." },
-    "huggingface": { "url": "https://huggingface.co/api/datasets", "reason": "Aucun jeu exploitable pour esco / onet / occupation skills." }
+    "onisep": {
+      "url": "https://www.onisep.fr/",
+      "reason": "HTTP 403 / DNS echoue depuis le serveur de production."
+    },
+    "eurostat": {
+      "url": "https://ec.europa.eu/eurostat/api/",
+      "reason": "HTTP 404 sur les jeux de donnees testes depuis ce serveur."
+    },
+    "huggingface": {
+      "url": "https://huggingface.co/api/datasets",
+      "reason": "Aucun jeu exploitable pour esco / onet / occupation skills."
+    }
   },
   "policy": {
     "downloaded_files_are_external_artifacts": true,
     "store_release_metadata": true,
     "store_sha256": true,
     "review_local_mappings": true
+  },
+  "geography": {
+    "name": "Natural Earth 110m admin 0 countries",
+    "resolution": "110m (1:110 000 000)",
+    "license": "Public domain",
+    "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson",
+    "bytes": 838726,
+    "countries": 177,
+    "purpose": "Contours reels pour la carte du monde servie par /v1/orientation/atlas/map.svg",
+    "verified_on": "2026-10-11",
+    "note": "Fichier volumineux : telecharge par scripts/fetch_world_map.py, manifeste versionne, octets hors depot."
   }
 }

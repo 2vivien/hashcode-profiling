@@ -15,5 +15,7 @@ data/raw/**
 !data/raw/.gitkeep
 !data/raw/*/
 !data/raw/**/manifest.json
+data/raw/geography/
 data/runtime/translation-cache.json
 data/runtime/rag-index.json
+data/runtime/carte.svg

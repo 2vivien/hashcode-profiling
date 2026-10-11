@@ -14,12 +14,21 @@ Toutes les valeurs viennent de la base ou du fichier de couverture. Rien n'est
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Response
 
 from orientation.api.routes.recommendations import get_service
 from orientation.config.settings import Settings, get_settings
+from orientation.infrastructure.geography.world_map import (
+    PALETTE,
+    build_svg,
+    load_coverage,
+    load_occupations,
+    load_world,
+    match_occupations,
+)
 from orientation.infrastructure.knowledge.coverage import coverage_for
 from orientation.infrastructure.knowledge.repository import KnowledgeRepository
 
@@ -34,6 +43,41 @@ def _split_domain(raw: str) -> tuple[str, str]:
         code, _, name = text.partition(" - ")
         return code.strip(), name.strip()
     return "", text
+
+
+@router.get("/atlas/map.svg", response_class=Response)
+def get_map_svg(profession: str | None = None) -> Response:
+    """Carte du monde en SVG, avec les contours réels des pays.
+
+    SVG plutôt qu'une bibliothèque JavaScript : aucune dépendance côté
+    navigateur, et le rendu reste net à toute taille.
+    """
+    try:
+        countries = load_world()
+    except FileNotFoundError as error:
+        raise HTTPException(status_code=503, detail=str(error)) from error
+
+    coverage = load_coverage()
+    occupations = load_occupations()
+    known = {country["iso"] for country in countries} | {country["iso2"] for country in countries}
+    covered = {code: len(occupations) for code in (coverage.get("country_names") or {}) if code in known}
+
+    subtitle = "Répartition réelle des métiers, lue dans la base"
+    if profession:
+        matches = match_occupations(profession)
+        subtitle = f"{len(matches)} fiche(s) métier pour « {profession} » · carte de couverture"
+        title = f"Métiers « {profession} »"
+    else:
+        title = "Couverture géographique de la connaissance"
+
+    svg = build_svg(
+        countries,
+        covered,
+        title,
+        subtitle,
+        [(PALETTE["covered"], "Données réelles chargées"), (PALETTE["land"], "Aucune donnée")],
+    )
+    return Response(content=svg, media_type="image/svg+xml")
 
 
 @router.get("/atlas")
@@ -92,7 +136,6 @@ def get_atlas(
 def _competence_domains(version: str) -> dict[str, Any]:
     """Répartition des compétences par domaine, lue depuis le fichier vN."""
     import json
-    from pathlib import Path
 
     root = Path("data/knowledge") / version / "competences.json"
     if not root.is_file():
