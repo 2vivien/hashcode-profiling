@@ -1,42 +1,98 @@
-# hashcode-profiling
+# Otheloo — moteur d'orientation
 
-Documentation de conception du moteur d'orientation Otheloo — construction d'un profil multidimensionnel et évolutif, puis restitution de plusieurs directions à explorer (et non d'un métier unique).
+Le moteur prend le profil d'un élève (ce qu'il aime, ce qu'il sait faire, ses
+valeurs) et lui propose **plusieurs directions à explorer** — jamais un métier
+unique imposé. Chaque proposition vient avec son score, son niveau de confiance,
+et **les compétences à renforcer**.
 
-## Structure consolidée
+## État au 11 octobre 2026
 
-Le dépôt utilise désormais un seul dossier canonique : orientation/.
+Le moteur tourne en production sur <https://profiler.otheloo.com>.
 
-La fusion conserve la colonne vertébrale architecture/industrialisation de orientation/ et y intègre les six dossiers techniques et scientifiques issus de otheloo-orientation-engine/.
-
-| Document | Rôle |
+| | |
 |---|---|
-| orientation/00-18 | Spécification maîtresse : vision, profil, psychométrie, algorithmes, graphe, pipeline, longitudinal, explicabilité, fairness, validation, données, architecture, roadmap, état de l'art, produit, industrialisation et règles. |
-| [19 — Fondements scientifiques approfondis](./orientation/19-fondements-scientifiques-approfondis.md) | RIASEC, SCCT, Career Construction, auto-efficacité, valeurs, personnalité, Person–Environment Fit et profil longitudinal. |
-| [20 — Moteur mathématique et algorithmique](./orientation/20-moteur-mathematique-et-algorithmique.md) | Matching, scoring, incertitude, MMR, Bayesian updating, BKT, ranking, bandits et règles de conception. |
-| [21 — Recommandation hybride et Knowledge Graph](./orientation/21-recommandation-hybride-et-knowledge-graph.md) | Génération de candidats, contraintes, sémantique, graphe, trajectoires et architecture hybride. |
-| [22 — Explicabilité, équité et Skill Gap](./orientation/22-explicabilite-equite-et-skill-gap.md) | Explications, fairness, skill gaps, contrefactuels, sécurité et audit. |
-| [23 — État de l'art et références d'implémentation](./orientation/23-etat-de-l-art-et-references-implementation.md) | Recherche, bibliographie technique et références open source. |
-| [24 — Implémentation, roadmap et schéma de données](./orientation/24-implementation-roadmap-et-schema-de-donnees.md) | JSON Schema, PostgreSQL, graphe, validation et roadmap V1 → V4. |
-| [25 — Blueprint d'implémentation du moteur](./orientation/25-blueprint-implementation-moteur.md) | Plan concret de transformation de la spécification en moteur : composants, contrats, données, API, tests, audit, versionnement, critères de sortie et ordre des futurs commits. |
+| Métiers chargés | **1 911** (nomenclature ROME, France Travail) |
+| Compétences | **19 479** (taxonomie ROME) |
+| Recherche documentaire | **5 967 documents** indexés |
+| Contrôles automatiques | 135 tests, tous verts |
+| Moteur qui décide du score | un seul : le moteur déterministe |
 
-## Point d'entrée
+### Ce qui est réellement en service
 
-Commencer par orientation/README.md, puis orientation/25-blueprint-implementation-moteur.md, puis orientation/18-industrialisation-microservices-donnees-regles.md.
+- Un profil multidimensionnel (intérêts, capacités, compétences, matières, valeurs).
+- Un score de compatibilité calculé par une pondération fixe, **reproductible** :
+  le même profil donne toujours le même résultat.
+- Une recherche dans les vrais métiers français, avec la source de chaque
+  information.
+- Un journal de chaque recommandation en base (qui, quoi, quelle version du
+  modèle, quelles couches ont joué).
 
-## État
+### Ce qui est écrit mais pas en service
 
-Projet de recherche, conception et planification d'implémentation : l'architecture et la spécification sont consolidées et le blueprint d'implémentation est maintenant explicite, mais le moteur opérationnel n'est pas encore implémenté.
+Quatre couches plus poussées existent dans le code — calibration, classement
+apprentissage, graphe de métiers, exploration automatique. **Elles ne sont pas
+actives**, faute d'avoir été entraînées sur des données réelles. Elles le disent
+elles-mêmes dans la réponse du moteur : préférer l'ignorance à une fausse
+promesse.
 
-La documentation ne doit jamais être interprétée comme une preuve d'implémentation. Les futurs commits doivent apporter le code, les tests, les données de démonstration, les métriques et les preuves de validation correspondant à chaque étape.
+### Limite géographique
 
-## Guides opérationnels
+Les données actuelles sont **françaises**. Le moteur ne prétend pas couvrir
+l'Afrique, l'Asie ou les États-Unis. Voir [docs/sources-donnees.md](docs/sources-donnees.md).
 
-| Document | Rôle |
+## Démarrer
+
+```bash
+# Démarrer la pile (base + service de données + moteur)
+docker compose up -d
+
+# Charger la connaissance en base
+./scripts/db-init.sh v3
+
+# Ouverture
+open https://profiler.otheloo.com
+```
+
+## Comprendre le moteur
+
+| Si tu veux… | Lis |
 |---|---|
-| [RAPPORT-VEILLE.md](./RAPPORT-VEILLE.md) | état du projet | mesures, risques, feuille de route |
-| [SECURITY.md](./SECURITY.md) | durcissement, secrets, checklist, incident |
-| [ENVIRONMENTS.md](./ENVIRONMENTS.md) | local / sandbox / staging / production |
-| [docs/README.md](./docs/README.md) | index des guides |
-| [docs/admin-guide.md](./docs/admin-guide.md) | déployer, exploiter, surveiller |
-| [docs/user-guide.md](./docs/user-guide.md) | comprendre les directions et l'incertitude |
-| [docs/data-drizzle.md](./docs/data-drizzle.md) | base de données dynamique, Drizzle, migrations |
+| Savoir comment le score est calculé | [docs/moteur.md](docs/moteur.md) |
+| Comprendre pourquoi le moteur dit « non entrené » | [docs/engine-stack.md](docs/engine-stack.md) |
+| Voir d'où viennent les données | [docs/sources-donnees.md](docs/sources-donnees.md) |
+| Comprendre la recherche documentaire | [docs/rag.md](docs/rag.md) |
+| Exploiter, déployer, surveiller | [docs/admin-guide.md](docs/admin-guide.md) |
+
+## Le glossaire, sans jargon
+
+| Mot du dépôt | Ce que ça veut dire |
+|---|---|
+| **direction** | Une piste d'orientation (« Ingénierie réseaux »), pas un métier |
+| **occupation** | Un métier concret (« Technicien réseaux ») |
+| **competence** | Une capacité mobilisable (« Résoudre un incident réseau ») |
+| **connaissance** | L'ensemble des données de référence, versionné (v1, v2, v3) |
+| **couche** | Une étape du calcul : chacune peut être active ou inactive |
+| **RAG** | La capacité à retrouver la bonne information dans les 5 967 documents |
+| **déterministe** | Qui donne toujours le même résultat pour la même entrée |
+
+## Règle du dépôt
+
+**Code présent ≠ données présentes ≠ modèle entraîné ≠ modèle validé.**
+
+Un composant qui n'est pas prêt doit le dire, pas laisser croire qu'il
+fonctionne. C'est pourquoi la réponse du moteur indique l'état de chaque couche,
+et pourquoi `/etat` est alimenté par l'API plutôt que par du texte figé.
+
+## Documentation de conception
+
+Les documents `orientation/00-25` sont la spécification d'origine : vision,
+psychométrie, algorithmes, équité, architecture. Ils décrivent l'intention
+originale ; **le code et ce README** décrivent ce qui existe.
+
+## Autres documents
+
+| Document | Sujet |
+|---|---|
+| [SECURITY.md](SECURITY.md) | Sécurité, secrets, quoi faire en cas d'incident |
+| [ENVIRONMENTS.md](ENVIRONMENTS.md) | Variables d'environnement, déploiement |
+| [RAPPORT-VEILLE.md](RAPPORT-VEILLE.md) | Mesures, risques, feuille de route |
