@@ -24,6 +24,19 @@ docker compose up -d      # base + data-service + moteur
 
 Ouverture : <https://profiler.otheloo.com>
 
+## Déployer une mise à jour
+
+```bash
+./scripts/deploy.sh            # build + up + migrations + vérifications
+./scripts/deploy.sh --pull     # idem, après un git pull --ff-only
+./scripts/deploy.sh --seed v3  # en plus, (re)charge la connaissance v3
+```
+
+Le script est **idempotent** : sans changement de code, rien n'est recréé ; les
+migrations déjà appliquées sont ignorées (suivi dans `drizzle.__drizzle_migrations`).
+Il échoue proprement si la base, le data-service ou le moteur ne deviennent pas
+`healthy`, ou si `system/info` indique `database.reachable=false`.
+
 ## Les commandes utiles
 
 ```bash
