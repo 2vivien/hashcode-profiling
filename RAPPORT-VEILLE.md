@@ -38,7 +38,7 @@ Otheloo / tout consommateur  ──REST/JSON (X-API-Key)──►  https://profi
 |---|---|---|---|
 | `hashcodeprofiling-engine` | Moteur d'orientation (Python/FastAPI) | 127.0.0.1:8000 + Traefik | ✅ healthy |
 | `hashcodeprofiling-data` | Source de vérité (Drizzle ORM) | **interne** :4100 | ✅ healthy |
-| `hashcodeprofiling-db` | Postgres (Supabase self-hosted) | **aucun port publié** | ✅ healthy |
+| `hashcodeprofiling-db` | Postgres 15 (`postgres:15-alpine`) | **aucun port publié** | ✅ healthy |
 | `hashcodeprofiling-jupyter` | Sandbox notebooks (profil `dev`) | 127.0.0.1:8888 | non déployé |
 
 ---

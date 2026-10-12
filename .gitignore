@@ -26,6 +26,7 @@ build/
 *.sqlite
 *.db
 *.log
+backups/
 .env
 .env.*
 !.env.example

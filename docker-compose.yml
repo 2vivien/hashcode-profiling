@@ -33,7 +33,7 @@ services:
       - "127.0.0.1:8000:8000"
     environment:
       - DOMAIN=${DOMAIN:-profiler.otheloo.com}
-      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD requis}@supabase-db:5432/${POSTGRES_DB:-postgres}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD requis}@postgres:5432/${POSTGRES_DB:-postgres}
       - DATA_PATH=/app/data/knowledge/${KNOWLEDGE_VERSION:-v2}
       - OTHELOO_KNOWLEDGE_VERSION=${KNOWLEDGE_VERSION:-v2}
       # Lecture de la connaissance via le data-service (repli JSON si indisponible).
@@ -47,7 +47,7 @@ services:
       - OTHELOO_GROQ_TRANSLATION_MODEL=${OTHELOO_GROQ_TRANSLATION_MODEL:-qwen/qwen3.8-27b}
       - OTHELOO_RAG_EMBEDDER=${OTHELOO_RAG_EMBEDDER:-auto}
     depends_on:
-      supabase-db:
+      postgres:
         condition: service_healthy
       data-service:
         condition: service_healthy
@@ -77,8 +77,11 @@ services:
       - "traefik.http.routers.profiler.middlewares=security-headers@file,compress@file,rate-limit-api@file"
       - "traefik.http.services.profiler.loadbalancer.server.port=8000"
 
-  supabase-db:
-    image: supabase/postgres:15.1.0.117
+  # PostgreSQL amont standard (image officielle). Aucune brique Supabase n'est
+  # utilisée par le code : le schéma n'installe aucune extension. On garde donc
+  # l'image la plus légère et la plus suivie possible.
+  postgres:
+    image: postgres:15-alpine
     container_name: hashcodeprofiling-db
     restart: unless-stopped
     environment:
@@ -88,11 +91,12 @@ services:
     networks:
       - profiling
     volumes:
-      - supabase-data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
+    stop_grace_period: 30s
     security_opt:
       - no-new-privileges:true
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-postgres}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -105,12 +109,12 @@ services:
     container_name: hashcodeprofiling-data
     restart: unless-stopped
     environment:
-      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD requis}@supabase-db:5432/${POSTGRES_DB:-postgres}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD requis}@postgres:5432/${POSTGRES_DB:-postgres}
       - PORT=4100
     networks:
       - profiling
     depends_on:
-      supabase-db:
+      postgres:
         condition: service_healthy
     read_only: true
     tmpfs:
@@ -140,7 +144,7 @@ services:
       - "127.0.0.1:8888:8888"
     environment:
       - PYTHONPATH=/app/src
-      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD requis}@supabase-db:5432/${POSTGRES_DB:-postgres}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD requis}@postgres:5432/${POSTGRES_DB:-postgres}
       - DATA_PATH=/app/data/knowledge/v1
     networks:
       - profiling
@@ -148,7 +152,7 @@ services:
       - ./orientation/orientation-engine/notebooks:/app/notebooks
 
 volumes:
-  supabase-data:
+  pgdata:
     name: hashcodeprofiling-data
   runtime-data:
     name: hashcodeprofiling-runtime

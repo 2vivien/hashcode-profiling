@@ -8,7 +8,7 @@ Objectif : qu'une compromission du service ne puisse pas compromettre le serveur
 | Élément | Exposition | Règle |
 |---|---|---|
 | `orientation-engine` (8000) | `127.0.0.1:8000` **uniquement** + Traefik | jamais `0.0.0.0` |
-| `supabase-db` (5432) | **aucun port publié** (réseau interne) | jamais exposé |
+| `postgres` (5432) | **aucun port publié** (réseau interne) | jamais exposé |
 | `jupyter` (8888) | `127.0.0.1:8888`, profil `dev` | jamais en prod |
 | `proxy` (Traefik) | 80/443 | géré par le VPS |
 
@@ -25,7 +25,7 @@ Objectif : qu'une compromission du service ne puisse pas compromettre le serveur
 
 - Aucun secret par défaut : `POSTGRES_PASSWORD` est **obligatoire** (`:?` → démarrage refusé si absent).
 - `.env` est **gitignoré** et en permissions **600**.
-- Rotation : régénérer `POSTGRES_PASSWORD` puis `docker compose up -d --force-recreate supabase-db`.
+- Rotation : régénérer `POSTGRES_PASSWORD` puis `docker compose up -d --force-recreate postgres`.
 - **Ne jamais** committer `.env`. Le modèle est `.env.example`.
 
 ## 4. Protection de l'API

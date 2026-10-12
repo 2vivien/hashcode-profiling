@@ -188,7 +188,7 @@ r.raise_for_status()
 for c in r.json()["candidates"]:
     print(c["direction_name"], round(c["score"], 3))`,
     psql:
-`# Supabase Postgres (self-hosted, réseau interne)
+`# PostgreSQL (réseau interne, non exposé)
 # Mot de passe dans .env — jamais exposé ici.
 psql "postgresql://postgres@${host}:5432/postgres"
 

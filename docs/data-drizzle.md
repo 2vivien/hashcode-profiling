@@ -5,7 +5,7 @@
 - La connaissance est en **JSON** : `orientation/orientation-engine/data/knowledge/v1/*.json`
   (`directions`, `occupations`, `skills`, `formations`, `mappings`, `manifest`).
 - Le moteur charge ces fichiers via `KnowledgeLoader` (lecture seule).
-- **Postgres (Supabase self-hosted) tourne déjà** mais n'est **pas encore utilisé** par le moteur.
+- **Postgres (image officielle `postgres:15-alpine`) tourne déjà** mais n'est **pas encore utilisé** par le moteur.
 
 ## Objectif
 
